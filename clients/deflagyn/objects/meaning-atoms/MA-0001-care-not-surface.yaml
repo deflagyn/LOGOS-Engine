@@ -1,0 +1,41 @@
+id: MA-0001
+type: meaning_atom
+status: testing
+language: uk
+client: deflagyn
+title: "Care does not end at the surface"
+
+meaning_atom: "Справжня турбота про себе не закінчується на поверхні."
+
+short_variants:
+  - "Турбота не закінчується на поверхні."
+  - "Себе важливо берегти не лише зовні."
+  - "Не все найцінніше можна побачити."
+  - "Любов до себе починається не лише з дзеркала."
+  - "Турбота про себе — це більше, ніж те, що видно."
+
+why_it_works: >
+  The phrase changes the definition of self-care without attacking existing beauty habits.
+  It does not reject visible care. It expands it.
+
+emotional_tone:
+  - calm
+  - thoughtful
+  - respectful
+  - slightly provocative
+  - non-fear-based
+
+story_patterns:
+  - SP-001
+  - SP-004
+  - SP-005
+
+connected_objects:
+  human_truth: HT-0001
+  human_contradiction: HC-0001
+  belief_shift: BS-0001
+  experiment: EXP-0001
+
+success_signal: >
+  Audience quotes or repeats the phrase in comments, especially in Ukrainian:
+  "Справжня турбота про себе не закінчується на поверхні."
