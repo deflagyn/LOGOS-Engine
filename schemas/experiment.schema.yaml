@@ -1,0 +1,66 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: LOGOS Experiment
+version: 0.1
+
+type: object
+required:
+  - id
+  - type
+  - status
+  - client
+  - language
+  - hypothesis
+  - content
+  - success_metrics
+properties:
+  id:
+    type: string
+    description: "Stable ID such as EXP-0001."
+  type:
+    const: experiment
+  status:
+    type: string
+    enum:
+      - draft
+      - ready_for_production
+      - published
+      - metrics_collected
+      - learning_done
+      - validated
+      - rejected
+      - archived
+  client:
+    type: string
+  language:
+    type: string
+    enum:
+      - en
+      - ru
+      - uk
+      - mixed
+  issue:
+    type: integer
+  hypothesis:
+    type: object
+    additionalProperties: true
+  content:
+    type: object
+    additionalProperties: true
+  success_metrics:
+    type: object
+    additionalProperties: true
+  metrics:
+    type: object
+    additionalProperties: true
+  qualitative_signals:
+    type: object
+    additionalProperties: true
+  learning:
+    type: object
+    additionalProperties: true
+  law_candidate:
+    type: object
+    additionalProperties: true
+  notes:
+    type: string
+additionalProperties: true
