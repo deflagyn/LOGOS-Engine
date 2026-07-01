@@ -1,0 +1,66 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: Story Pattern
+version: 0.1
+
+type: object
+required:
+  - id
+  - type
+  - status
+  - language
+  - title
+  - structure
+properties:
+  id:
+    type: string
+    description: "Stable ID such as SP-0001."
+  type:
+    const: story_pattern
+  status:
+    type: string
+    enum:
+      - raw
+      - candidate
+      - draft
+      - testing
+      - validated
+      - rejected
+      - archived
+  language:
+    type: string
+    enum:
+      - en
+      - ru
+      - uk
+      - mixed
+  client:
+    type: string
+  scope:
+    type: string
+    enum:
+      - universal
+      - runtime
+  title:
+    type: string
+  structure:
+    type: string
+  use_case:
+    type: string
+  example_meaning_atom:
+    type: string
+  emotional_result:
+    type: string
+  suitable_for:
+    type: array
+    items:
+      type: string
+  not_suitable_for:
+    type: array
+    items:
+      type: string
+  connected_objects:
+    type: object
+    additionalProperties: true
+  notes:
+    type: string
+additionalProperties: true
