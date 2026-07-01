@@ -1,0 +1,66 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: Human Contradiction
+version: 0.1
+
+type: object
+required:
+  - id
+  - type
+  - status
+  - language
+  - title
+  - human_contradiction
+properties:
+  id:
+    type: string
+    description: "Stable ID such as HC-0001."
+  type:
+    const: human_contradiction
+  status:
+    type: string
+    enum:
+      - raw
+      - candidate
+      - draft
+      - testing
+      - validated
+      - rejected
+      - archived
+  language:
+    type: string
+    enum:
+      - en
+      - ru
+      - uk
+      - mixed
+  client:
+    type: string
+  scope:
+    type: string
+    enum:
+      - universal
+      - runtime
+  title:
+    type: string
+  human_contradiction:
+    type: string
+  inner_tension:
+    type: object
+    additionalProperties: true
+  self_image:
+    type: string
+  behavior_gap:
+    type: string
+  emotional_cost:
+    type: string
+  resolution_direction:
+    type: string
+  triz_parallel:
+    type: object
+    additionalProperties: true
+  connected_objects:
+    type: object
+    additionalProperties: true
+  notes:
+    type: string
+additionalProperties: true
