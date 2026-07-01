@@ -1,0 +1,35 @@
+name: Belief Shift
+about: Create a LOGOS belief shift item.
+title: "BS-0000: "
+body:
+  - type: input
+    id: logos_id
+    attributes:
+      label: LOGOS ID
+      placeholder: BS-0000
+    validations:
+      required: true
+  - type: textarea
+    id: before
+    attributes:
+      label: Before
+    validations:
+      required: true
+  - type: textarea
+    id: after
+    attributes:
+      label: After
+    validations:
+      required: true
+  - type: textarea
+    id: test_plan
+    attributes:
+      label: Test plan
+      value: |
+        Purpose:
+        Input:
+        Output:
+        Manual test:
+        Evidence:
+    validations:
+      required: true
