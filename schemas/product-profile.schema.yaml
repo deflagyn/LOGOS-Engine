@@ -1,0 +1,59 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: Product Profile
+version: 0.1
+
+type: object
+required:
+  - client
+  - runtime_type
+  - status
+  - product
+  - category
+properties:
+  client:
+    type: string
+  runtime_type:
+    type: string
+    enum:
+      - reference_implementation
+      - client_runtime
+      - test_runtime
+      - universal_example
+  status:
+    type: string
+  external_content_language:
+    type: object
+    additionalProperties: true
+  internal_working_languages:
+    type: array
+    items:
+      type: string
+  category:
+    type: object
+    additionalProperties: true
+  product:
+    type: object
+    additionalProperties: true
+  core_belief_shift:
+    type: object
+    additionalProperties: true
+  human_truths:
+    type: array
+    items:
+      type: string
+  emotional_targets:
+    type: array
+    items:
+      type: string
+  identity_shift:
+    type: object
+    additionalProperties: true
+  content_strategy:
+    type: object
+    additionalProperties: true
+  safety:
+    type: object
+    additionalProperties: true
+  notes:
+    type: string
+additionalProperties: true
