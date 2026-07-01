@@ -1,0 +1,39 @@
+id: BS-0001
+type: belief_shift
+status: testing
+language: uk
+client: deflagyn
+title: "True self-care does not end at the surface"
+
+old_belief: >
+  Турбота про себе — це переважно догляд за тим, що видно іншим:
+  шкірою, волоссям, нігтями, тілом, зовнішнім образом.
+
+new_belief: >
+  Справжня турбота про себе не закінчується на поверхні.
+  Вона включає і те здоров'я, яке не видно, але яке впливає на спокій, якість життя і майбутнє.
+
+belief_shift_formula: "visible self-care → complete self-care"
+
+meaning_atom: "Справжня турбота про себе не закінчується на поверхні."
+
+emotional_result: >
+  Я не ігнорую себе. Я можу зробити розумний крок для свого здоров'я і видихнути.
+
+identity_shift:
+  from: "Я доглядаю за собою зовні."
+  to: "Я жінка, яка піклується про себе повністю."
+
+product_role: >
+  DeflaGyn is not the hero of this belief shift. It may later appear as one supporting tool
+  inside the broader habit of attentive women's health care.
+
+connected_objects:
+  human_truth: HT-0001
+  human_contradiction: HC-0001
+  meaning_atom: MA-0001
+  story_pattern: SP-001
+  experiment: EXP-0001
+
+safety: >
+  Do not claim treatment, prevention guarantees, or replacement of medical examination.
