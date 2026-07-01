@@ -8,12 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GH_PROJECT_TOKEN }}
-      # GitHub CLI can fail with "unknown owner type" for user-owned projects
-      # when using a plain login. For projects owned by the authenticated user,
-      # use @me in gh project commands and keep OWNER_LOGIN only for URLs.
-      PROJECT_OWNER: "@me"
       OWNER_LOGIN: deflagyn
-      REPO: deflagyn/LOGOS-Engine
+      REPO_NAME: LOGOS-Engine
+      REPO_FULL: deflagyn/LOGOS-Engine
       PROJECT_TITLE: LOGOS Engine Roadmap
 
     steps:
@@ -26,115 +23,121 @@ jobs:
             echo "Create a repository secret named GH_PROJECT_TOKEN with Projects read/write access."
             exit 1
           fi
-          echo "Token exists. Checking visible OAuth scopes..."
+          echo "Token exists. Visible OAuth scopes:"
           curl -sI -H "Authorization: Bearer ${GH_TOKEN}" https://api.github.com/user \
             | tr -d '\r' \
             | grep -i "x-oauth-scopes" || true
 
-      - name: Create or find Project
+      - name: Create or find Project using GraphQL
         id: project
         shell: bash
         run: |
           set -euo pipefail
 
-          echo "Looking for existing project: ${PROJECT_TITLE}"
-          PROJECT_NUMBER=$(gh project list --owner "$PROJECT_OWNER" --format json --limit 100 \
-            | jq -r --arg title "$PROJECT_TITLE" '.projects[]? | select(.title == $title) | .number' \
-            | head -n 1)
+          echo "Looking for existing user project: ${PROJECT_TITLE}"
 
-          if [ -z "${PROJECT_NUMBER}" ]; then
-            echo "Project not found. Creating..."
-            PROJECT_NUMBER=$(gh project create --owner "$PROJECT_OWNER" --title "$PROJECT_TITLE" --format json | jq -r '.number')
+          VIEWER_JSON=$(gh api graphql -f query='
+            query {
+              viewer {
+                id
+                login
+                projectsV2(first: 100) {
+                  nodes {
+                    id
+                    number
+                    title
+                  }
+                }
+              }
+            }
+          ')
+
+          OWNER_ID=$(echo "$VIEWER_JSON" | jq -r '.data.viewer.id')
+          VIEWER_LOGIN=$(echo "$VIEWER_JSON" | jq -r '.data.viewer.login')
+
+          echo "Authenticated as: ${VIEWER_LOGIN}"
+
+          PROJECT_ID=$(echo "$VIEWER_JSON" | jq -r --arg title "$PROJECT_TITLE" '.data.viewer.projectsV2.nodes[]? | select(.title == $title) | .id' | head -n 1)
+          PROJECT_NUMBER=$(echo "$VIEWER_JSON" | jq -r --arg title "$PROJECT_TITLE" '.data.viewer.projectsV2.nodes[]? | select(.title == $title) | .number' | head -n 1)
+
+          if [ -z "${PROJECT_ID}" ] || [ "${PROJECT_ID}" = "null" ]; then
+            echo "Project not found. Creating via GraphQL..."
+            CREATE_JSON=$(gh api graphql \
+              -f query='
+                mutation($ownerId: ID!, $title: String!) {
+                  createProjectV2(input: {ownerId: $ownerId, title: $title}) {
+                    projectV2 {
+                      id
+                      number
+                      title
+                    }
+                  }
+                }
+              ' \
+              -F ownerId="$OWNER_ID" \
+              -F title="$PROJECT_TITLE")
+
+            PROJECT_ID=$(echo "$CREATE_JSON" | jq -r '.data.createProjectV2.projectV2.id')
+            PROJECT_NUMBER=$(echo "$CREATE_JSON" | jq -r '.data.createProjectV2.projectV2.number')
           else
             echo "Project already exists: #${PROJECT_NUMBER}"
           fi
 
+          if [ -z "${PROJECT_ID}" ] || [ "${PROJECT_ID}" = "null" ]; then
+            echo "Failed to resolve project ID."
+            exit 1
+          fi
+
+          echo "project_id=${PROJECT_ID}" >> "$GITHUB_OUTPUT"
           echo "project_number=${PROJECT_NUMBER}" >> "$GITHUB_OUTPUT"
+          echo "viewer_login=${VIEWER_LOGIN}" >> "$GITHUB_OUTPUT"
+
+          echo "Project ID: ${PROJECT_ID}"
           echo "Project number: ${PROJECT_NUMBER}"
 
-      - name: Create fields
+      - name: Add initial issues to project using GraphQL
         shell: bash
         run: |
           set -euo pipefail
-          PROJECT_NUMBER="${{ steps.project.outputs.project_number }}"
-
-          field_exists() {
-            local name="$1"
-            gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json \
-              | jq -e --arg name "$name" '.fields[]? | select(.name == $name)' > /dev/null
-          }
-
-          create_single_select_field() {
-            local name="$1"
-            local options="$2"
-            if field_exists "$name"; then
-              echo "Field already exists: $name"
-            else
-              echo "Creating field: $name"
-              gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
-                --name "$name" \
-                --data-type SINGLE_SELECT \
-                --single-select-options "$options"
-            fi
-          }
-
-          create_number_field() {
-            local name="$1"
-            if field_exists "$name"; then
-              echo "Field already exists: $name"
-            else
-              echo "Creating number field: $name"
-              gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
-                --name "$name" \
-                --data-type NUMBER
-            fi
-          }
-
-          create_date_field() {
-            local name="$1"
-            if field_exists "$name"; then
-              echo "Field already exists: $name"
-            else
-              echo "Creating date field: $name"
-              gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
-                --name "$name" \
-                --data-type DATE
-            fi
-          }
-
-          create_text_field() {
-            local name="$1"
-            if field_exists "$name"; then
-              echo "Field already exists: $name"
-            else
-              echo "Creating text field: $name"
-              gh project field-create "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" \
-                --name "$name" \
-                --data-type TEXT
-            fi
-          }
-
-          create_single_select_field "Type" "Human Truth,Human Contradiction,Belief Shift,Meaning Atom,Story Pattern,Script,Experiment,Learning,Law Candidate,LOGOS Law,Infrastructure,Automation,Documentation"
-          create_single_select_field "Client" "Universal,DeflaGyn,Future Client"
-          create_single_select_field "Language" "uk,ru,en,mixed"
-          create_single_select_field "Phase" "P00 Foundation,P01 Ontology and Schemas,P02 DeflaGyn Runtime,P03 Experiment Ops,P04 n8n Runtime,P05 Validation CLI,P06 Search Engine,P07 Graph Engine,P08 Generative Agent,P09 Learning Engine,P10 Multi-Client Runtime"
-          create_single_select_field "Confidence" "Low,Medium,High"
-          create_single_select_field "LOGOS Status" "Inbox,Human Truth,Human Contradiction,Belief Shift,Meaning Atom,Script Ready,In Production,Published,Metrics Collected,Learning,Law Candidate,LOGOS Law,Archived"
-          create_number_field "Metric Score"
-          create_date_field "Target Date"
-          create_text_field "Experiment Week"
-
-      - name: Add initial issues to project
-        shell: bash
-        run: |
-          set -euo pipefail
-          PROJECT_NUMBER="${{ steps.project.outputs.project_number }}"
+          PROJECT_ID="${{ steps.project.outputs.project_id }}"
 
           add_issue() {
             local issue_number="$1"
-            local issue_url="https://github.com/${REPO}/issues/${issue_number}"
-            echo "Adding ${issue_url}"
-            gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --url "$issue_url" || true
+            echo "Adding issue #${issue_number} to project..."
+
+            CONTENT_ID=$(gh api graphql \
+              -f query='
+                query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    issue(number: $number) {
+                      id
+                    }
+                  }
+                }
+              ' \
+              -F owner="$OWNER_LOGIN" \
+              -F repo="$REPO_NAME" \
+              -F number="$issue_number" \
+              | jq -r '.data.repository.issue.id')
+
+            if [ -z "${CONTENT_ID}" ] || [ "${CONTENT_ID}" = "null" ]; then
+              echo "Issue #${issue_number} not found. Skipping."
+              return 0
+            fi
+
+            gh api graphql \
+              -f query='
+                mutation($projectId: ID!, $contentId: ID!) {
+                  addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
+                    item {
+                      id
+                    }
+                  }
+                }
+              ' \
+              -F projectId="$PROJECT_ID" \
+              -F contentId="$CONTENT_ID" \
+              || true
           }
 
           add_issue 1
@@ -143,10 +146,82 @@ jobs:
           add_issue 5
           add_issue 9
 
+      - name: Create project fields best effort
+        shell: bash
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          PROJECT_ID="${{ steps.project.outputs.project_id }}"
+
+          create_text_field() {
+            local name="$1"
+            echo "Creating text field: ${name}"
+            gh api graphql \
+              -f query='
+                mutation($projectId: ID!, $name: String!) {
+                  createProjectV2Field(input: {projectId: $projectId, name: $name, dataType: TEXT}) {
+                    projectV2Field {
+                      ... on ProjectV2Field { id name }
+                    }
+                  }
+                }
+              ' \
+              -F projectId="$PROJECT_ID" \
+              -F name="$name" \
+              || true
+          }
+
+          create_number_field() {
+            local name="$1"
+            echo "Creating number field: ${name}"
+            gh api graphql \
+              -f query='
+                mutation($projectId: ID!, $name: String!) {
+                  createProjectV2Field(input: {projectId: $projectId, name: $name, dataType: NUMBER}) {
+                    projectV2Field {
+                      ... on ProjectV2Field { id name }
+                    }
+                  }
+                }
+              ' \
+              -F projectId="$PROJECT_ID" \
+              -F name="$name" \
+              || true
+          }
+
+          create_date_field() {
+            local name="$1"
+            echo "Creating date field: ${name}"
+            gh api graphql \
+              -f query='
+                mutation($projectId: ID!, $name: String!) {
+                  createProjectV2Field(input: {projectId: $projectId, name: $name, dataType: DATE}) {
+                    projectV2Field {
+                      ... on ProjectV2Field { id name }
+                    }
+                  }
+                }
+              ' \
+              -F projectId="$PROJECT_ID" \
+              -F name="$name" \
+              || true
+          }
+
+          create_text_field "Type"
+          create_text_field "Client"
+          create_text_field "Language"
+          create_text_field "Phase"
+          create_text_field "Confidence"
+          create_text_field "LOGOS Status"
+          create_text_field "Experiment Week"
+          create_number_field "Metric Score"
+          create_date_field "Target Date"
+
       - name: Summary
         shell: bash
         run: |
           PROJECT_NUMBER="${{ steps.project.outputs.project_number }}"
-          echo "LOGOS Engine Roadmap project is ready."
+          VIEWER_LOGIN="${{ steps.project.outputs.viewer_login }}"
+          echo "LOGOS Engine Roadmap project setup attempted."
           echo "Project number: ${PROJECT_NUMBER}"
-          echo "Open: https://github.com/users/${OWNER_LOGIN}/projects/${PROJECT_NUMBER}"
+          echo "Open: https://github.com/users/${VIEWER_LOGIN}/projects/${PROJECT_NUMBER}"
