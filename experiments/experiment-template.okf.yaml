@@ -1,0 +1,74 @@
+id: EXP-0000
+type: experiment
+status: draft
+client: deflagyn
+language: uk
+
+hypothesis:
+  title: ""
+  human_truth_id: ""
+  human_contradiction_id: ""
+  belief_shift_id: ""
+  meaning_atom_id: ""
+  story_pattern_id: ""
+  expected_emotional_result: ""
+
+content:
+  platform:
+    - TikTok
+    - YouTube Shorts
+    - Instagram Reels
+    - Threads
+  format: "vertical_video"
+  duration_seconds: 45
+  avatar_language: uk
+  product_visibility: "background_presence"
+  product_mention: "none_or_minimal"
+
+metrics:
+  tiktok:
+    views: null
+    avg_watch_time: null
+    completion_rate: null
+    likes: null
+    comments: null
+    saves: null
+    shares: null
+    profile_clicks: null
+  youtube_shorts:
+    views: null
+    avg_watch_time: null
+    completion_rate: null
+    likes: null
+    comments: null
+    saves: null
+    shares: null
+  instagram_reels:
+    views: null
+    avg_watch_time: null
+    completion_rate: null
+    likes: null
+    comments: null
+    saves: null
+    shares: null
+  threads:
+    views: null
+    likes: null
+    replies: null
+    reposts: null
+
+qualitative_signals:
+  quoted_phrases: []
+  repeated_comments: []
+  objections: []
+  emotional_reactions: []
+
+learning:
+  result: "unknown"
+  insight: ""
+  decision: ""
+  next_action: ""
+
+law_candidate:
+  promote: false
+  reason: ""
