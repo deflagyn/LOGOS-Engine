@@ -1,0 +1,95 @@
+id: EXP-0001
+type: experiment
+status: ready_for_production
+client: deflagyn
+language: uk
+issue: 1
+
+hypothesis:
+  title: "True self-care does not end at the surface"
+  human_truth_id: HT-0001
+  human_contradiction_id: HC-0001
+  belief_shift_id: BS-0001
+  meaning_atom_id: MA-0001
+  story_pattern_id: SP-005
+  expected_emotional_result: "calm recognition and self-respect"
+  statement: >
+    A calm podcast-style doctor reflection that expands self-care from visible beauty
+    to complete self-care will generate stronger saves, shares and quote repetition
+    than a direct medical lecture.
+
+content:
+  script_id: SCRIPT-0001
+  platforms:
+    - TikTok
+    - YouTube Shorts
+    - Instagram Reels
+    - Threads
+  format: vertical_video
+  duration_seconds: 45
+  avatar_language: uk
+  product_visibility: background_presence
+  product_mention: none
+  visual_environment: podcast_style_wellness_studio
+
+success_metrics:
+  primary:
+    - completion_rate
+    - average_watch_time
+    - saves
+    - shares
+    - quoted_phrases
+  secondary:
+    - views
+    - comments
+    - profile_clicks
+    - follows
+
+metrics:
+  tiktok:
+    views: null
+    avg_watch_time: null
+    completion_rate: null
+    likes: null
+    comments: null
+    saves: null
+    shares: null
+    profile_clicks: null
+  youtube_shorts:
+    views: null
+    avg_watch_time: null
+    completion_rate: null
+    likes: null
+    comments: null
+    saves: null
+    shares: null
+  instagram_reels:
+    views: null
+    avg_watch_time: null
+    completion_rate: null
+    likes: null
+    comments: null
+    saves: null
+    shares: null
+  threads:
+    views: null
+    likes: null
+    replies: null
+    reposts: null
+
+qualitative_signals:
+  quoted_phrases: []
+  repeated_comments: []
+  objections: []
+  emotional_reactions: []
+
+learning:
+  result: unknown
+  insight: ""
+  decision: ""
+  next_action: ""
+
+law_candidate:
+  promote: false
+  candidate: LC-004
+  reason: ""
