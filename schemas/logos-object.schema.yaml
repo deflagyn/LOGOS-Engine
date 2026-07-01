@@ -1,0 +1,85 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: LOGOS Object
+version: 0.1
+
+type: object
+required:
+  - id
+  - type
+  - status
+  - language
+  - title
+properties:
+  id:
+    type: string
+    description: "Stable object identifier, e.g. HT-0001, HC-0001, BS-0001, MA-0001."
+  type:
+    type: string
+    enum:
+      - human_truth
+      - human_contradiction
+      - belief_shift
+      - meaning_atom
+      - story_pattern
+      - emotional_result
+      - identity_shift
+      - habit
+      - product_profile
+      - experiment
+      - learning
+      - law_candidate
+      - logos_law
+  status:
+    type: string
+    enum:
+      - raw
+      - draft
+      - testing
+      - validated
+      - rejected
+      - archived
+      - law_candidate
+      - law
+  language:
+    type: string
+    enum:
+      - en
+      - ru
+      - uk
+      - mixed
+  client:
+    type: string
+    description: "Client/runtime name, e.g. deflagyn, universal."
+  title:
+    type: string
+  human_truth:
+    type: string
+  human_contradiction:
+    type: string
+  old_belief:
+    type: string
+  new_belief:
+    type: string
+  meaning_atom:
+    type: string
+  emotional_result:
+    type: string
+  identity_shift:
+    type: string
+  story_pattern:
+    type: string
+  product_role:
+    type: string
+  forbidden_claims:
+    type: array
+    items:
+      type: string
+  metrics:
+    type: object
+    additionalProperties: true
+  links:
+    type: object
+    additionalProperties: true
+  notes:
+    type: string
+additionalProperties: true
