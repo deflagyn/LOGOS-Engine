@@ -1,0 +1,74 @@
+okf: 0.1
+project:
+  id: logos-engine
+  name: LOGOS Engine
+  type: meaning_operating_system
+  status: foundation_v0_1
+  repository: deflagyn/LOGOS-Engine
+
+purpose:
+  short: "A system for engineering meaning and structured belief change."
+  long: >
+    LOGOS Engine exists to model the path from human truth to human contradiction,
+    from contradiction to belief shift, from belief shift to story, from story to
+    behavior, and from behavior to habit. Brands and products are treated as
+    possible runtime implementations, not as the starting point.
+
+core_formula:
+  - Human Truth
+  - Human Contradiction
+  - Belief Shift
+  - Meaning Atom
+  - Story Pattern
+  - Emotional Result
+  - Content
+  - Experiment
+  - Learning
+  - Law
+
+central_object:
+  id: belief_shift
+  description: >
+    The minimal operational unit of LOGOS. A belief shift transforms an old belief
+    into a new belief through meaning, story, emotion and identity.
+
+layers:
+  philosophy:
+    description: "Stable axioms and principles. Rarely changes."
+  framework:
+    description: "Operational objects, flows, schemas and methods. Evolves through experiments."
+  runtime:
+    description: "Concrete client/product/category implementation."
+
+first_reference_runtime:
+  client: deflagyn
+  external_language: uk
+  internal_languages:
+    - ru
+    - uk
+    - en
+  note: >
+    DeflaGyn is the first reference implementation of LOGOS Engine.
+    It is used to test the system on women's health communication.
+
+experimentation:
+  platforms:
+    - TikTok
+    - YouTube Shorts
+    - Instagram Reels
+    - Threads
+  loop:
+    - observation
+    - hypothesis
+    - script
+    - video
+    - metrics
+    - learning
+    - law_candidate
+
+principles:
+  - "The product is never the hero."
+  - "Meaning precedes marketing."
+  - "Stories precede products."
+  - "A strong thought must survive without the product."
+  - "Every piece of content should strengthen one core belief shift."
