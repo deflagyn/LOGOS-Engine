@@ -1,0 +1,351 @@
+okf: 0.1
+id: ROADMAP-LOGOS-BUILD-PLAN
+type: knowledge_catalog_roadmap
+status: active
+repository: deflagyn/LOGOS-Engine
+created_at: 2026-07-01
+
+mission: >
+  Build LOGOS Engine as a reusable meaning operating system that transforms human truths
+  and human contradictions into belief shifts, stories, experiments, learnings and validated laws.
+
+core_rule: >
+  Do not build LOGOS as a folder of marketing materials. Build it as a structured system for
+  discovering, testing and evolving meaning.
+
+source_of_truth:
+  primary: GitHub repository
+  machine_readable: YAML / JSON / OKF
+  human_readable: Markdown
+  workflow_layer: GitHub Issues / GitHub Projects
+  automation_layer: n8n on VPS
+
+canonical_flow:
+  - Observation
+  - Human Truth
+  - Human Contradiction
+  - Belief Shift
+  - Meaning Atom
+  - Story Pattern
+  - Emotional Result
+  - Script
+  - Content
+  - Experiment
+  - Metrics
+  - Learning
+  - Law Candidate
+  - LOGOS Law
+
+phases:
+  - id: P00
+    name: Foundation / Philosophy
+    status: in_progress
+    objective: >
+      Establish the non-negotiable foundation of LOGOS: why it exists, what it believes,
+      what it must never become, and what counts as valid progress.
+    deliverables:
+      - README.md
+      - catalog.okf.yaml
+      - constitution/LOGOS-CONSTITUTION.md
+      - ontology/OBJECTS.md
+      - engine/ENGINE-FLOW.md
+      - triz/MEANING-TRIZ.md
+    acceptance_criteria:
+      - "LOGOS has a clear definition."
+      - "Core axioms are written."
+      - "Product-first marketing is explicitly rejected."
+      - "Belief Shift is defined as the central object."
+      - "TRIZ adaptation is documented."
+    next_actions:
+      - refine_constitution_v0_2
+      - add_glossary
+      - add_axiom_index
+
+  - id: P01
+    name: Ontology / Object Model / Schemas
+    status: planned
+    objective: >
+      Turn LOGOS from philosophy into a machine-readable language with strict objects,
+      identifiers, schemas and validation rules.
+    deliverables:
+      - schemas/logos-object.schema.yaml
+      - schemas/belief-shift.schema.yaml
+      - schemas/experiment.schema.yaml
+      - schemas/product-profile.schema.yaml
+      - ontology/ID-CONVENTIONS.md
+      - ontology/RELATIONSHIPS.md
+      - ontology/GLOSSARY.md
+    acceptance_criteria:
+      - "Every LOGOS object has an ID pattern."
+      - "Every object has required fields."
+      - "Object relationships are defined."
+      - "YAML files can be validated automatically."
+    next_actions:
+      - define_id_conventions
+      - split_general_schema_into_object_schemas
+      - create_relationship_map
+
+  - id: P02
+    name: DeflaGyn Reference Runtime
+    status: in_progress
+    objective: >
+      Use DeflaGyn as the first reference implementation of LOGOS Engine while keeping the core
+      system universal and product-agnostic.
+    deliverables:
+      - clients/deflagyn/product.yaml
+      - clients/deflagyn/brand-core.md
+      - clients/deflagyn/forbidden-claims.md
+      - clients/deflagyn/prompts/space-podcast-studio.json
+      - clients/deflagyn/scripts/script-template.md
+      - clients/deflagyn/objects/human-truths/HT-0001-visible-care-invisible-health.yaml
+      - clients/deflagyn/objects/human-contradictions/HC-0001-care-stops-at-surface.yaml
+      - clients/deflagyn/objects/belief-shifts/BS-0001-care-not-surface.yaml
+      - clients/deflagyn/objects/meaning-atoms/MA-0001-care-not-surface.yaml
+      - clients/deflagyn/scripts/SCRIPT-0001-care-not-surface.md
+      - clients/deflagyn/experiments/EXP-0001-care-not-surface.okf.yaml
+    acceptance_criteria:
+      - "First belief shift is documented."
+      - "First Ukrainian avatar script is ready."
+      - "Medical safety boundaries are documented."
+      - "First experiment is ready for production."
+    next_actions:
+      - generate_visual_variants
+      - publish_SCRIPT_0001
+      - collect_metrics
+      - create_next_9_scripts
+
+  - id: P03
+    name: Experiment Operations / GitHub Project Layer
+    status: planned
+    objective: >
+      Create an operational layer where every idea moves through a visible pipeline:
+      raw insight, belief shift, script, production, metrics, learning, law candidate.
+    deliverables:
+      - projects/LOGOS-ENGINE-PROJECT.okf.yaml
+      - .github/ISSUE_TEMPLATE/human-truth.yaml
+      - .github/ISSUE_TEMPLATE/belief-shift.yaml
+      - .github/ISSUE_TEMPLATE/experiment.yaml
+      - .github/ISSUE_TEMPLATE/script.yaml
+      - experiments/scoring-model.md
+      - experiments/metrics-template.csv
+      - experiments/weekly-learning-report-template.md
+    acceptance_criteria:
+      - "GitHub Project columns are defined."
+      - "Issue types are standardized."
+      - "Experiment scoring is defined."
+      - "Weekly learning report format exists."
+    next_actions:
+      - create_project_board_manually_or_via_api
+      - add_issue_templates
+      - add_scoring_model
+
+  - id: P04
+    name: n8n Runtime MVP
+    status: planned
+    objective: >
+      Use n8n on VPS as the first automation runtime for moving LOGOS objects through the pipeline.
+    deliverables:
+      - automation/n8n-runtime.md
+      - automation/workflows/idea-intake.md
+      - automation/workflows/belief-shift-generator.md
+      - automation/workflows/ukrainian-script-generator.md
+      - automation/workflows/medical-claim-checker.md
+      - automation/workflows/metrics-collector.md
+      - automation/workflows/weekly-learning-report.md
+    acceptance_criteria:
+      - "A raw idea can become a structured LOGOS object."
+      - "A belief shift can generate a Ukrainian script."
+      - "A script is checked against forbidden claims."
+      - "Metrics can update experiment learning."
+    next_actions:
+      - design_webhook_payloads
+      - create_telegram_idea_intake
+      - connect_github_write_step
+      - connect_google_sheets_metrics
+
+  - id: P05
+    name: Validation / CLI / Developer Layer
+    status: planned
+    objective: >
+      Add code that validates LOGOS objects and prevents the knowledge catalog from becoming chaotic.
+    deliverables:
+      - pyproject.toml
+      - logos_engine/__init__.py
+      - logos_engine/schemas.py
+      - logos_engine/validate.py
+      - scripts/validate_catalog.py
+      - scripts/create_object.py
+      - tests/test_schemas.py
+    acceptance_criteria:
+      - "All YAML objects can be validated."
+      - "Invalid objects fail loudly."
+      - "New objects can be generated from templates."
+      - "CI can run validation."
+    next_actions:
+      - choose_python_pydantic_version
+      - create_validation_script
+      - add_github_action
+
+  - id: P06
+    name: Searchable Knowledge Engine
+    status: future
+    objective: >
+      Add structured and semantic search so LOGOS can retrieve similar ideas, scripts,
+      belief shifts, story patterns and learnings.
+    deliverables:
+      - PostgreSQL database
+      - pgvector embeddings
+      - ingestion script from GitHub YAML/MD
+      - similarity search API
+      - basic FastAPI service
+    acceptance_criteria:
+      - "Search by meaning works across objects."
+      - "Similar Belief Shifts can be retrieved."
+      - "Scripts can be linked to their source objects."
+      - "DeflaGyn objects can be queried separately from universal LOGOS objects."
+    next_actions:
+      - design_database_schema
+      - choose_embedding_model
+      - build_ingestion_pipeline
+
+  - id: P07
+    name: Graph Engine
+    status: future
+    objective: >
+      Represent LOGOS as a graph of meaning relationships: truths, contradictions,
+      belief shifts, stories, scripts, metrics and laws.
+    deliverables:
+      - graph/GRAPH-MODEL.md
+      - Neo4j or graph-compatible schema
+      - object relationship importer
+      - visualization of DeflaGyn belief graph
+    acceptance_criteria:
+      - "Objects can be viewed as a connected graph."
+      - "Path from Human Truth to Law can be traced."
+      - "High-performing patterns become visible."
+    next_actions:
+      - define_nodes_edges
+      - map_current_deflagyn_objects
+      - test_neo4j_or_postgres_graph_queries
+
+  - id: P08
+    name: Generative LOGOS Agent
+    status: future
+    objective: >
+      Build an AI workflow that can generate structured LOGOS outputs from a product profile
+      or human problem while respecting ontology, safety and experiment history.
+    deliverables:
+      - LangGraph workflow design
+      - prompt chains
+      - object generator
+      - claim checker
+      - script generator
+      - experiment generator
+      - law candidate evaluator
+    acceptance_criteria:
+      - "Input product profile can produce Human Truth candidates."
+      - "Human Truth can produce Contradiction and Belief Shift."
+      - "Belief Shift can produce Ukrainian/English/Russian scripts."
+      - "Generated content respects client safety rules."
+    next_actions:
+      - design_agent_states
+      - connect_to_catalog
+      - connect_to_validation_layer
+
+  - id: P09
+    name: Learning Engine
+    status: future
+    objective: >
+      Convert real-world content metrics into structured learnings and eventually LOGOS Laws.
+    deliverables:
+      - metric normalization model
+      - learning report generator
+      - law promotion criteria
+      - confidence scoring model
+      - experiment dashboard
+    acceptance_criteria:
+      - "Every experiment can be scored."
+      - "Repeated patterns can become Law Candidates."
+      - "Laws require evidence and cannot be promoted manually without data."
+    next_actions:
+      - define_scoring_formula
+      - define_minimum_evidence_threshold
+      - create_weekly_report_workflow
+
+  - id: P10
+    name: Multi-Client Runtime
+    status: future
+    objective: >
+      Prove LOGOS is universal by applying it to a second and third client/product/category.
+    deliverables:
+      - clients/example-health-product
+      - clients/example-it-service
+      - clients/example-social-movement
+      - comparison report
+    acceptance_criteria:
+      - "The same LOGOS objects work outside DeflaGyn."
+      - "Product-specific logic stays inside client folders."
+      - "Universal laws remain reusable."
+    next_actions:
+      - choose_second_reference_client
+      - create_product_profile_template
+      - run_first_cross-category experiment
+
+project_board:
+  recommended_name: LOGOS Engine Roadmap
+  columns:
+    - Inbox
+    - Human Truth
+    - Human Contradiction
+    - Belief Shift
+    - Meaning Atom
+    - Script Ready
+    - In Production
+    - Published
+    - Metrics Collected
+    - Learning
+    - Law Candidate
+    - LOGOS Law
+  fields:
+    type:
+      - Human Truth
+      - Human Contradiction
+      - Belief Shift
+      - Meaning Atom
+      - Script
+      - Experiment
+      - Learning
+      - Law Candidate
+      - LOGOS Law
+    client:
+      - Universal
+      - DeflaGyn
+      - Future Client
+    language:
+      - uk
+      - ru
+      - en
+      - mixed
+    confidence:
+      - low
+      - medium
+      - high
+    metric_score:
+      type: number
+    status:
+      - raw
+      - draft
+      - testing
+      - validated
+      - rejected
+      - archived
+      - law_candidate
+      - law
+
+immediate_next_steps:
+  - create_project_board
+  - add_issue_templates
+  - produce_visual_variants_for_SCRIPT_0001
+  - publish_EXP_0001
+  - collect_first_metrics
+  - create_week_01_deflagyn_experiment_pack
