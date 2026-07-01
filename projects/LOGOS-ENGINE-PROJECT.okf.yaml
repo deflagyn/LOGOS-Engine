@@ -1,0 +1,155 @@
+okf: 0.1
+id: PROJECT-LOGOS-ENGINE-ROADMAP
+type: github_project_plan
+status: planned
+repository: deflagyn/LOGOS-Engine
+
+project:
+  name: LOGOS Engine Roadmap
+  purpose: >
+    Track the movement of LOGOS ideas from raw human observation to validated law.
+    This is an operations board, not the source of truth. The source of truth remains the GitHub repository files.
+
+recommended_views:
+  - name: Pipeline
+    type: board
+    group_by: status
+  - name: Experiments
+    type: table
+    filter: "type:Experiment"
+  - name: DeflaGyn Runtime
+    type: table
+    filter: "client:DeflaGyn"
+  - name: Law Candidates
+    type: table
+    filter: "status:Law Candidate"
+
+columns:
+  - Inbox
+  - Human Truth
+  - Human Contradiction
+  - Belief Shift
+  - Meaning Atom
+  - Script Ready
+  - In Production
+  - Published
+  - Metrics Collected
+  - Learning
+  - Law Candidate
+  - LOGOS Law
+
+fields:
+  type:
+    field_type: single_select
+    options:
+      - Human Truth
+      - Human Contradiction
+      - Belief Shift
+      - Meaning Atom
+      - Story Pattern
+      - Script
+      - Experiment
+      - Learning
+      - Law Candidate
+      - LOGOS Law
+      - Infrastructure
+      - Automation
+      - Documentation
+
+  client:
+    field_type: single_select
+    options:
+      - Universal
+      - DeflaGyn
+      - Future Client
+
+  language:
+    field_type: single_select
+    options:
+      - uk
+      - ru
+      - en
+      - mixed
+
+  phase:
+    field_type: single_select
+    options:
+      - P00 Foundation
+      - P01 Ontology and Schemas
+      - P02 DeflaGyn Runtime
+      - P03 Experiment Ops
+      - P04 n8n Runtime
+      - P05 Validation CLI
+      - P06 Search Engine
+      - P07 Graph Engine
+      - P08 Generative Agent
+      - P09 Learning Engine
+      - P10 Multi-Client Runtime
+
+  confidence:
+    field_type: single_select
+    options:
+      - Low
+      - Medium
+      - High
+
+  metric_score:
+    field_type: number
+    description: "0–100 normalized experiment score."
+
+  status:
+    field_type: single_select
+    options:
+      - Raw
+      - Draft
+      - Testing
+      - Ready
+      - Published
+      - Metrics Collected
+      - Learning Done
+      - Validated
+      - Rejected
+      - Archived
+      - Law Candidate
+      - Law
+
+issue_naming:
+  human_truth: "HT-0000: short title"
+  human_contradiction: "HC-0000: short title"
+  belief_shift: "BS-0000: short title"
+  meaning_atom: "MA-0000: short title"
+  script: "SCRIPT-0000: short title"
+  experiment: "EXP-0000: short title"
+  learning: "LEARN-0000: short title"
+  law_candidate: "LC-0000: short title"
+
+initial_cards:
+  - title: "P00: Foundation / Philosophy"
+    type: Documentation
+    phase: P00 Foundation
+    status: Ready
+  - title: "P01: Ontology and Schemas"
+    type: Infrastructure
+    phase: P01 Ontology and Schemas
+    status: Draft
+  - title: "P02: DeflaGyn Reference Runtime"
+    type: Experiment
+    client: DeflaGyn
+    phase: P02 DeflaGyn Runtime
+    status: Testing
+  - title: "P03: Experiment Operations"
+    type: Infrastructure
+    phase: P03 Experiment Ops
+    status: Draft
+  - title: "P04: n8n Runtime MVP"
+    type: Automation
+    phase: P04 n8n Runtime
+    status: Draft
+
+rules:
+  - "Repository files are the source of truth."
+  - "Project board is only workflow visibility."
+  - "No object becomes a LOGOS Law without repeated evidence."
+  - "Every experiment must link to a Belief Shift."
+  - "Every script must link to a Meaning Atom."
+  - "Every client-specific object must stay inside clients/<client>/ unless promoted to universal LOGOS."
