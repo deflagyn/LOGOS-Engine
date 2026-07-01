@@ -1,0 +1,68 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: Meaning Atom
+version: 0.1
+
+type: object
+required:
+  - id
+  - type
+  - status
+  - language
+  - title
+  - meaning_atom
+properties:
+  id:
+    type: string
+    description: "Stable ID such as MA-0001."
+  type:
+    const: meaning_atom
+  status:
+    type: string
+    enum:
+      - raw
+      - candidate
+      - draft
+      - testing
+      - validated
+      - rejected
+      - archived
+  language:
+    type: string
+    enum:
+      - en
+      - ru
+      - uk
+      - mixed
+  client:
+    type: string
+  scope:
+    type: string
+    enum:
+      - universal
+      - runtime
+  title:
+    type: string
+  meaning_atom:
+    type: string
+  short_variants:
+    type: array
+    items:
+      type: string
+  why_it_works:
+    type: string
+  emotional_tone:
+    type: array
+    items:
+      type: string
+  story_patterns:
+    type: array
+    items:
+      type: string
+  connected_objects:
+    type: object
+    additionalProperties: true
+  success_signal:
+    type: string
+  notes:
+    type: string
+additionalProperties: true
