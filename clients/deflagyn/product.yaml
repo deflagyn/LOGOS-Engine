@@ -1,0 +1,59 @@
+client: deflagyn
+runtime_type: reference_implementation
+status: foundation_v0_1
+
+external_content_language:
+  primary: uk
+  avatar_speech: ukrainian
+  subtitles: ukrainian
+
+internal_working_languages:
+  - ru
+  - uk
+  - en
+
+category:
+  name: women's health care
+  communication_mode: educational_soft_presence
+
+product:
+  name: DeflaGyn
+  role: "supporting tool inside a broader culture of attentive women's health care"
+  visibility_strategy: "background presence before direct product communication"
+
+core_belief_shift:
+  old_belief: "Турбота про себе — це переважно те, що видно іншим."
+  new_belief: "Справжня турбота про себе не закінчується на поверхні."
+
+human_truths:
+  - "Жінок часто навчають доглядати за зовнішністю раніше, ніж навчають берегти невидиме здоров'я."
+  - "Людина легше дбає про те, що бачить щодня."
+  - "Невидиме здоров'я часто стає цінним лише тоді, коли з'являється тривога."
+
+emotional_targets:
+  - спокій
+  - повага до себе
+  - бережність
+  - відчуття розумної дії
+  - можливість видихнути
+
+identity_shift:
+  from: "Я доглядаю за собою зовні."
+  to: "Я жінка, яка піклується про себе повністю."
+
+content_strategy:
+  first_30_days:
+    product_mentions: minimal
+    product_visibility: background_presence
+    themes:
+      - HPV education
+      - PAP test education
+      - cervical health awareness
+      - self-care philosophy
+      - invisible health
+      - reasonable action instead of anxiety
+    genre: "podcast-style doctor reflection"
+    doctor_role: "thoughtful guide, not seller"
+
+safety:
+  claim_policy: "No unsupported medical claims. No fear-based pressure. Product is never presented as replacement for medical examination or doctor consultation."
