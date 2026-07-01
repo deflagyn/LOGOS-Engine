@@ -1,0 +1,94 @@
+name: Human Truth
+about: Capture a stable human observation for LOGOS.
+title: "HT-0000: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to turn a raw observation into a Human Truth candidate.
+
+  - type: input
+    id: logos_id
+    attributes:
+      label: LOGOS ID
+      description: Example: HT-0001
+      placeholder: HT-0000
+    validations:
+      required: true
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - raw
+        - candidate
+        - draft
+        - testing
+        - validated
+        - rejected
+        - archived
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - universal
+        - runtime
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Source or context
+      description: Where did this observation come from?
+    validations:
+      required: true
+
+  - type: textarea
+    id: observation
+    attributes:
+      label: Raw observation
+      description: What did we notice?
+    validations:
+      required: true
+
+  - type: textarea
+    id: human_truth
+    attributes:
+      label: Human Truth candidate
+      description: Rewrite the observation as a stable human truth.
+    validations:
+      required: true
+
+  - type: textarea
+    id: meaning_resource
+    attributes:
+      label: Meaning resources
+      description: What values, fears, desires or identities already exist in the audience?
+
+  - type: textarea
+    id: test_plan
+    attributes:
+      label: Test plan
+      description: How will we test whether this is a real Human Truth?
+      value: |
+        Purpose:
+        Input:
+        Expected output:
+        Manual test:
+        Acceptance criteria:
+        Evidence:
+        Future automation:
+    validations:
+      required: true
+
+  - type: textarea
+    id: connected_objects
+    attributes:
+      label: Connected objects
+      description: Related HC, BS, MA, SP, EXP IDs if known.
