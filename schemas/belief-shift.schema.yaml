@@ -1,0 +1,68 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: Belief Shift
+version: 0.1
+
+type: object
+required:
+  - id
+  - type
+  - status
+  - language
+  - title
+  - old_belief
+  - new_belief
+properties:
+  id:
+    type: string
+    description: "Stable ID such as BS-0001."
+  type:
+    const: belief_shift
+  status:
+    type: string
+    enum:
+      - raw
+      - candidate
+      - draft
+      - testing
+      - validated
+      - rejected
+      - archived
+  language:
+    type: string
+    enum:
+      - en
+      - ru
+      - uk
+      - mixed
+  client:
+    type: string
+  scope:
+    type: string
+    enum:
+      - universal
+      - runtime
+  title:
+    type: string
+  old_belief:
+    type: string
+  new_belief:
+    type: string
+  belief_shift_formula:
+    type: string
+  meaning_atom:
+    type: string
+  emotional_result:
+    type: string
+  identity_shift:
+    type: object
+    additionalProperties: true
+  product_role:
+    type: string
+  connected_objects:
+    type: object
+    additionalProperties: true
+  safety:
+    type: string
+  notes:
+    type: string
+additionalProperties: true
