@@ -1,0 +1,144 @@
+name: Setup LOGOS GitHub Project
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-project:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_PROJECT_TOKEN }}
+      OWNER: deflagyn
+      REPO: deflagyn/LOGOS-Engine
+      PROJECT_TITLE: LOGOS Engine Roadmap
+
+    steps:
+      - name: Check token
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "GH_PROJECT_TOKEN secret is missing."
+            echo "Create a repository secret named GH_PROJECT_TOKEN with Projects read/write access."
+            exit 1
+          fi
+
+      - name: Create or find Project
+        id: project
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Looking for existing project: ${PROJECT_TITLE}"
+          PROJECT_NUMBER=$(gh project list --owner "$OWNER" --format json --limit 100 \
+            | jq -r --arg title "$PROJECT_TITLE" '.projects[]? | select(.title == $title) | .number' \
+            | head -n 1)
+
+          if [ -z "${PROJECT_NUMBER}" ]; then
+            echo "Project not found. Creating..."
+            PROJECT_NUMBER=$(gh project create --owner "$OWNER" --title "$PROJECT_TITLE" --format json | jq -r '.number')
+          else
+            echo "Project already exists: #${PROJECT_NUMBER}"
+          fi
+
+          echo "project_number=${PROJECT_NUMBER}" >> "$GITHUB_OUTPUT"
+          echo "Project number: ${PROJECT_NUMBER}"
+
+      - name: Create fields
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROJECT_NUMBER="${{ steps.project.outputs.project_number }}"
+
+          field_exists() {
+            local name="$1"
+            gh project field-list "$PROJECT_NUMBER" --owner "$OWNER" --format json \
+              | jq -e --arg name "$name" '.fields[]? | select(.name == $name)' > /dev/null
+          }
+
+          create_single_select_field() {
+            local name="$1"
+            local options="$2"
+            if field_exists "$name"; then
+              echo "Field already exists: $name"
+            else
+              echo "Creating field: $name"
+              gh project field-create "$PROJECT_NUMBER" --owner "$OWNER" \
+                --name "$name" \
+                --data-type SINGLE_SELECT \
+                --single-select-options "$options"
+            fi
+          }
+
+          create_number_field() {
+            local name="$1"
+            if field_exists "$name"; then
+              echo "Field already exists: $name"
+            else
+              echo "Creating number field: $name"
+              gh project field-create "$PROJECT_NUMBER" --owner "$OWNER" \
+                --name "$name" \
+                --data-type NUMBER
+            fi
+          }
+
+          create_date_field() {
+            local name="$1"
+            if field_exists "$name"; then
+              echo "Field already exists: $name"
+            else
+              echo "Creating date field: $name"
+              gh project field-create "$PROJECT_NUMBER" --owner "$OWNER" \
+                --name "$name" \
+                --data-type DATE
+            fi
+          }
+
+          create_text_field() {
+            local name="$1"
+            if field_exists "$name"; then
+              echo "Field already exists: $name"
+            else
+              echo "Creating text field: $name"
+              gh project field-create "$PROJECT_NUMBER" --owner "$OWNER" \
+                --name "$name" \
+                --data-type TEXT
+            fi
+          }
+
+          create_single_select_field "Type" "Human Truth,Human Contradiction,Belief Shift,Meaning Atom,Story Pattern,Script,Experiment,Learning,Law Candidate,LOGOS Law,Infrastructure,Automation,Documentation"
+          create_single_select_field "Client" "Universal,DeflaGyn,Future Client"
+          create_single_select_field "Language" "uk,ru,en,mixed"
+          create_single_select_field "Phase" "P00 Foundation,P01 Ontology and Schemas,P02 DeflaGyn Runtime,P03 Experiment Ops,P04 n8n Runtime,P05 Validation CLI,P06 Search Engine,P07 Graph Engine,P08 Generative Agent,P09 Learning Engine,P10 Multi-Client Runtime"
+          create_single_select_field "Confidence" "Low,Medium,High"
+          create_single_select_field "LOGOS Status" "Inbox,Human Truth,Human Contradiction,Belief Shift,Meaning Atom,Script Ready,In Production,Published,Metrics Collected,Learning,Law Candidate,LOGOS Law,Archived"
+          create_number_field "Metric Score"
+          create_date_field "Target Date"
+          create_text_field "Experiment Week"
+
+      - name: Add initial issues to project
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROJECT_NUMBER="${{ steps.project.outputs.project_number }}"
+
+          add_issue() {
+            local issue_number="$1"
+            local issue_url="https://github.com/${REPO}/issues/${issue_number}"
+            echo "Adding ${issue_url}"
+            gh project item-add "$PROJECT_NUMBER" --owner "$OWNER" --url "$issue_url" || true
+          }
+
+          add_issue 1
+          add_issue 3
+          add_issue 4
+          add_issue 5
+          add_issue 9
+
+      - name: Summary
+        shell: bash
+        run: |
+          PROJECT_NUMBER="${{ steps.project.outputs.project_number }}"
+          echo "LOGOS Engine Roadmap project is ready."
+          echo "Project number: ${PROJECT_NUMBER}"
+          echo "Open: https://github.com/users/${OWNER}/projects/${PROJECT_NUMBER}"
