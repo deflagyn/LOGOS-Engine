@@ -1,0 +1,83 @@
+name: LOGOS Experiment
+about: Plan a test of a LOGOS object or message.
+title: "EXP-0000: "
+body:
+  - type: input
+    id: logos_id
+    attributes:
+      label: LOGOS ID
+      placeholder: EXP-0000
+    validations:
+      required: true
+
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - draft
+        - ready_for_production
+        - published
+        - metrics_collected
+        - learning_done
+        - validated
+        - rejected
+        - archived
+    validations:
+      required: true
+
+  - type: input
+    id: client
+    attributes:
+      label: Client or runtime
+      placeholder: universal
+    validations:
+      required: true
+
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Hypothesis
+      description: What are we testing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: linked_objects
+    attributes:
+      label: Linked LOGOS objects
+      description: HT, HC, BS, MA, SP, SCRIPT IDs.
+
+  - type: textarea
+    id: content_plan
+    attributes:
+      label: Content or artifact plan
+    validations:
+      required: true
+
+  - type: textarea
+    id: success_metrics
+    attributes:
+      label: Success metrics
+      value: |
+        Primary metric:
+        Secondary metric:
+        Qualitative signal:
+        Minimum useful result:
+    validations:
+      required: true
+
+  - type: textarea
+    id: test_plan
+    attributes:
+      label: Test plan
+      value: |
+        Purpose:
+        Input:
+        Expected output:
+        Manual test:
+        Acceptance criteria:
+        Evidence:
+        Future automation:
+    validations:
+      required: true
