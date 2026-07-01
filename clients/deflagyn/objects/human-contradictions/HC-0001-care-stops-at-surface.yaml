@@ -1,0 +1,32 @@
+id: HC-0001
+type: human_contradiction
+status: testing
+language: uk
+client: deflagyn
+title: "Care stops at the surface"
+
+human_contradiction: >
+  Жінка може щиро вважати, що піклується про себе,
+  але її звичка турботи часто закінчується там, де цю турботу перестають бачити інші.
+
+inner_tension:
+  self_image: "Я піклуюся про себе."
+  behavior_gap: "Я регулярно дбаю про видиме, але можу відкладати невидиме здоров'я."
+  emotional_cost: "Тривога виникає тоді, коли невидиме здоров'я раптом потребує уваги."
+
+triz_parallel:
+  contradiction_type: meaning_contradiction
+  technical_analogy: "System says it performs care, but one critical subsystem remains outside regular maintenance."
+
+resolution_direction: >
+  Expand the definition of self-care from visible beauty to complete care.
+
+connected_objects:
+  human_truth: HT-0001
+  belief_shift: BS-0001
+  meaning_atom: MA-0001
+  story_pattern: SP-001
+  experiment: EXP-0001
+
+notes: >
+  The contradiction should be presented gently. No guilt, no accusation, no fear pressure.
