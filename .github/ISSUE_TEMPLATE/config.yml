@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: LOGOS Foundation Master
+    url: https://github.com/deflagyn/LOGOS-Engine/issues/10
+    about: Track foundation progress, next work and test-first rules.
