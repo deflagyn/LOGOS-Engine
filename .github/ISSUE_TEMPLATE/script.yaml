@@ -1,0 +1,40 @@
+name: LOGOS Script
+title: "SCRIPT-0000: "
+body:
+  - type: input
+    id: logos_id
+    attributes:
+      label: LOGOS ID
+      placeholder: SCRIPT-0000
+    validations:
+      required: true
+  - type: input
+    id: format
+    attributes:
+      label: Format
+    validations:
+      required: true
+  - type: textarea
+    id: linked_objects
+    attributes:
+      label: Linked LOGOS objects
+    validations:
+      required: true
+  - type: textarea
+    id: draft
+    attributes:
+      label: Draft
+    validations:
+      required: true
+  - type: textarea
+    id: test_plan
+    attributes:
+      label: Test plan
+      value: |
+        Purpose:
+        Input:
+        Output:
+        Manual test:
+        Evidence:
+    validations:
+      required: true
