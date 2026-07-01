@@ -1,0 +1,121 @@
+name: Sync LOGOS Project Items
+
+on:
+  workflow_dispatch:
+  issues:
+    types:
+      - opened
+      - edited
+      - reopened
+      - closed
+
+jobs:
+  sync-project:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_PROJECT_TOKEN }}
+      OWNER_LOGIN: deflagyn
+      REPO_NAME: LOGOS-Engine
+      REPO_FULL: deflagyn/LOGOS-Engine
+      PROJECT_TITLE: LOGOS Engine Roadmap
+
+    steps:
+      - name: Check token
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "GH_PROJECT_TOKEN secret is missing."
+            exit 1
+          fi
+
+      - name: Resolve project
+        id: project
+        shell: bash
+        run: |
+          set -euo pipefail
+          DATA=$(gh api graphql -f query='
+            query {
+              viewer {
+                login
+                projectsV2(first: 100) {
+                  nodes { id number title }
+                }
+              }
+            }
+          ')
+          PROJECT_ID=$(echo "$DATA" | jq -r --arg title "$PROJECT_TITLE" '.data.viewer.projectsV2.nodes[]? | select(.title == $title) | .id' | head -n 1)
+          PROJECT_NUMBER=$(echo "$DATA" | jq -r --arg title "$PROJECT_TITLE" '.data.viewer.projectsV2.nodes[]? | select(.title == $title) | .number' | head -n 1)
+          if [ -z "$PROJECT_ID" ] || [ "$PROJECT_ID" = "null" ]; then
+            echo "Project not found: $PROJECT_TITLE"
+            exit 1
+          fi
+          echo "project_id=$PROJECT_ID" >> "$GITHUB_OUTPUT"
+          echo "project_number=$PROJECT_NUMBER" >> "$GITHUB_OUTPUT"
+          echo "Resolved project #$PROJECT_NUMBER"
+
+      - name: Add current issue event to project
+        if: github.event_name == 'issues'
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROJECT_ID="${{ steps.project.outputs.project_id }}"
+          ISSUE_ID="${{ github.event.issue.node_id }}"
+          ISSUE_NUMBER="${{ github.event.issue.number }}"
+          echo "Adding issue #$ISSUE_NUMBER to project"
+          gh api graphql \
+            -f query='
+              mutation($projectId: ID!, $contentId: ID!) {
+                addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
+                  item { id }
+                }
+              }
+            ' \
+            -F projectId="$PROJECT_ID" \
+            -F contentId="$ISSUE_ID" \
+            || true
+
+      - name: Manual sync all issues
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROJECT_ID="${{ steps.project.outputs.project_id }}"
+
+          DATA=$(gh api graphql \
+            -F owner="$OWNER_LOGIN" \
+            -F repo="$REPO_NAME" \
+            -f query='
+              query($owner: String!, $repo: String!) {
+                repository(owner: $owner, name: $repo) {
+                  issues(first: 100, states: [OPEN, CLOSED], orderBy: {field: UPDATED_AT, direction: DESC}) {
+                    nodes { id number title state }
+                  }
+                }
+              }
+            ')
+
+          echo "$DATA" | jq -c '.data.repository.issues.nodes[]' | while read -r issue; do
+            ISSUE_ID=$(echo "$issue" | jq -r '.id')
+            ISSUE_NUMBER=$(echo "$issue" | jq -r '.number')
+            ISSUE_TITLE=$(echo "$issue" | jq -r '.title')
+            echo "Adding issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+            gh api graphql \
+              -f query='
+                mutation($projectId: ID!, $contentId: ID!) {
+                  addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
+                    item { id }
+                  }
+                }
+              ' \
+              -F projectId="$PROJECT_ID" \
+              -F contentId="$ISSUE_ID" \
+              || true
+          done
+
+      - name: Summary
+        shell: bash
+        run: |
+          PROJECT_NUMBER="${{ steps.project.outputs.project_number }}"
+          echo "Project sync complete."
+          echo "Open: https://github.com/users/${OWNER_LOGIN}/projects/${PROJECT_NUMBER}"
