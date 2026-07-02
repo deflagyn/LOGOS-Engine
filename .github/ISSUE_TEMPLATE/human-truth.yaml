@@ -11,7 +11,7 @@ body:
     id: logos_id
     attributes:
       label: LOGOS ID
-      description: Example: HT-0001
+      description: "Example: HT-0001"
       placeholder: HT-0000
     validations:
       required: true
