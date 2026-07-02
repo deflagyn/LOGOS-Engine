@@ -554,6 +554,18 @@ simulated response rejection test: passed
 writeback_performed: false
 ```
 
+Current response-writeback preflight note:
+
+```text
+An inactive dedicated response writeback preflight workflow now exists:
+LOGOS PILOT-0001 Response Writeback Preflight Gate
+id: zG9ST52p5Iml8TXq
+missing real_response_attestation rejection test: passed
+simulated response rejection test: passed
+successful fixture preflight: intentionally not performed
+writeback_performed: false
+```
+
 ---
 
 ### Phase 7 - Response Collection Gate
@@ -608,6 +620,7 @@ validator pass
 Future automation path:
 
 ```text
+Add a real response writeback gate only after at least one real sanitized response has been collected and reviewed locally.
 Add Google Sheets or form intake only after the local response intake contract remains stable.
 ```
 

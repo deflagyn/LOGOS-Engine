@@ -204,6 +204,46 @@ No VPS reboot or service restart was performed.
 
 ---
 
+## Response Writeback Preflight Gate
+
+Report:
+
+```text
+automation/n8n/pilot-0001/writeback/response-writeback-preflight-gate-test-2026-07-02.md
+```
+
+Controlled n8n workflow:
+
+```text
+name: LOGOS PILOT-0001 Response Writeback Preflight Gate
+id: zG9ST52p5Iml8TXq
+active: false
+```
+
+Result:
+
+```text
+workflow created inactive
+node_count: 3
+activation smoke test completed
+missing real_response_attestation rejection test completed
+simulated response rejection test completed
+successful fixture preflight intentionally not performed
+writeback_performed: false
+```
+
+Safety:
+
+```text
+Workflow was briefly activated for controlled rejection tests only.
+Workflow was deactivated immediately after controlled tests.
+No response YAML was written.
+No artifact writeback happened.
+No VPS reboot or service restart was performed.
+```
+
+---
+
 ## Raw Meaning Writeback
 
 Controlled n8n workflow:

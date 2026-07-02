@@ -30,6 +30,12 @@ n8n preview gate:
 automation/n8n/pilot-0001/RESPONSE-INTAKE-PREVIEW-GATE.md
 ```
 
+n8n writeback preflight gate:
+
+```text
+automation/n8n/pilot-0001/RESPONSE-WRITEBACK-PREFLIGHT-GATE.md
+```
+
 Shared helper:
 
 ```text
@@ -98,6 +104,16 @@ valid preview test: passed
 simulated response rejection test: passed
 writeback_performed: false
 creates_response_file: false
+```
+
+n8n writeback preflight evidence:
+
+```text
+activation smoke test: passed
+missing real_response_attestation rejection test: passed
+simulated response rejection test: passed
+successful fixture preflight: intentionally not performed
+writeback_performed: false
 ```
 
 ---

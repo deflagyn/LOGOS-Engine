@@ -66,6 +66,20 @@ See:
 automation/n8n/pilot-0001/RESPONSE-INTAKE-PREVIEW-GATE.md
 ```
 
+Dedicated response writeback preflight workflow:
+
+```text
+name: LOGOS PILOT-0001 Response Writeback Preflight Gate
+id: zG9ST52p5Iml8TXq
+active: false
+```
+
+See:
+
+```text
+automation/n8n/pilot-0001/RESPONSE-WRITEBACK-PREFLIGHT-GATE.md
+```
+
 ---
 
 ## Node 01 — Manual Trigger
@@ -553,4 +567,37 @@ Status:
 ```text
 disabled
 implemented as separate controlled gate
+```
+
+---
+
+## Node 15 — Response Writeback Preflight Pending
+
+Type:
+
+```text
+NoOp placeholder
+```
+
+Future purpose:
+
+```text
+Preflight real sanitized response input before writing response YAML.
+```
+
+Current implementation:
+
+```text
+Dedicated inactive workflow exists:
+LOGOS PILOT-0001 Response Writeback Preflight Gate
+id: zG9ST52p5Iml8TXq
+```
+
+Status:
+
+```text
+disabled
+implemented as separate controlled gate
+preflight-only
+requires real_response_attestation
 ```
