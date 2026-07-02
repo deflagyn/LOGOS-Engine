@@ -30,10 +30,12 @@ REQUIRED_ARTIFACTS = [
     "automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md",
     "automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md",
     "automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-CONTRACT.md",
+    "automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-GATE.md",
     "automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md",
     "automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md",
     "automation/n8n/wf-0002/writeback/belief-movement-status-readiness-2026-07-02.md",
     "automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-contract-2026-07-02.md",
+    "automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-gate-test-2026-07-02.md",
     "schemas/wf-0002-belief-movement-input.schema.yaml",
     "testing/fixtures/wf-0002-belief-movement-input.json.example",
     "testing/fixtures/wf-0002-belief-shift-issue.md",
@@ -130,13 +132,18 @@ def build_status(root: Path) -> dict[str, Any]:
     ):
         next_action = "fix_wf_0002_source_traceability"
     else:
-        next_action = "create_wf_0002_generation_preflight_gate_in_n8n"
+        next_action = "create_wf_0002_issue_creation_gate_after_preflight_stabilizes"
 
     return {
         "workflow_id": "WF-0002",
         "preview_gate": {
             "name": "LOGOS WF-0002 Belief Movement Input Preview Gate",
             "n8n_id": "Rue7sAU14UMv1hTr",
+            "expected_active": False,
+        },
+        "generation_preflight_gate": {
+            "name": "LOGOS WF-0002 Belief Movement Generation Preflight Gate",
+            "n8n_id": "uBrha0GALDy3HfSC",
             "expected_active": False,
         },
         "source": {
@@ -159,7 +166,7 @@ def build_status(root: Path) -> dict[str, Any]:
         "yaml_object_created": False,
         "meaning_atom_created": False,
         "generation_preflight_contract_created": True,
-        "generation_gate_created": False,
+        "generation_gate_created": True,
         "validation_passed": validation_passed,
         "next_action": next_action,
     }

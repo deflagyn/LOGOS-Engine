@@ -477,11 +477,11 @@ class Pilot0001GovernanceTests(unittest.TestCase):
         self.assertFalse(status["belief_shift_issue_created"])
         self.assertFalse(status["yaml_object_created"])
         self.assertTrue(status["generation_preflight_contract_created"])
-        self.assertFalse(status["generation_gate_created"])
+        self.assertTrue(status["generation_gate_created"])
         self.assertTrue(status["validation_passed"])
         self.assertEqual(
             status["next_action"],
-            "create_wf_0002_generation_preflight_gate_in_n8n",
+            "create_wf_0002_issue_creation_gate_after_preflight_stabilizes",
         )
 
     def test_response_input_fixture_matches_schema(self) -> None:

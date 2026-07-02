@@ -61,7 +61,7 @@ YAML promotion must be a separate future gate.
 issue_body_validator_created: true
 issue_fixture_created: true
 unit_tests_created: true
-n8n_generation_gate_created: false
+n8n_generation_preflight_gate_created: true
 github_issue_created: false
 yaml_object_created: false
 learning_created: false
@@ -72,6 +72,7 @@ Evidence:
 
 ```text
 automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-contract-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-gate-test-2026-07-02.md
 ```
 
 ---

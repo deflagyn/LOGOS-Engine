@@ -32,9 +32,9 @@ writeback_performed: false
 belief_shift_issue_created: false
 yaml_object_created: false
 generation_preflight_contract_created: true
-generation_gate_created: false
+generation_gate_created: true
 validation_passed: true
-next_action: create_wf_0002_generation_preflight_gate_in_n8n
+next_action: create_wf_0002_issue_creation_gate_after_preflight_stabilizes
 ```
 
 ---
@@ -56,7 +56,7 @@ No Belief Shift issue was created.
 No YAML object was written.
 No Meaning Atom was created.
 WF-0002 generation preflight contract exists locally.
-No generation gate exists yet.
+WF-0002 generation preflight gate exists in n8n and is inactive.
 No VPS reboot was performed.
 No Docker, n8n, nginx, Postgres or service restart was performed.
 ```
