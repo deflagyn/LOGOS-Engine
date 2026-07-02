@@ -66,7 +66,15 @@ Created an inactive n8n workflow with:
 
 Nodes 04-06 are enabled read-only / preview-only Layer 1 nodes.
 
-Nodes 07-14 remain disabled placeholders.
+Nodes 07-11 remain disabled placeholders.
+
+Node 12 is now a disabled pending node for the first controlled writeback:
+
+```text
+pilots/PILOT-0001/input/raw-meaning.yaml
+```
+
+Nodes 13-14 remain disabled placeholders.
 
 ---
 
@@ -111,6 +119,15 @@ last node:
   - 14 Comment Result On Issue #27
 ```
 
+Execution attempts:
+
+```text
+Public n8n API: no workflow run endpoint is exposed.
+Internal /rest workflow run endpoint: HTTP 401 with API key, requires browser/session auth.
+n8n CLI inside running container: not used further because `n8n execute` conflicts with the live Task Broker port.
+No service restart or reboot was attempted.
+```
+
 ---
 
 ## Evidence
@@ -120,6 +137,7 @@ Workflow created through n8n API.
 Workflow was verified through n8n API.
 Layer 1 read-only nodes were wired through n8n API.
 The workflow has not been executed for GitHub writes.
+Node 12 was marked as pending for raw-meaning.yaml writeback only.
 ```
 
 ---
@@ -131,13 +149,14 @@ This is a Layer 1 workflow, not the full runtime.
 Raw meaning writeback is not enabled yet.
 LLM nodes are not wired yet.
 Validator dispatch is not wired yet.
+Layer 1 manual execution needs n8n UI/session access or a later controlled trigger.
 ```
 
 ---
 
 ## Next Step
 
-Review Layer 1 preview output through manual execution:
+Review Layer 1 preview output through manual n8n UI execution or a controlled trigger:
 
 ```text
 Manual Trigger

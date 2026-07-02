@@ -404,7 +404,7 @@ disabled
 
 ---
 
-## Node 12 — GitHub Writeback
+## Node 12 — Raw Meaning Writeback Pending
 
 Type:
 
@@ -415,7 +415,7 @@ NoOp placeholder
 Future purpose:
 
 ```text
-Create or update all pilot files in GitHub.
+Create or update only pilots/PILOT-0001/input/raw-meaning.yaml.
 ```
 
 Rules:
@@ -425,12 +425,15 @@ Use create file when missing.
 Use update file when existing.
 Never overwrite raw meaning with derived text.
 Collect commit sha for run evidence.
+Do not enable full artifact writeback yet.
 ```
 
 Status:
 
 ```text
 disabled
+requires reviewed raw_meaning_yaml preview
+requires GitHub write credential in n8n
 ```
 
 ---
@@ -485,4 +488,3 @@ Status:
 ```text
 disabled
 ```
-
