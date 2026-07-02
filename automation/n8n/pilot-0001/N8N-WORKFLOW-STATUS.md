@@ -2,7 +2,7 @@
 
 Date: 2026-07-02
 
-Status: raw meaning, meaning edges and LOGOS objects written by controlled n8n workflows
+Status: raw meaning, meaning edges, LOGOS objects and runtime draft written by controlled n8n workflows
 
 ---
 
@@ -164,11 +164,26 @@ Raw meaning writeback completed:
 pilots/PILOT-0001/input/raw-meaning.yaml
 ```
 
+Runtime draft writeback completed:
+
+```text
+pilots/PILOT-0001/output/script-draft.md
+```
+
+Controlled runtime draft workflow:
+
+```text
+name: LOGOS PILOT-0001 Runtime Draft Writeback
+id: cnCw7fqTaXxJkFvm
+active after run: false
+commit_sha: 159ccc24f7b4ff071c8031d60bd816cb1eeae9bb
+```
+
 Next step:
 
 ```text
-Generate Runtime Draft
--> script-draft.md
+Review script-draft.md
+-> only after review, generate experiment-plan.yaml as candidate
 ```
 
-Keep experiment, learning, law review and full writeback disabled.
+Keep learning, law review and full writeback disabled.

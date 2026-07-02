@@ -1,0 +1,20 @@
+{
+  "workflow_id": "cnCw7fqTaXxJkFvm",
+  "workflow_name": "LOGOS PILOT-0001 Runtime Draft Writeback",
+  "pilot_id": "PILOT-0001",
+  "writeback_scope": "script_draft_only",
+  "target_path": "pilots/PILOT-0001/output/script-draft.md",
+  "commit_sha": "159ccc24f7b4ff071c8031d60bd816cb1eeae9bb",
+  "content_sha": "151283a194acac4d7d7aca009fcaba25cc95094d",
+  "source_ids": [
+    "RM-PILOT-0001",
+    "ME-PILOT-0001",
+    "HT-PILOT-0001",
+    "HC-PILOT-0001",
+    "BS-PILOT-0001",
+    "MA-PILOT-0001",
+    "SP-PILOT-0001"
+  ],
+  "status": "runtime_draft_writeback_completed",
+  "law_promotion_allowed": false
+}

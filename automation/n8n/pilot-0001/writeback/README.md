@@ -146,3 +146,59 @@ Implementation note:
 First attempt failed before writing files because n8n HTTP Request body expressions used `={ ... }` instead of `={{ ... }}`.
 The workflow was corrected and rerun successfully.
 ```
+
+---
+
+## Runtime Draft Writeback
+
+Controlled n8n workflow:
+
+```text
+name: LOGOS PILOT-0001 Runtime Draft Writeback
+id: cnCw7fqTaXxJkFvm
+active after run: false
+```
+
+Target:
+
+```text
+pilots/PILOT-0001/output/script-draft.md
+```
+
+Result:
+
+```text
+status: runtime_draft_writeback_completed
+writeback_scope: script_draft_only
+commit_sha: 159ccc24f7b4ff071c8031d60bd816cb1eeae9bb
+content_sha: 151283a194acac4d7d7aca009fcaba25cc95094d
+```
+
+Traceability:
+
+```text
+RM-PILOT-0001
+ME-PILOT-0001
+HT-PILOT-0001
+HC-PILOT-0001
+BS-PILOT-0001
+MA-PILOT-0001
+SP-PILOT-0001
+```
+
+Safety:
+
+```text
+Only script-draft.md was written.
+No experiment, learning or law artifacts were created.
+No VPS reboot or service restart was performed.
+Workflow inactive after the controlled run.
+```
+
+Implementation note:
+
+```text
+First activation attempt failed before execution because n8n needed corrected connection nesting and a webhookId.
+Second execution reached the workflow but failed before writeback because script-draft.md did not exist and the GET-existing node returned 404.
+The first successful run skipped GET-existing and created script-draft.md only.
+```
