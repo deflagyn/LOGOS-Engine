@@ -15,6 +15,11 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from logos_engine.pilot_response_input import validate_pilot_response_input  # noqa: E402
+
 RESPONSES_DIR = ROOT / "pilots" / "PILOT-0001" / "experiment" / "responses"
 MANIFEST_PATH = ROOT / "pilots" / "PILOT-0001" / "RUN-MANIFEST.yaml"
 RESPONSE_ID_RE = re.compile(r"^RESPONSE-PILOT-0001-(\d{4})$")
@@ -204,6 +209,11 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         data = load_json(args.input)
+        if data.get("personal_data_removed") is not True:
+            raise ValueError("personal_data_removed must be true before writing a response")
+        if data.get("simulated_response") is True:
+            raise ValueError("simulated responses must not be written as real response files")
+        validate_pilot_response_input(data)
         response_number = next_response_number()
         response = build_response(data, response_number)
         response_yaml = dump_yaml(response)

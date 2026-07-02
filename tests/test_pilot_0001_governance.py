@@ -57,6 +57,18 @@ def run_response_intake(repo: Path, input_path: Path) -> subprocess.CompletedPro
     )
 
 
+def run_response_schema_validation(repo: Path, input_path: Path) -> subprocess.CompletedProcess[str]:
+    script = repo / "scripts" / "validate_pilot_response_input.py"
+    return subprocess.run(
+        [sys.executable, str(script), "--input", str(input_path)],
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+
 def run_pilot_status(repo: Path) -> dict[str, object]:
     script = repo / "scripts" / "pilot_0001_status.py"
     result = subprocess.run(
@@ -73,6 +85,30 @@ def run_pilot_status(repo: Path) -> dict[str, object]:
 
 
 class Pilot0001GovernanceTests(unittest.TestCase):
+    def test_response_input_fixture_matches_schema(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "pilot-0001-response-input.json.example"
+
+            result = run_response_schema_validation(repo, fixture)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("PILOT-0001 response input schema passed.", result.stdout)
+
+    def test_response_input_schema_rejects_missing_required_answer(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            data = load_response_input(repo)
+            answers = data["answers"]
+            assert isinstance(answers, dict)
+            del answers["q1_changed_in_hero"]
+            input_path = write_response_input(repo, data)
+
+            result = run_response_schema_validation(repo, input_path)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("q1_changed_in_hero", result.stderr)
+
     def test_learning_requires_three_real_responses(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
             repo = copy_repo_to_temp(Path(raw_temp_dir))

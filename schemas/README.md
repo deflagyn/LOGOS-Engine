@@ -15,6 +15,7 @@ Schemas are used to keep the catalog structured and prepare the system for futur
 - `meaning-atom.schema.yaml`
 - `story-pattern.schema.yaml`
 - `experiment.schema.yaml`
+- `pilot-response-input.schema.yaml` — intake JSON contract for PILOT-0001 real responses
 - `product-profile.schema.yaml`
 
 ---

@@ -9,7 +9,9 @@ pilots/PILOT-0001/experiment/RESPONDENT-PACKET.md
 pilots/PILOT-0001/experiment/RESPONDENT-HANDOUT.md
 pilots/PILOT-0001/experiment/response-template.yaml
 scripts/create_pilot_response.py
+scripts/validate_pilot_response_input.py
 scripts/pilot_0001_status.py
+schemas/pilot-response-input.schema.yaml
 ```
 
 ---
@@ -72,6 +74,24 @@ Use this shape for a cleaned real response:
 ```
 
 Replace blank answers and scores with the respondent's real answers.
+
+---
+
+## Validate JSON Input
+
+Run:
+
+```text
+python scripts\validate_pilot_response_input.py --input path\to\cleaned-response.json
+```
+
+Expected output:
+
+```text
+PILOT-0001 response input schema passed.
+```
+
+Do not write a response YAML until the cleaned JSON passes schema validation.
 
 ---
 

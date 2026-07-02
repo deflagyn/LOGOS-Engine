@@ -38,7 +38,10 @@ REQUIRED_ARTIFACTS = [
     "pilots/PILOT-0001/experiment/RESPONDENT-PACKET.md",
     "pilots/PILOT-0001/experiment/RESPONDENT-HANDOUT.md",
     "pilots/PILOT-0001/experiment/COLLECTOR-GUIDE.md",
+    "pilots/PILOT-0001/experiment/RESPONSE-INTAKE-SCHEMA-READINESS.md",
     "pilots/PILOT-0001/experiment/response-template.yaml",
+    "schemas/pilot-response-input.schema.yaml",
+    "scripts/validate_pilot_response_input.py",
 ]
 
 

@@ -31,6 +31,12 @@ Learning can be drafted only after at least three real response YAML files exist
 
 ## Recommended Local Intake
 
+Validate the JSON input first:
+
+```text
+python scripts\validate_pilot_response_input.py --input response.json
+```
+
 Use:
 
 ```text
@@ -50,7 +56,14 @@ updates RUN-MANIFEST.yaml real_response_count
 Dry run:
 
 ```text
+python scripts\validate_pilot_response_input.py --input testing/fixtures/pilot-0001-response-input.json.example
 python scripts\create_pilot_response.py --input testing/fixtures/pilot-0001-response-input.json.example --dry-run
+```
+
+Schema:
+
+```text
+schemas/pilot-response-input.schema.yaml
 ```
 
 ---

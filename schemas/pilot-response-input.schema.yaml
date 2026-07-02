@@ -1,0 +1,109 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: PILOT-0001 Response Intake Input
+version: 0.1
+
+type: object
+additionalProperties: false
+required:
+  - response_date
+  - respondent_id
+  - personal_data_removed
+  - simulated_response
+  - answers
+  - meaning_signal_scores
+properties:
+  response_date:
+    type: string
+    pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+  respondent_id:
+    type: string
+    minLength: 1
+    description: "Anonymous respondent identifier only. Do not include personal contact data."
+  respondent_context:
+    type:
+      - string
+      - "null"
+  personal_data_removed:
+    const: true
+  simulated_response:
+    const: false
+  answers:
+    type: object
+    additionalProperties: false
+    required:
+      - q1_changed_in_hero
+      - q2_return_voluntary_or_obligated
+      - q3_pressure_debt_or_manipulation
+      - q4_meaning_of_expansion_metaphor
+    properties:
+      q1_changed_in_hero:
+        type: string
+        minLength: 1
+      q2_return_voluntary_or_obligated:
+        type: string
+        minLength: 1
+      q3_pressure_debt_or_manipulation:
+        type: string
+        minLength: 1
+      q4_meaning_of_expansion_metaphor:
+        type: string
+        minLength: 1
+  meaning_signal_scores:
+    type: object
+    additionalProperties: false
+    required:
+      - voluntary_safety
+      - recovery_as_resource
+      - non_coercive_return
+      - boundary_awareness
+      - metaphorical_expansion
+    properties:
+      voluntary_safety:
+        type: integer
+        minimum: 0
+        maximum: 5
+      recovery_as_resource:
+        type: integer
+        minimum: 0
+        maximum: 5
+      non_coercive_return:
+        type: integer
+        minimum: 0
+        maximum: 5
+      boundary_awareness:
+        type: integer
+        minimum: 0
+        maximum: 5
+      metaphorical_expansion:
+        type: integer
+        minimum: 0
+        maximum: 5
+  failure_signals:
+    type: object
+    additionalProperties: false
+    properties:
+      woman_owes_safety:
+        type: boolean
+      man_owes_return:
+        type: boolean
+      relationship_as_transaction:
+        type: boolean
+      resource_sharing_as_payment:
+        type: boolean
+      expansion_as_domination:
+        type: boolean
+      safety_as_manipulation:
+        type: boolean
+      notes:
+        type:
+          - string
+          - "null"
+  raw_quotes:
+    type: array
+    items:
+      type: string
+  moderator_notes:
+    type:
+      - string
+      - "null"
+
