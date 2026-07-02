@@ -38,6 +38,12 @@ Controlled test report:
 automation/n8n/pilot-0001/writeback/validator-dispatch-gate-test-2026-07-02.md
 ```
 
+Polling test report:
+
+```text
+automation/n8n/pilot-0001/writeback/validator-dispatch-gate-polling-test-2026-07-02.md
+```
+
 Controlled n8n workflow:
 
 ```text
@@ -50,11 +56,14 @@ Result:
 
 ```text
 workflow created inactive
-node_count: 5
+node_count: 7
 dispatch target: validate-catalog.yml on main
 controlled dispatch test completed
 GitHub Action run: 28595297447
 GitHub Action result: success
+polling mode: single_lookup_after_45s
+polling test run: 28595880528
+polling test result: success
 ```
 
 Safety:

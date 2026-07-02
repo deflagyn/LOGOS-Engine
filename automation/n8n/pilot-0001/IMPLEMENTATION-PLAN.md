@@ -211,17 +211,24 @@ Preferred workflow:
 POST /repos/deflagyn/LOGOS-Engine/actions/workflows/validate-catalog.yml/dispatches
 ```
 
-MVP may record:
+Initial MVP may record:
 
 ```text
 validator_status: dispatched
 ```
 
-The better version should poll the workflow run and report:
+Current validator gate now performs a single status lookup after dispatch and reports:
 
 ```text
-validator_status: success | failure
-validator_run_url:
+polling_mode: single_lookup_after_45s
+validator_status: success | failure | cancelled | skipped | in_progress
+validator_run_url: GitHub Actions run URL
+```
+
+Future improvement:
+
+```text
+Replace the single lookup with bounded polling until completion, timeout or failure.
 ```
 
 ### 7. Comment On Issue #27
@@ -483,10 +490,9 @@ issue #27 comment URL
 After a successful manual run:
 
 ```text
-1. Add stronger polling for GitHub Actions.
+1. Replace single GitHub Actions lookup with bounded polling.
 2. Add webhook trigger.
 3. Add configurable pilot_id and source_issue.
 4. Add Telegram intake only after the pilot template is stable.
 5. Promote the workflow from pilot to reusable LOGOS intake/runtime pattern.
 ```
-

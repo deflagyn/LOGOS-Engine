@@ -156,11 +156,15 @@ Body:
 }
 ```
 
-If workflow status polling is not implemented in MVP, record:
+Current status lookup behavior:
 
 ```text
-validator_status: dispatched
+polling_mode: single_lookup_after_45s
+validator_status: success | failure | cancelled | skipped | in_progress
+validator_run_url: GitHub Actions run URL when found
 ```
+
+If the run is still in progress after the lookup window, downstream nodes must treat validation as not proven yet.
 
 Safety:
 

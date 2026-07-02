@@ -15,7 +15,7 @@ active: false
 Purpose:
 
 ```text
-Dispatch the GitHub Action workflow validate-catalog.yml for deflagyn/LOGOS-Engine on main.
+Dispatch the GitHub Action workflow validate-catalog.yml for deflagyn/LOGOS-Engine on main and perform a status lookup before responding.
 ```
 
 This workflow does not write pilot artifacts.
@@ -30,8 +30,10 @@ It is a gate between n8n writeback and downstream trust.
 01 Controlled Validator Dispatch Webhook
 02 Validate Dispatch Request
 03 Dispatch Validate LOGOS Catalog
-04 Build Dispatch Response
-05 Respond Validator Dispatch JSON
+04 Wait For Validator Run
+05 Lookup Validator Runs
+06 Build Validator Status Response
+07 Respond Validator Status JSON
 ```
 
 ---
@@ -98,6 +100,7 @@ Do not hardcode a token in workflow JSON.
 created: true
 active: false
 controlled_dispatch_tested: true
+status_lookup_tested: true
 ```
 
 Creation evidence:
@@ -112,6 +115,12 @@ Controlled test evidence:
 automation/n8n/pilot-0001/writeback/validator-dispatch-gate-test-2026-07-02.md
 ```
 
+Polling test evidence:
+
+```text
+automation/n8n/pilot-0001/writeback/validator-dispatch-gate-polling-test-2026-07-02.md
+```
+
 ---
 
 ## Operation Protocol
@@ -122,7 +131,7 @@ For a controlled test:
 1. Confirm no other LOGOS writeback workflow is running.
 2. Activate only this workflow if webhook execution is required.
 3. POST the required confirmation payload.
-4. Verify GitHub Action run creation.
+4. Wait for the gate response with validator_run_status and validator_run_conclusion.
 5. Deactivate the workflow immediately after the controlled test.
 6. Record run URL and result in issue #27.
 ```
@@ -135,12 +144,30 @@ Do not enable learning or law review from this gate.
 
 ## Known Limit
 
-This workflow dispatches the validator successfully but does not yet poll the GitHub Action result.
+This workflow performs a single GitHub Actions lookup after dispatch.
 
-Until polling is implemented, the response should be treated as:
+Current polling mode:
 
 ```text
-validator_status: dispatched
+single_lookup_after_45s
 ```
 
-The final pass/fail result must still be read from GitHub Actions.
+If the validator run completes within the lookup window, the response includes:
+
+```text
+validator_status: success | failure | cancelled | skipped
+validator_run_url
+validator_run_conclusion
+```
+
+If the validator run is still running, the response may still be:
+
+```text
+validator_status: in_progress
+```
+
+Future improvement:
+
+```text
+Replace single lookup with bounded polling until completion, timeout or failure.
+```

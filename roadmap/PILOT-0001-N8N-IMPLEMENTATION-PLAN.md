@@ -482,14 +482,18 @@ LOGOS PILOT-0001 Validator Dispatch Gate
 id: oWQbN9u1VI4AS6rq
 controlled dispatch test: passed
 GitHub Action run: 28595297447
+status lookup test: passed
+polling mode: single_lookup_after_45s
+polling test run: 28595880528
 ```
 
 Acceptance criteria:
 
 ```text
 n8n can dispatch the GitHub Action.
-If polling is implemented, n8n records final status.
-If polling is not implemented yet, n8n records validator_status: dispatched.
+Current gate performs a single status lookup after dispatch.
+If the run completes within the lookup window, n8n records final status.
+If the run is still active, n8n records validator_status: in_progress and downstream execution remains blocked.
 Failure stops downstream execution.
 ```
 
