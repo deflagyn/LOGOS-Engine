@@ -57,6 +57,21 @@ def run_response_intake(repo: Path, input_path: Path) -> subprocess.CompletedPro
     )
 
 
+def run_pilot_status(repo: Path) -> dict[str, object]:
+    script = repo / "scripts" / "pilot_0001_status.py"
+    result = subprocess.run(
+        [sys.executable, str(script), "--json"],
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise AssertionError(result.stderr)
+    return json.loads(result.stdout)
+
+
 class Pilot0001GovernanceTests(unittest.TestCase):
     def test_learning_requires_three_real_responses(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
@@ -164,6 +179,34 @@ class Pilot0001GovernanceTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("simulated responses must not be written", result.stderr)
         self.assertEqual(response_files, [])
+
+    def test_pilot_status_reports_waiting_for_responses(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            status = run_pilot_status(repo)
+
+        self.assertEqual(status["response_count"], 0)
+        self.assertEqual(status["manifest_response_count"], 0)
+        self.assertFalse(status["learning_allowed"])
+        self.assertTrue(status["validation_passed"])
+        self.assertEqual(status["next_action"], "collect_real_responses")
+
+    def test_pilot_status_allows_learning_after_three_valid_responses(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "pilot-0001-response-input.json.example"
+
+            for _ in range(3):
+                result = run_response_intake(repo, fixture)
+                self.assertEqual(result.returncode, 0, result.stderr)
+
+            status = run_pilot_status(repo)
+
+        self.assertEqual(status["response_count"], 3)
+        self.assertEqual(status["manifest_response_count"], 3)
+        self.assertTrue(status["learning_allowed"])
+        self.assertTrue(status["validation_passed"])
+        self.assertEqual(status["next_action"], "draft_learning_candidate_from_real_responses")
 
 
 if __name__ == "__main__":

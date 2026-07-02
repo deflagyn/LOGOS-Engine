@@ -36,6 +36,8 @@ test_declared_path_reference_must_exist
 test_response_intake_creates_real_response_and_updates_manifest
 test_response_intake_rejects_personal_data_not_removed
 test_response_intake_rejects_simulated_response
+test_pilot_status_reports_waiting_for_responses
+test_pilot_status_allows_learning_after_three_valid_responses
 ```
 
 ---
@@ -43,7 +45,7 @@ test_response_intake_rejects_simulated_response
 ## Local Result
 
 ```text
-Ran 5 tests
+Ran 7 tests
 OK
 ```
 

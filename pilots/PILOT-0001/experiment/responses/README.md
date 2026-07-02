@@ -53,3 +53,20 @@ Dry run:
 python scripts\create_pilot_response.py --input testing/fixtures/pilot-0001-response-input.json.example --dry-run
 ```
 
+---
+
+## Check Readiness
+
+Use:
+
+```text
+python scripts\pilot_0001_status.py
+```
+
+Expected before real responses:
+
+```text
+response_count: 0
+learning_allowed: false
+next_action: collect_real_responses
+```

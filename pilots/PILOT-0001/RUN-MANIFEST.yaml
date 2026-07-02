@@ -97,6 +97,9 @@ artifacts:
   - path: scripts/create_pilot_response.py
     artifact_type: response_intake_tool
     status: ready_for_real_response_input
+  - path: scripts/pilot_0001_status.py
+    artifact_type: pilot_status_tool
+    status: ready
   - path: testing/fixtures/pilot-0001-response-input.json.example
     artifact_type: response_intake_fixture
     status: dry_run_example_only
@@ -113,6 +116,9 @@ artifacts:
     artifact_type: automated_test
     status: passed_locally
   - path: testing/reports/PILOT-0001-GOVERNANCE-UNIT-TESTS.md
+    artifact_type: validation_report
+    status: passed
+  - path: testing/reports/PILOT-0001-STATUS-READINESS-DRYRUN.md
     artifact_type: validation_report
     status: passed
 
