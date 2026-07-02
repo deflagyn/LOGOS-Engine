@@ -109,6 +109,32 @@ def run_wf_0001_issue_validation(
     )
 
 
+def run_wf_0001_promotion_validation(
+    repo: Path,
+    input_path: Path,
+    title: str,
+    review_attestation: str,
+) -> subprocess.CompletedProcess[str]:
+    script = repo / "scripts" / "validate_wf_0001_promotion_readiness.py"
+    return subprocess.run(
+        [
+            sys.executable,
+            str(script),
+            "--input",
+            str(input_path),
+            "--title",
+            title,
+            "--review-attestation",
+            review_attestation,
+        ],
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+
 def run_pilot_status(repo: Path) -> dict[str, object]:
     script = repo / "scripts" / "pilot_0001_status.py"
     result = subprocess.run(
@@ -206,6 +232,53 @@ class Pilot0001GovernanceTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("Scope must be universal or runtime", result.stderr)
+
+    def test_wf_0001_promotion_rejects_placeholder_issue_29(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0001-issue-29.md"
+
+            result = run_wf_0001_promotion_validation(
+                repo,
+                fixture,
+                title="HT-0000: Intake must preserve raw observations before interpretation",
+                review_attestation="REVIEWED_WF_0001_HUMAN_TRUTH_FOR_YAML_PROMOTION",
+            )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("HT-0000 placeholder cannot be promoted to YAML", result.stderr)
+
+    def test_wf_0001_promotion_requires_review_attestation(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0001-issue-reviewed-stable.md"
+
+            result = run_wf_0001_promotion_validation(
+                repo,
+                fixture,
+                title="HT-0100: Intake must preserve raw observations before interpretation",
+                review_attestation="MISSING_REVIEW",
+            )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("review_attestation must equal", result.stderr)
+
+    def test_wf_0001_promotion_allows_reviewed_stable_issue(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0001-issue-reviewed-stable.md"
+
+            result = run_wf_0001_promotion_validation(
+                repo,
+                fixture,
+                title="HT-0100: Intake must preserve raw observations before interpretation",
+                review_attestation="REVIEWED_WF_0001_HUMAN_TRUTH_FOR_YAML_PROMOTION",
+            )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("WF-0001 issue passed YAML promotion-readiness validation.", result.stdout)
+        self.assertIn("logos_id: HT-0100", result.stdout)
+        self.assertIn("writeback_performed: false", result.stdout)
 
     def test_response_input_fixture_matches_schema(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:

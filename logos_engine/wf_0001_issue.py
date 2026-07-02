@@ -29,6 +29,9 @@ ALLOWED_STATUS = {
 
 ALLOWED_SCOPE = {"universal", "runtime"}
 LOGOS_ID_PATTERN = re.compile(r"^HT-(?:0000|[0-9]{4,})$")
+STABLE_HT_ID_PATTERN = re.compile(r"^HT-[0-9]{4,}$")
+PROMOTION_REVIEW_ATTESTATION = "REVIEWED_WF_0001_HUMAN_TRUTH_FOR_YAML_PROMOTION"
+PROMOTABLE_STATUS = {"candidate", "draft", "testing", "validated"}
 
 
 @dataclass(frozen=True)
@@ -108,3 +111,42 @@ def validate_wf_0001_issue_body(body: str, title: str | None = None) -> Wf0001Is
 
     return issue
 
+
+def validate_wf_0001_promotion_readiness(
+    body: str,
+    *,
+    title: str | None = None,
+    review_attestation: str | None = None,
+) -> Wf0001Issue:
+    """Validate that a WF-0001 issue can enter a future YAML promotion gate."""
+
+    issue = validate_wf_0001_issue_body(body, title=title)
+    errors: list[str] = []
+
+    if review_attestation != PROMOTION_REVIEW_ATTESTATION:
+        errors.append(
+            "review_attestation must equal "
+            f"{PROMOTION_REVIEW_ATTESTATION}"
+        )
+
+    if not STABLE_HT_ID_PATTERN.match(issue.logos_id):
+        errors.append("LOGOS ID must be a stable HT-#### identifier before YAML promotion")
+
+    if issue.logos_id == "HT-0000":
+        errors.append("HT-0000 placeholder cannot be promoted to YAML")
+
+    if issue.status not in PROMOTABLE_STATUS:
+        errors.append(
+            "Status must be promotable before YAML promotion: "
+            + ", ".join(sorted(PROMOTABLE_STATUS))
+        )
+
+    if title is not None and not title.startswith(f"{issue.logos_id}:"):
+        errors.append("Issue title must start with the stable LOGOS ID before promotion")
+
+    if errors:
+        raise ValueError(
+            "WF-0001 promotion readiness validation failed: " + "; ".join(errors)
+        )
+
+    return issue

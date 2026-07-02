@@ -136,6 +136,7 @@ Test evidence:
 automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-schema-parity-test-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-issue-review-readiness-2026-07-02.md
+automation/n8n/wf-0001/writeback/idea-intake-promotion-readiness-2026-07-02.md
 ```
 
 ---
@@ -164,3 +165,11 @@ Review-readiness of created issues can be checked locally with:
 ```text
 python scripts\validate_wf_0001_issue.py --input testing\fixtures\wf-0001-issue-29.md --title "HT-0000: Intake must preserve raw observations before interpretation"
 ```
+
+Future YAML promotion readiness can be checked locally with:
+
+```text
+python scripts\validate_wf_0001_promotion_readiness.py --input testing\fixtures\wf-0001-issue-reviewed-stable.md --title "HT-0100: Intake must preserve raw observations before interpretation" --review-attestation REVIEWED_WF_0001_HUMAN_TRUTH_FOR_YAML_PROMOTION
+```
+
+Issue #29 currently remains blocked from promotion because it uses the `HT-0000` placeholder.
