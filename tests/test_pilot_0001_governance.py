@@ -44,6 +44,11 @@ def load_wf_0001_input(repo: Path) -> dict[str, object]:
     return json.loads(fixture.read_text(encoding="utf-8"))
 
 
+def load_wf_0002_input(repo: Path) -> dict[str, object]:
+    fixture = repo / "testing" / "fixtures" / "wf-0002-belief-movement-input.json.example"
+    return json.loads(fixture.read_text(encoding="utf-8"))
+
+
 def write_response_input(repo: Path, data: dict[str, object]) -> Path:
     input_path = repo / "testing" / "fixtures" / "tmp-response-input.json"
     input_path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
@@ -52,6 +57,12 @@ def write_response_input(repo: Path, data: dict[str, object]) -> Path:
 
 def write_wf_0001_input(repo: Path, data: dict[str, object]) -> Path:
     input_path = repo / "testing" / "fixtures" / "tmp-wf-0001-input.json"
+    input_path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    return input_path
+
+
+def write_wf_0002_input(repo: Path, data: dict[str, object]) -> Path:
+    input_path = repo / "testing" / "fixtures" / "tmp-wf-0002-input.json"
     input_path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
     return input_path
 
@@ -82,6 +93,18 @@ def run_response_schema_validation(repo: Path, input_path: Path) -> subprocess.C
 
 def run_wf_0001_schema_validation(repo: Path, input_path: Path) -> subprocess.CompletedProcess[str]:
     script = repo / "scripts" / "validate_wf_0001_idea_intake.py"
+    return subprocess.run(
+        [sys.executable, str(script), "--input", str(input_path)],
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+
+def run_wf_0002_schema_validation(repo: Path, input_path: Path) -> subprocess.CompletedProcess[str]:
+    script = repo / "scripts" / "validate_wf_0002_belief_movement_input.py"
     return subprocess.run(
         [sys.executable, str(script), "--input", str(input_path)],
         cwd=repo,
@@ -199,6 +222,41 @@ class Pilot0001GovernanceTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("scope", result.stderr)
+
+    def test_wf_0002_belief_movement_input_fixture_matches_schema(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0002-belief-movement-input.json.example"
+
+            result = run_wf_0002_schema_validation(repo, fixture)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("WF-0002 belief movement input schema passed.", result.stdout)
+        self.assertIn("writeback_performed: false", result.stdout)
+
+    def test_wf_0002_belief_movement_input_rejects_placeholder_human_truth(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            data = load_wf_0002_input(repo)
+            data["source_human_truth_id"] = "HT-0000"
+            input_path = write_wf_0002_input(repo, data)
+
+            result = run_wf_0002_schema_validation(repo, input_path)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("source_human_truth_id", result.stderr)
+
+    def test_wf_0002_belief_movement_input_rejects_extra_fields(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            data = load_wf_0002_input(repo)
+            data["unexpected_generation_output"] = "not allowed"
+            input_path = write_wf_0002_input(repo, data)
+
+            result = run_wf_0002_schema_validation(repo, input_path)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("unexpected_generation_output", result.stderr)
 
     def test_wf_0001_issue_fixture_is_review_ready(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:

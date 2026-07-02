@@ -53,3 +53,18 @@ Evidence:
 automation/n8n/wf-0001/IDEA-INTAKE-ISSUE-GATE.md
 automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
 ```
+
+---
+
+## Implemented Repository Contracts
+
+```text
+WF-0002 Belief Movement Input Contract
+```
+
+Evidence:
+
+```text
+automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md
+automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
+```

@@ -38,6 +38,30 @@ Create GitHub issue
 Return issue URL
 ```
 
+Current repository input contract:
+
+```text
+schemas/wf-0002-belief-movement-input.schema.yaml
+testing/fixtures/wf-0002-belief-movement-input.json.example
+scripts/validate_wf_0002_belief_movement_input.py
+```
+
+Evidence:
+
+```text
+automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md
+automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
+```
+
+Current boundary:
+
+```text
+This contract validates input only.
+It does not create a Belief Shift issue.
+It does not create YAML objects.
+HT-0000 placeholder Human Truth IDs are rejected.
+```
+
 ---
 
 ## Manual Dry Run

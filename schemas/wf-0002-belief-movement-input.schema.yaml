@@ -1,0 +1,52 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: WF-0002 Belief Movement Input
+version: 0.1
+
+type: object
+additionalProperties: false
+required:
+  - confirm_movement_input
+  - source_human_truth_id
+  - source_human_truth
+  - audience_context
+  - language
+  - scope
+properties:
+  confirm_movement_input:
+    const: PREVIEW_WF_0002_BELIEF_MOVEMENT_INPUT
+  source_human_truth_id:
+    type: string
+    pattern: "^HT-(?!0000$)[0-9]{4,}$"
+    description: "Stable Human Truth ID. HT-0000 placeholders are not allowed."
+  source_issue_number:
+    type: integer
+    minimum: 1
+  source_issue_url:
+    type: string
+    pattern: "^https://github\\.com/deflagyn/LOGOS-Engine/issues/[0-9]+$"
+  source_human_truth:
+    type: string
+    minLength: 1
+  audience_context:
+    type: string
+    minLength: 1
+  language:
+    enum:
+      - en
+      - ru
+      - uk
+      - mixed
+  scope:
+    enum:
+      - universal
+      - runtime
+  optional_constraints:
+    type: string
+  draft_before_frame:
+    type: string
+  draft_after_frame:
+    type: string
+  draft_meaning_atom:
+    type: string
+  test_plan:
+    type: string
