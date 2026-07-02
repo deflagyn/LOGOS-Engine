@@ -7,6 +7,7 @@ source_issue_url: "https://github.com/deflagyn/LOGOS-Engine/issues/27"
 started_at: "2026-07-02"
 completed_through_stage: experiment_plan_candidate
 prepared_through_stage: experiment_manual_protocol
+evidence_gate_status: active
 source_of_truth: github_repository
 n8n_role: controlled_execution_layer
 no_vps_reboot_performed: true
@@ -90,6 +91,12 @@ artifacts:
     artifact_type: experiment_response_template
     object_id: RESPONSE-PILOT-0001-0000
     status: blank_template
+  - path: pilots/PILOT-0001/experiment/responses/README.md
+    artifact_type: response_collection_folder
+    status: waiting_for_real_responses
+  - path: testing/reports/PILOT-0001-EVIDENCE-GATE-DRYRUN.md
+    artifact_type: validation_report
+    status: passed
 
 evidence_commits:
   - sha: 7b8d712
@@ -129,3 +136,7 @@ current_boundary:
     - learning
     - law_review
     - law_promotion
+  validator_gate:
+    min_real_responses_for_learning: 3
+    blocks_learning_without_responses: true
+    blocks_law_review_without_responses: true

@@ -87,6 +87,13 @@ PILOT_0001_EXPECTED_FILES = {
     Path("pilots/PILOT-0001/output/experiment-plan.yaml"): ["id", "type", "status", "pilot_id"],
 }
 
+PILOT_0001_RESPONSE_DIR = Path("pilots/PILOT-0001/experiment/responses")
+PILOT_0001_LEARNING_PATHS = [
+    Path("pilots/PILOT-0001/output/learning.md"),
+    Path("pilots/PILOT-0001/output/law-review.md"),
+]
+PILOT_0001_MIN_RESPONSES_FOR_LEARNING = 3
+
 
 def is_excluded(path: Path) -> bool:
     return any(part in EXCLUDED_DIRS for part in path.parts)
@@ -356,6 +363,176 @@ def check_pilot_artifacts(root: Path) -> list[ValidationIssue]:
     return issues
 
 
+def iter_pilot_0001_response_files(root: Path) -> list[Path]:
+    response_dir = root / PILOT_0001_RESPONSE_DIR
+    if not response_dir.exists():
+        return []
+    return sorted(
+        path
+        for path in response_dir.glob("*.yaml")
+        if path.is_file() and not path.name.endswith(".example.yaml")
+    )
+
+
+def check_pilot_0001_evidence_gate(root: Path) -> list[ValidationIssue]:
+    issues: list[ValidationIssue] = []
+    response_files = iter_pilot_0001_response_files(root)
+    real_response_count = 0
+
+    for path in response_files:
+        relative_path = rel(root, path)
+        data, error = load_yaml_file(path)
+        if error:
+            continue
+        if not isinstance(data, dict):
+            issues.append(
+                ValidationIssue(
+                    severity="ERROR",
+                    path=relative_path,
+                    message="PILOT-0001 response must be a YAML object",
+                )
+            )
+            continue
+
+        required_fields = [
+            "id",
+            "type",
+            "status",
+            "pilot_id",
+            "experiment_id",
+            "personal_data_removed",
+        ]
+        for field in required_fields:
+            if field not in data or data.get(field) in (None, ""):
+                issues.append(
+                    ValidationIssue(
+                        severity="ERROR",
+                        path=relative_path,
+                        message=f"PILOT-0001 response missing required field: {field}",
+                    )
+                )
+
+        if data.get("type") != "experiment_response":
+            issues.append(
+                ValidationIssue(
+                    severity="ERROR",
+                    path=relative_path,
+                    message="PILOT-0001 response type must be experiment_response",
+                )
+            )
+        if data.get("pilot_id") != "PILOT-0001":
+            issues.append(
+                ValidationIssue(
+                    severity="ERROR",
+                    path=relative_path,
+                    message="PILOT-0001 response must reference pilot_id PILOT-0001",
+                )
+            )
+        if data.get("experiment_id") != "EXP-PILOT-0001":
+            issues.append(
+                ValidationIssue(
+                    severity="ERROR",
+                    path=relative_path,
+                    message="PILOT-0001 response must reference EXP-PILOT-0001",
+                )
+            )
+        if data.get("status") == "blank_template":
+            issues.append(
+                ValidationIssue(
+                    severity="ERROR",
+                    path=relative_path,
+                    message="blank response template must not be stored as a real response",
+                )
+            )
+        if data.get("personal_data_removed") is not True:
+            issues.append(
+                ValidationIssue(
+                    severity="ERROR",
+                    path=relative_path,
+                    message="PILOT-0001 response must set personal_data_removed: true",
+                )
+            )
+
+        evidence_boundary = data.get("evidence_boundary", {})
+        if isinstance(evidence_boundary, dict):
+            for field in [
+                "creates_learning",
+                "creates_law_candidate",
+                "creates_logos_law",
+                "law_promotion_allowed",
+            ]:
+                if evidence_boundary.get(field) is True:
+                    issues.append(
+                        ValidationIssue(
+                            severity="ERROR",
+                            path=relative_path,
+                            message=(
+                                "PILOT-0001 response evidence_boundary must not "
+                                f"set {field}: true"
+                            ),
+                        )
+                    )
+
+        if not issues or all(issue.path != relative_path for issue in issues):
+            real_response_count += 1
+
+    for relative_path in PILOT_0001_LEARNING_PATHS:
+        if (root / relative_path).exists() and (
+            real_response_count < PILOT_0001_MIN_RESPONSES_FOR_LEARNING
+        ):
+            issues.append(
+                ValidationIssue(
+                    severity="ERROR",
+                    path=str(relative_path),
+                    message=(
+                        "PILOT-0001 learning/law artifact requires at least "
+                        f"{PILOT_0001_MIN_RESPONSES_FOR_LEARNING} real responses; "
+                        f"found {real_response_count}"
+                    ),
+                )
+            )
+
+    manifest_path = root / "pilots/PILOT-0001/RUN-MANIFEST.yaml"
+    if manifest_path.exists():
+        manifest, error = load_yaml_file(manifest_path)
+        if not error and isinstance(manifest, dict):
+            boundary = manifest.get("current_boundary", {})
+            if isinstance(boundary, dict):
+                declared_response_count = boundary.get("real_response_count")
+                if declared_response_count != real_response_count:
+                    issues.append(
+                        ValidationIssue(
+                            severity="ERROR",
+                            path=rel(root, manifest_path),
+                            message=(
+                                "RUN-MANIFEST real_response_count must match "
+                                f"response files; declared {declared_response_count}, "
+                                f"found {real_response_count}"
+                            ),
+                        )
+                    )
+                if real_response_count < PILOT_0001_MIN_RESPONSES_FOR_LEARNING:
+                    for field in [
+                        "learning_created",
+                        "law_candidate_created",
+                        "logos_law_created",
+                    ]:
+                        if boundary.get(field) is True:
+                            issues.append(
+                                ValidationIssue(
+                                    severity="ERROR",
+                                    path=rel(root, manifest_path),
+                                    message=(
+                                        f"RUN-MANIFEST {field} cannot be true "
+                                        f"before {PILOT_0001_MIN_RESPONSES_FOR_LEARNING} "
+                                        "real responses exist"
+                                    ),
+                                )
+                            )
+
+    return issues
+
+
 def check_workflow_docs(root: Path) -> list[ValidationIssue]:
     issues: list[ValidationIssue] = []
     workflow_dir = root / "automation" / "workflows"
@@ -407,6 +584,7 @@ def validate_repository(root: Path) -> list[ValidationIssue]:
     issues.extend(check_object_files(root, registry))
     issues.extend(check_reference_integrity(root, registry))
     issues.extend(check_pilot_artifacts(root))
+    issues.extend(check_pilot_0001_evidence_gate(root))
     issues.extend(check_workflow_docs(root))
     issues.extend(check_test_first_docs(root))
     return issues
