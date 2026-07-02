@@ -149,6 +149,7 @@ Content must include:
 
 ```yaml
 id: RM-PILOT-0001
+type: raw_meaning
 pilot_id: PILOT-0001
 source_issue: 27
 raw_text: |
@@ -196,14 +197,27 @@ Prompt:
 Use PROMPTS.md / P02_LOGOS_OBJECTS
 ```
 
-Output paths:
+Validator-facing output paths:
 
 ```text
 pilots/PILOT-0001/output/human-truth.yaml
 pilots/PILOT-0001/output/human-contradiction.yaml
 pilots/PILOT-0001/output/belief-shift.yaml
 pilots/PILOT-0001/output/meaning-atoms.yaml
+pilots/PILOT-0001/output/story-pattern.yaml
+```
+
+Optional human-readable output path:
+
+```text
 pilots/PILOT-0001/output/story-pattern.md
+```
+
+Rule:
+
+```text
+story-pattern.yaml is the required object artifact.
+story-pattern.md is optional explanatory text only.
 ```
 
 ---
