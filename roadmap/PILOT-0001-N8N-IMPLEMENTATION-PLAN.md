@@ -543,6 +543,17 @@ validator run URL: https://github.com/deflagyn/LOGOS-Engine/actions/runs/2861172
 issue comment URL: https://github.com/deflagyn/LOGOS-Engine/issues/27#issuecomment-4869170239
 ```
 
+Current response-intake preview note:
+
+```text
+An inactive dedicated response intake preview workflow now exists:
+LOGOS PILOT-0001 Response Intake Preview Gate
+id: b3wLpAMf6JKd0j92
+valid preview test: passed
+simulated response rejection test: passed
+writeback_performed: false
+```
+
 ---
 
 ### Phase 7 - Response Collection Gate

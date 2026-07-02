@@ -52,6 +52,20 @@ See:
 automation/n8n/pilot-0001/VALIDATOR-COMMENT-CHAIN.md
 ```
 
+Dedicated response intake preview workflow:
+
+```text
+name: LOGOS PILOT-0001 Response Intake Preview Gate
+id: b3wLpAMf6JKd0j92
+active: false
+```
+
+See:
+
+```text
+automation/n8n/pilot-0001/RESPONSE-INTAKE-PREVIEW-GATE.md
+```
+
 ---
 
 ## Node 01 — Manual Trigger

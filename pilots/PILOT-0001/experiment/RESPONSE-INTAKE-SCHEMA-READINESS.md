@@ -24,6 +24,12 @@ Validator:
 scripts/validate_pilot_response_input.py
 ```
 
+n8n preview gate:
+
+```text
+automation/n8n/pilot-0001/RESPONSE-INTAKE-PREVIEW-GATE.md
+```
+
 Shared helper:
 
 ```text
@@ -85,6 +91,15 @@ learning_allowed: false
 next_action: collect_real_responses
 ```
 
+n8n preview gate evidence:
+
+```text
+valid preview test: passed
+simulated response rejection test: passed
+writeback_performed: false
+creates_response_file: false
+```
+
 ---
 
 ## Boundary
@@ -94,4 +109,3 @@ No response file was created from the fixture.
 No simulated response was committed as evidence.
 
 No learning or law artifact is allowed until at least three real response YAML files exist and validation passes.
-

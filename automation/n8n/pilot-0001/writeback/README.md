@@ -165,6 +165,45 @@ No VPS reboot or service restart was performed.
 
 ---
 
+## Response Intake Preview Gate
+
+Report:
+
+```text
+automation/n8n/pilot-0001/writeback/response-intake-preview-gate-test-2026-07-02.md
+```
+
+Controlled n8n workflow:
+
+```text
+name: LOGOS PILOT-0001 Response Intake Preview Gate
+id: b3wLpAMf6JKd0j92
+active: false
+```
+
+Result:
+
+```text
+workflow created inactive
+node_count: 3
+valid preview test completed
+simulated response rejection test completed
+writeback_performed: false
+creates_response_file: false
+```
+
+Safety:
+
+```text
+Workflow was briefly activated for controlled preview only.
+Workflow was deactivated immediately after controlled tests.
+No response YAML was written.
+No artifact writeback happened.
+No VPS reboot or service restart was performed.
+```
+
+---
+
 ## Raw Meaning Writeback
 
 Controlled n8n workflow:

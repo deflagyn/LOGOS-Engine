@@ -42,6 +42,7 @@ REQUIRED_ARTIFACTS = [
     "pilots/PILOT-0001/experiment/response-template.yaml",
     "schemas/pilot-response-input.schema.yaml",
     "scripts/validate_pilot_response_input.py",
+    "automation/n8n/pilot-0001/RESPONSE-INTAKE-PREVIEW-GATE.md",
 ]
 
 
