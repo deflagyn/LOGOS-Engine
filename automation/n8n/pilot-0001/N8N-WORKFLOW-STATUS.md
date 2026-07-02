@@ -2,7 +2,7 @@
 
 Date: 2026-07-02
 
-Status: skeleton created in n8n
+Status: Layer 1 wired in n8n
 
 ---
 
@@ -21,7 +21,7 @@ name: LOGOS PILOT-0001 System Run
 id: nFIbtlA2pYrA4MXb
 active: false
 nodes: 14
-disabled nodes: 11
+disabled nodes: 8
 ```
 
 ---
@@ -45,7 +45,7 @@ Secrets remain only in:
 
 ## Output
 
-Created an inactive n8n workflow skeleton with:
+Created an inactive n8n workflow with:
 
 ```text
 01 Manual Trigger
@@ -53,7 +53,7 @@ Created an inactive n8n workflow skeleton with:
 03 Preflight Checklist
 04 Fetch GitHub Issue #27
 05 Extract Raw Meaning
-06 Preserve Raw Meaning File
+06 Build Raw Meaning YAML Preview
 07 Generate Meaning Edges
 08 Generate LOGOS Objects
 09 Generate Runtime Draft
@@ -64,7 +64,9 @@ Created an inactive n8n workflow skeleton with:
 14 Comment Result On Issue #27
 ```
 
-Nodes 04-14 are disabled placeholders.
+Nodes 04-06 are enabled read-only / preview-only Layer 1 nodes.
+
+Nodes 07-14 remain disabled placeholders.
 
 ---
 
@@ -77,6 +79,7 @@ No writeback node is enabled.
 No LLM node is enabled.
 No webhook or Telegram trigger is active.
 No VPS reboot or service restart was performed.
+Workflow remains inactive.
 ```
 
 ---
@@ -95,11 +98,15 @@ Observed:
 status: 200
 active: false
 nodes: 14
-disabled_nodes: 11
+disabled_nodes: 8
 first nodes:
   - 01 Manual Trigger
   - 02 Config
   - 03 Preflight Checklist
+Layer 1 nodes:
+  - 04 Fetch GitHub Issue #27
+  - 05 Extract Raw Meaning
+  - 06 Build Raw Meaning YAML Preview
 last node:
   - 14 Comment Result On Issue #27
 ```
@@ -111,6 +118,7 @@ last node:
 ```text
 Workflow created through n8n API.
 Workflow was verified through n8n API.
+Layer 1 read-only nodes were wired through n8n API.
 The workflow has not been executed for GitHub writes.
 ```
 
@@ -119,8 +127,7 @@ The workflow has not been executed for GitHub writes.
 ## Known Limits
 
 ```text
-This is a skeleton, not the full runtime.
-GitHub issue fetch is not wired yet.
+This is a Layer 1 workflow, not the full runtime.
 Raw meaning writeback is not enabled yet.
 LLM nodes are not wired yet.
 Validator dispatch is not wired yet.
@@ -130,15 +137,14 @@ Validator dispatch is not wired yet.
 
 ## Next Step
 
-Implement Layer 1:
+Review Layer 1 preview output through manual execution:
 
 ```text
 Manual Trigger
 -> Config
 -> Fetch GitHub Issue #27
 -> Extract Raw Meaning
--> Build raw-meaning.yaml
+-> Build raw-meaning.yaml preview
 ```
 
 Keep GitHub writeback disabled until the raw meaning artifact is inspected.
-
