@@ -10,6 +10,20 @@ id: nFIbtlA2pYrA4MXb
 active: false
 ```
 
+Dedicated validator workflow:
+
+```text
+name: LOGOS PILOT-0001 Validator Dispatch Gate
+id: oWQbN9u1VI4AS6rq
+active: false
+```
+
+See:
+
+```text
+automation/n8n/pilot-0001/VALIDATOR-DISPATCH-GATE.md
+```
+
 ---
 
 ## Node 01 — Manual Trigger
@@ -452,10 +466,19 @@ Future purpose:
 Trigger GitHub Action: Validate LOGOS Catalog
 ```
 
+Current implementation:
+
+```text
+Dedicated inactive workflow exists:
+LOGOS PILOT-0001 Validator Dispatch Gate
+id: oWQbN9u1VI4AS6rq
+```
+
 Status:
 
 ```text
 disabled
+implemented as separate controlled gate
 ```
 
 ---

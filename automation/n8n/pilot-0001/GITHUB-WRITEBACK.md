@@ -134,6 +134,14 @@ Next fix:
 
 ## Validator Dispatch
 
+Dedicated n8n workflow:
+
+```text
+name: LOGOS PILOT-0001 Validator Dispatch Gate
+id: oWQbN9u1VI4AS6rq
+active: false
+```
+
 Preferred API call:
 
 ```text
@@ -152,6 +160,15 @@ If workflow status polling is not implemented in MVP, record:
 
 ```text
 validator_status: dispatched
+```
+
+Safety:
+
+```text
+The dispatch gate requires explicit confirm_dispatch input.
+It allows only deflagyn/LOGOS-Engine, validate-catalog.yml and ref main.
+It must not write pilot artifacts.
+It must not enable learning or law review.
 ```
 
 ---

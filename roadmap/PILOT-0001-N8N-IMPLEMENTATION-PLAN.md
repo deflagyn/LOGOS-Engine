@@ -474,6 +474,14 @@ pass/fail status
 next action
 ```
 
+Current implementation note:
+
+```text
+An inactive dedicated validator dispatch workflow now exists:
+LOGOS PILOT-0001 Validator Dispatch Gate
+id: oWQbN9u1VI4AS6rq
+```
+
 Acceptance criteria:
 
 ```text
@@ -736,4 +744,3 @@ Perform n8n read-only inventory and compare the live workflow state against auto
 ```
 
 The next implementation step should be observation before mutation.
-
