@@ -2,7 +2,7 @@
 
 Owner issue: #17
 
-Status: first workflow error addressed, rerun pending
+Status: second workflow error addressed, rerun pending
 
 ---
 
@@ -99,10 +99,45 @@ Fix commit:
 
 ---
 
+## Second Workflow Error
+
+The validator reported invalid YAML:
+
+```text
+.github/ISSUE_TEMPLATE/human-truth.yaml
+mapping values are not allowed here
+line 14, column 27
+```
+
+Cause:
+
+```text
+Unquoted value with colon: Example: HT-0001
+```
+
+---
+
+## Second Fix Applied
+
+Quoted the description value in `human-truth.yaml`:
+
+```text
+description: "Example: HT-0001"
+```
+
+Fix commit:
+
+```text
+51ed49776d1f14b365e14dea2fdc103a1c3abb76
+```
+
+---
+
 ## Current Result
 
 ```text
 Install configuration fixed.
+Human Truth issue template YAML fixed.
 Workflow rerun pending.
 ```
 
