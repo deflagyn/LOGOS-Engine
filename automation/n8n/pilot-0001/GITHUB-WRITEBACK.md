@@ -47,6 +47,21 @@ For every file path:
 
 ---
 
+## Object Artifact Rule
+
+Validator-facing LOGOS objects must be YAML.
+
+Markdown is allowed only for human-readable drafts or commentary.
+
+For PILOT-0001 this means:
+
+```text
+story-pattern.yaml = required object artifact
+story-pattern.md = optional human-readable draft
+```
+
+---
+
 ## Required Paths
 
 ```text
@@ -56,13 +71,23 @@ pilots/PILOT-0001/output/human-truth.yaml
 pilots/PILOT-0001/output/human-contradiction.yaml
 pilots/PILOT-0001/output/belief-shift.yaml
 pilots/PILOT-0001/output/meaning-atoms.yaml
-pilots/PILOT-0001/output/story-pattern.md
+pilots/PILOT-0001/output/story-pattern.yaml
 pilots/PILOT-0001/output/script-draft.md
 pilots/PILOT-0001/output/experiment-plan.yaml
 pilots/PILOT-0001/output/learning.md
 pilots/PILOT-0001/output/law-review.md
 pilots/PILOT-0001/RUN-LOG.md
 ```
+
+---
+
+## Optional Human-Readable Paths
+
+```text
+pilots/PILOT-0001/output/story-pattern.md
+```
+
+This optional Markdown file may explain the story pattern for humans, but it is not the validator-facing object.
 
 ---
 
