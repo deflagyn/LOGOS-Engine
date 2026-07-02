@@ -143,6 +143,7 @@ Safety:
 ```text
 The issue comment gate requires explicit confirm_comment input.
 It allows only issue #27.
+It supports validator_result comments from validator gate output.
 It must not write pilot artifacts.
 It must not enable learning or law review.
 ```

@@ -94,6 +94,7 @@ Report:
 
 ```text
 automation/n8n/pilot-0001/writeback/issue-comment-gate-test-2026-07-02.md
+automation/n8n/pilot-0001/writeback/issue-comment-gate-validator-result-test-2026-07-02.md
 ```
 
 Controlled n8n workflow:
@@ -111,6 +112,8 @@ workflow created inactive
 node_count: 5
 controlled comment test completed
 comment_url: https://github.com/deflagyn/LOGOS-Engine/issues/27#issuecomment-4869044282
+validator_result contract test completed
+validator_result comment_url: https://github.com/deflagyn/LOGOS-Engine/issues/27#issuecomment-4869101911
 ```
 
 Safety:

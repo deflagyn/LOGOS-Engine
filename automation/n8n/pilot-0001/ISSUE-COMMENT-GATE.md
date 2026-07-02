@@ -55,6 +55,18 @@ controlled_test
 validator_result
 ```
 
+For `validator_result`, the payload should include:
+
+```text
+validator_status
+validator_run_id
+validator_run_url
+validator_run_status
+validator_run_conclusion
+polling_mode
+selected_attempt
+```
+
 Hard-coded limits:
 
 ```text
@@ -97,12 +109,14 @@ Do not hardcode a token in workflow JSON.
 created: true
 active: false
 controlled_comment_tested: true
+validator_result_tested: true
 ```
 
 Creation and test evidence:
 
 ```text
 automation/n8n/pilot-0001/writeback/issue-comment-gate-test-2026-07-02.md
+automation/n8n/pilot-0001/writeback/issue-comment-gate-validator-result-test-2026-07-02.md
 ```
 
 ---
@@ -123,4 +137,3 @@ For a controlled comment:
 Do not use this gate to create learning or law review.
 
 Do not use this gate to write pilot artifacts.
-
