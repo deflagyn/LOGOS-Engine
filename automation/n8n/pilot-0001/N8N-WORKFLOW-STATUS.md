@@ -2,7 +2,7 @@
 
 Date: 2026-07-02
 
-Status: raw meaning, meaning edges, LOGOS objects and runtime draft written by controlled n8n workflows
+Status: raw meaning, meaning edges, LOGOS objects, runtime draft and experiment plan written by controlled n8n workflows
 
 ---
 
@@ -179,11 +179,26 @@ active after run: false
 commit_sha: 159ccc24f7b4ff071c8031d60bd816cb1eeae9bb
 ```
 
+Experiment plan writeback completed:
+
+```text
+pilots/PILOT-0001/output/experiment-plan.yaml
+```
+
+Controlled experiment plan workflow:
+
+```text
+name: LOGOS PILOT-0001 Experiment Plan Writeback
+id: idsqmy1mYrkh0gZn
+active after run: false
+commit_sha: c8e5146d3a2dbf96762a0bc34a0d9da0be03b170
+```
+
 Next step:
 
 ```text
-Review script-draft.md
--> only after review, generate experiment-plan.yaml as candidate
+Create RUN-MANIFEST.yaml
+-> then stop before learning/law unless real experiment evidence exists
 ```
 
 Keep learning, law review and full writeback disabled.

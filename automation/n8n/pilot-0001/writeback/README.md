@@ -202,3 +202,54 @@ First activation attempt failed before execution because n8n needed corrected co
 Second execution reached the workflow but failed before writeback because script-draft.md did not exist and the GET-existing node returned 404.
 The first successful run skipped GET-existing and created script-draft.md only.
 ```
+
+---
+
+## Experiment Plan Writeback
+
+Controlled n8n workflow:
+
+```text
+name: LOGOS PILOT-0001 Experiment Plan Writeback
+id: idsqmy1mYrkh0gZn
+active after run: false
+```
+
+Target:
+
+```text
+pilots/PILOT-0001/output/experiment-plan.yaml
+```
+
+Result:
+
+```text
+status: experiment_plan_writeback_completed
+writeback_scope: experiment_plan_only
+commit_sha: c8e5146d3a2dbf96762a0bc34a0d9da0be03b170
+content_sha: 7977b5375562dc63b1f359811850cdd717b3da8b
+```
+
+Validation checks:
+
+```text
+id: EXP-PILOT-0001
+type: experiment
+status: candidate
+source_raw_meaning_id: RM-PILOT-0001
+belief_shift_id: BS-PILOT-0001
+meaning_atom_id: MA-PILOT-0001
+story_pattern_id: SP-PILOT-0001
+review_required: true
+law_promotion_allowed: false
+```
+
+Safety:
+
+```text
+Only experiment-plan.yaml was written.
+No learning artifact was created.
+No law review artifact was created.
+No VPS reboot or service restart was performed.
+Workflow inactive after the controlled run.
+```

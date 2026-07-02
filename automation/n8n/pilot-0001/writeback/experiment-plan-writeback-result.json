@@ -1,0 +1,17 @@
+{
+  "workflow_id": "idsqmy1mYrkh0gZn",
+  "workflow_name": "LOGOS PILOT-0001 Experiment Plan Writeback",
+  "pilot_id": "PILOT-0001",
+  "writeback_scope": "experiment_plan_only",
+  "target_path": "pilots/PILOT-0001/output/experiment-plan.yaml",
+  "commit_sha": "c8e5146d3a2dbf96762a0bc34a0d9da0be03b170",
+  "content_sha": "7977b5375562dc63b1f359811850cdd717b3da8b",
+  "source_ids": [
+    "RM-PILOT-0001",
+    "BS-PILOT-0001",
+    "MA-PILOT-0001",
+    "SP-PILOT-0001"
+  ],
+  "status": "experiment_plan_writeback_completed",
+  "law_promotion_allowed": false
+}
