@@ -97,13 +97,19 @@ Do not hardcode a token in workflow JSON.
 ```text
 created: true
 active: false
-executed_by_codex: false
+controlled_dispatch_tested: true
 ```
 
 Creation evidence:
 
 ```text
 automation/n8n/pilot-0001/writeback/validator-dispatch-gate-created-2026-07-02.md
+```
+
+Controlled test evidence:
+
+```text
+automation/n8n/pilot-0001/writeback/validator-dispatch-gate-test-2026-07-02.md
 ```
 
 ---
@@ -129,7 +135,7 @@ Do not enable learning or law review from this gate.
 
 ## Known Limit
 
-This workflow dispatches the validator but does not yet poll the GitHub Action result.
+This workflow dispatches the validator successfully but does not yet poll the GitHub Action result.
 
 Until polling is implemented, the response should be treated as:
 
@@ -138,4 +144,3 @@ validator_status: dispatched
 ```
 
 The final pass/fail result must still be read from GitHub Actions.
-

@@ -480,6 +480,8 @@ Current implementation note:
 An inactive dedicated validator dispatch workflow now exists:
 LOGOS PILOT-0001 Validator Dispatch Gate
 id: oWQbN9u1VI4AS6rq
+controlled dispatch test: passed
+GitHub Action run: 28595297447
 ```
 
 Acceptance criteria:

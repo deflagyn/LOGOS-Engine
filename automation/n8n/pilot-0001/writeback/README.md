@@ -26,10 +26,16 @@ No workflow execution, activation, VPS reboot or service restart was performed.
 
 ## Validator Dispatch Gate
 
-Report:
+Creation report:
 
 ```text
 automation/n8n/pilot-0001/writeback/validator-dispatch-gate-created-2026-07-02.md
+```
+
+Controlled test report:
+
+```text
+automation/n8n/pilot-0001/writeback/validator-dispatch-gate-test-2026-07-02.md
 ```
 
 Controlled n8n workflow:
@@ -46,14 +52,17 @@ Result:
 workflow created inactive
 node_count: 5
 dispatch target: validate-catalog.yml on main
+controlled dispatch test completed
+GitHub Action run: 28595297447
+GitHub Action result: success
 ```
 
 Safety:
 
 ```text
-Workflow was not activated.
-Workflow was not executed.
-No GitHub Action was dispatched by this n8n workflow yet.
+Workflow was briefly activated for controlled dispatch only.
+Workflow was deactivated immediately after dispatch.
+Final workflow state: active=false.
 No artifact writeback happened.
 No VPS reboot or service restart was performed.
 ```
