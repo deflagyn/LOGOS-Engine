@@ -54,3 +54,36 @@ layer_1_status
 
 4. Approve Node 12 only if the preview preserves the raw meaning exactly.
 
+---
+
+## Live Preview Evidence
+
+Live preview captured:
+
+```text
+layer1-live-preview.json
+```
+
+Source workflow:
+
+```text
+name: LOGOS PILOT-0001 Layer 1 Preview Trigger
+id: AHsnijaOOPm8HaJl
+```
+
+Result:
+
+```text
+layer_1_status = raw_meaning_yaml_preview_built
+target_path = pilots/PILOT-0001/input/raw-meaning.yaml
+writeback_enabled = false
+raw_text_source = raw_meaning_block
+```
+
+Comparison:
+
+```text
+live raw_text equals raw-meaning.expected.yaml raw_text
+```
+
+The temporary controlled workflow was deactivated after the preview call.

@@ -2,7 +2,7 @@
 
 Date: 2026-07-02
 
-Status: Layer 1 wired, execution boundary identified
+Status: Layer 1 preview executed through temporary controlled trigger
 
 ---
 
@@ -61,6 +61,37 @@ Result:
 
 ```text
 Cannot run the workflow through public API key alone.
+```
+
+### Temporary Controlled Webhook Preview
+
+Workflow:
+
+```text
+name: LOGOS PILOT-0001 Layer 1 Preview Trigger
+id: AHsnijaOOPm8HaJl
+```
+
+Behavior:
+
+```text
+Webhook -> read-only GitHub issue #27 fetch -> raw meaning extraction -> raw-meaning.yaml preview -> JSON response
+```
+
+Result:
+
+```text
+HTTP 200
+layer_1_status = raw_meaning_yaml_preview_built
+target_path = pilots/PILOT-0001/input/raw-meaning.yaml
+writeback_enabled = false
+raw_text_source = raw_meaning_block
+```
+
+Post-run state:
+
+```text
+workflow active = false
 ```
 
 ### Internal REST Endpoint
@@ -142,6 +173,8 @@ Workflow remains active=false.
 Nodes 07-14 remain disabled except Node 12 was renamed as pending writeback and remains disabled.
 No pilot files were written to GitHub.
 Expected Node 06 output is recorded in automation/n8n/pilot-0001/previews/raw-meaning.expected.yaml.
+Live preview output is recorded in automation/n8n/pilot-0001/previews/layer1-live-preview.json.
+Live preview raw_text matches the expected preview raw_text.
 ```
 
 ---
@@ -151,8 +184,8 @@ Expected Node 06 output is recorded in automation/n8n/pilot-0001/previews/raw-me
 Options for the next step:
 
 ```text
-1. Use authenticated n8n UI to run Layer 1 manually.
-2. Add a temporary controlled webhook trigger only after approval.
-3. Provide n8n browser/session access to allow Codex to run manual execution.
-4. After preview review, configure GitHub write credential in n8n and enable only raw-meaning.yaml writeback.
+1. Configure GitHub write credential in n8n.
+2. Enable only raw-meaning.yaml writeback.
+3. Write pilots/PILOT-0001/input/raw-meaning.yaml.
+4. Dispatch validator and comment result on issue #27.
 ```

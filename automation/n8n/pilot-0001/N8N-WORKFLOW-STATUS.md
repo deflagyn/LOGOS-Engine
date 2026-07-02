@@ -156,14 +156,16 @@ Layer 1 manual execution needs n8n UI/session access or a later controlled trigg
 
 ## Next Step
 
-Review Layer 1 preview output through manual n8n UI execution or a controlled trigger:
+Layer 1 preview was executed through a temporary controlled trigger and matched the expected raw text.
+
+Next step:
 
 ```text
-Manual Trigger
--> Config
--> Fetch GitHub Issue #27
--> Extract Raw Meaning
--> Build raw-meaning.yaml preview
+Configure GitHub write credential in n8n
+-> enable only raw-meaning.yaml writeback
+-> write pilots/PILOT-0001/input/raw-meaning.yaml
+-> dispatch validator
+-> comment evidence on issue #27
 ```
 
-Keep GitHub writeback disabled until the raw meaning artifact is inspected.
+Keep LLM and full artifact writeback disabled.

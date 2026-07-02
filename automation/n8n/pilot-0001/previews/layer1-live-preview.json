@@ -1,0 +1,11 @@
+{
+  "workflow_id": "AHsnijaOOPm8HaJl",
+  "workflow_name": "LOGOS PILOT-0001 Layer 1 Preview Trigger",
+  "trigger_status": 200,
+  "layer_1_status": "raw_meaning_yaml_preview_built",
+  "target_path": "pilots/PILOT-0001/input/raw-meaning.yaml",
+  "writeback_enabled": false,
+  "raw_text_source": "raw_meaning_block",
+  "raw_text": "Если мужчина получает от женщины безопасное пространство он там начинает отдыхать, привязываться и как следствие появляется больше ресурсов у него для захвата более новых территорий с новыми ресурсами которыми он делится со своей женщиной.",
+  "raw_meaning_yaml": "id: RM-PILOT-0001\ntype: raw_meaning\npilot_id: PILOT-0001\nsource_issue: 27\nsource_issue_url: \"https://github.com/deflagyn/LOGOS-Engine/issues/27\"\nraw_text: |\n  Если мужчина получает от женщины безопасное пространство он там начинает отдыхать, привязываться и как следствие появляется больше ресурсов у него для захвата более новых территорий с новыми ресурсами которыми он делится со своей женщиной.\npreserve_author_voice: true\nsource_must_remain: true\naxiom: AX-021\nwriteback_status: preview_only"
+}
