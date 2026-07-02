@@ -520,6 +520,16 @@ Future automation path:
 Add a generic validation gate reusable across all LOGOS workflows.
 ```
 
+Current issue-comment implementation note:
+
+```text
+An inactive dedicated issue comment workflow now exists:
+LOGOS PILOT-0001 Issue Comment Gate
+id: UwkfEOmygkX4BBe5
+controlled comment test: passed
+comment URL: https://github.com/deflagyn/LOGOS-Engine/issues/27#issuecomment-4869044282
+```
+
 ---
 
 ### Phase 7 - Response Collection Gate

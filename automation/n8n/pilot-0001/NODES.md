@@ -24,6 +24,20 @@ See:
 automation/n8n/pilot-0001/VALIDATOR-DISPATCH-GATE.md
 ```
 
+Dedicated issue comment workflow:
+
+```text
+name: LOGOS PILOT-0001 Issue Comment Gate
+id: UwkfEOmygkX4BBe5
+active: false
+```
+
+See:
+
+```text
+automation/n8n/pilot-0001/ISSUE-COMMENT-GATE.md
+```
+
 ---
 
 ## Node 01 — Manual Trigger
@@ -510,4 +524,5 @@ Status:
 
 ```text
 disabled
+implemented as separate controlled gate
 ```

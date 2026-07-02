@@ -88,6 +88,43 @@ No VPS reboot or service restart was performed.
 
 ---
 
+## Issue Comment Gate
+
+Report:
+
+```text
+automation/n8n/pilot-0001/writeback/issue-comment-gate-test-2026-07-02.md
+```
+
+Controlled n8n workflow:
+
+```text
+name: LOGOS PILOT-0001 Issue Comment Gate
+id: UwkfEOmygkX4BBe5
+active: false
+```
+
+Result:
+
+```text
+workflow created inactive
+node_count: 5
+controlled comment test completed
+comment_url: https://github.com/deflagyn/LOGOS-Engine/issues/27#issuecomment-4869044282
+```
+
+Safety:
+
+```text
+Workflow was briefly activated for controlled comment only.
+Workflow was deactivated immediately after comment.
+Final workflow state: active=false.
+No artifact writeback happened.
+No VPS reboot or service restart was performed.
+```
+
+---
+
 ## Raw Meaning Writeback
 
 Controlled n8n workflow:

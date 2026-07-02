@@ -109,6 +109,14 @@ PILOT-0001 update run log
 
 ## Issue Comment
 
+Dedicated n8n workflow:
+
+```text
+name: LOGOS PILOT-0001 Issue Comment Gate
+id: UwkfEOmygkX4BBe5
+active: false
+```
+
 After execution, comment on issue #27:
 
 ```text
@@ -128,6 +136,15 @@ Failed node:
 Error:
 Files created before failure:
 Next fix:
+```
+
+Safety:
+
+```text
+The issue comment gate requires explicit confirm_comment input.
+It allows only issue #27.
+It must not write pilot artifacts.
+It must not enable learning or law review.
 ```
 
 ---
