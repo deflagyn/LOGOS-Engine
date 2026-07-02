@@ -6,6 +6,7 @@ Related:
 
 ```text
 pilots/PILOT-0001/experiment/RESPONDENT-PACKET.md
+pilots/PILOT-0001/experiment/RESPONDENT-HANDOUT.md
 pilots/PILOT-0001/experiment/response-template.yaml
 scripts/create_pilot_response.py
 scripts/pilot_0001_status.py
@@ -21,8 +22,8 @@ Collect real qualitative responses without creating fake evidence, personal-data
 
 ## Collection Flow
 
-1. Give the respondent `RESPONDENT-PACKET.md`.
-2. Ask them to read only the `Draft Script` section from `script-draft.md`.
+1. Give the respondent `RESPONDENT-HANDOUT.md`.
+2. Ask them to read the draft scene once without explanation.
 3. Record answers to the four questions.
 4. Remove personal contact data.
 5. Convert the cleaned response to JSON.
@@ -140,4 +141,3 @@ LOGOS Law
 ```
 
 until the status command says learning is allowed.
-

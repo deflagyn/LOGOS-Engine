@@ -90,6 +90,9 @@ artifacts:
   - path: pilots/PILOT-0001/experiment/RESPONDENT-PACKET.md
     artifact_type: respondent_packet
     status: ready_for_real_respondent_use
+  - path: pilots/PILOT-0001/experiment/RESPONDENT-HANDOUT.md
+    artifact_type: respondent_handout
+    status: ready_for_real_respondent_use
   - path: pilots/PILOT-0001/experiment/COLLECTOR-GUIDE.md
     artifact_type: collector_guide
     status: ready_for_real_response_collection

@@ -191,6 +191,30 @@ class Pilot0001GovernanceTests(unittest.TestCase):
         self.assertTrue(status["validation_passed"])
         self.assertEqual(status["next_action"], "collect_real_responses")
 
+    def test_respondent_handout_does_not_expose_internal_traceability(self) -> None:
+        handout = (
+            ROOT / "pilots" / "PILOT-0001" / "experiment" / "RESPONDENT-HANDOUT.md"
+        ).read_text(encoding="utf-8")
+
+        forbidden_fragments = [
+            "RM-PILOT-0001",
+            "ME-PILOT-0001",
+            "HT-PILOT-0001",
+            "HC-PILOT-0001",
+            "BS-PILOT-0001",
+            "MA-PILOT-0001",
+            "SP-PILOT-0001",
+            "## Source Objects",
+            "## Belief Movement",
+            "## What Was Preserved",
+            "## What Was Changed",
+        ]
+        for fragment in forbidden_fragments:
+            self.assertNotIn(fragment, handout)
+
+        self.assertIn("## Draft Scene", handout)
+        self.assertIn("## Questions", handout)
+
     def test_pilot_status_allows_learning_after_three_valid_responses(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
             repo = copy_repo_to_temp(Path(raw_temp_dir))

@@ -16,17 +16,17 @@ Do not include personal contact information in your answers.
 
 ---
 
-## Draft Scene
+## Use This Handout
 
-Source:
+Give the respondent:
 
 ```text
-pilots/PILOT-0001/output/script-draft.md
+pilots/PILOT-0001/experiment/RESPONDENT-HANDOUT.md
 ```
 
-Use only the `Draft Script` section for the first read.
+The handout contains only the respondent-facing scene and questions.
 
-Do not read the source-object notes before answering.
+Do not give the respondent source-object notes, traceability IDs or LOGOS internal sections before they answer.
 
 ---
 
@@ -81,4 +81,3 @@ safety as manipulation
 ```
 
 Negative readings are useful evidence.
-

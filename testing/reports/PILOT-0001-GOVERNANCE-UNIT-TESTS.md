@@ -37,6 +37,7 @@ test_response_intake_creates_real_response_and_updates_manifest
 test_response_intake_rejects_personal_data_not_removed
 test_response_intake_rejects_simulated_response
 test_pilot_status_reports_waiting_for_responses
+test_respondent_handout_does_not_expose_internal_traceability
 test_pilot_status_allows_learning_after_three_valid_responses
 ```
 
@@ -45,7 +46,7 @@ test_pilot_status_allows_learning_after_three_valid_responses
 ## Local Result
 
 ```text
-Ran 7 tests
+Ran 8 tests
 OK
 ```
 
