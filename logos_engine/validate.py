@@ -49,6 +49,9 @@ REFERENCE_FIELD_NAMES = {
     "source_ids",
     "source_experiment",
     "source_learning",
+    "source_path",
+    "source_script_path",
+    "review_source_path",
     "source_raw_meaning_id",
     "human_truth_id",
     "human_contradiction_id",
@@ -65,6 +68,7 @@ REFERENCE_FIELD_NAMES = {
     "connected_objects",
     "references",
     "story_patterns",
+    "path",
 }
 
 PILOT_0001_EXPECTED_FILES = {
@@ -273,17 +277,6 @@ def check_reference_integrity(
                 child_path = f"{field_path}.{key}" if field_path else str(key)
                 if key in REFERENCE_FIELD_NAMES:
                     for reference in iter_reference_values(value):
-                        for object_id in LOGOS_ID_RE.findall(reference):
-                            if object_id not in registry:
-                                add_issue(
-                                    relative_path,
-                                    child_path,
-                                    (
-                                        f"broken reference {object_id} in {child_path}; "
-                                        "no matching LOGOS object id found"
-                                    ),
-                                )
-
                         if looks_like_path(reference):
                             candidate = (root / reference).resolve()
                             try:
@@ -300,6 +293,18 @@ def check_reference_integrity(
                                     relative_path,
                                     child_path,
                                     f"reference path does not exist: {reference}",
+                                )
+                            continue
+
+                        for object_id in LOGOS_ID_RE.findall(reference):
+                            if object_id not in registry:
+                                add_issue(
+                                    relative_path,
+                                    child_path,
+                                    (
+                                        f"broken reference {object_id} in {child_path}; "
+                                        "no matching LOGOS object id found"
+                                    ),
                                 )
                 walk(value, relative_path, child_path)
         elif isinstance(data, list):

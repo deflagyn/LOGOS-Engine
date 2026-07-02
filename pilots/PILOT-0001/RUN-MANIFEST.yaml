@@ -106,6 +106,9 @@ artifacts:
   - path: testing/reports/PILOT-0001-EVIDENCE-GATE-DRYRUN.md
     artifact_type: validation_report
     status: passed
+  - path: testing/manual/TEST-FOUNDATION-I.md
+    artifact_type: manual_test
+    status: updated_with_path_reference_check
 
 evidence_commits:
   - sha: 7b8d712

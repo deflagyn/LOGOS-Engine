@@ -80,6 +80,40 @@ LOGOS validation passed.
 
 ---
 
+## Path Reference Validation Check
+
+Temporary file:
+
+```text
+testing/fixtures/reference-integrity/broken-source-path.tmp.yaml
+```
+
+Temporary content:
+
+```yaml
+id: TMP-PATH-REFERENCE-0001
+type: test_fixture
+status: invalid
+source_path: missing/path/does-not-exist.md
+```
+
+Observed result:
+
+```text
+exit_code: 1
+LOGOS validation found issues:
+[ERROR] testing/fixtures/reference-integrity/broken-source-path.tmp.yaml: reference path does not exist: missing/path/does-not-exist.md
+```
+
+Cleanup:
+
+```text
+temporary broken-source-path.tmp.yaml removed
+normal validation passed again
+```
+
+---
+
 ## Boundary
 
 The fixture is only a dry-run input.

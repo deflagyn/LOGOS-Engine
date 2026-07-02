@@ -113,6 +113,40 @@ Remove-Item testing/fixtures/reference-integrity/duplicate-id-b.yaml
 
 ---
 
+## Broken Path Reference Manual Test
+
+1. Create a temporary YAML object:
+
+```bash
+@'
+id: TMP-PATH-REFERENCE-0001
+type: test_fixture
+status: invalid
+source_path: missing/path/does-not-exist.md
+'@ | Set-Content testing/fixtures/reference-integrity/broken-source-path.tmp.yaml
+```
+
+2. Run:
+
+```bash
+python scripts/validate_catalog.py .
+```
+
+3. Expected result:
+
+```text
+LOGOS validation found issues:
+[ERROR] testing/fixtures/reference-integrity/broken-source-path.tmp.yaml: reference path does not exist: missing/path/does-not-exist.md
+```
+
+4. Remove the temporary active fixture:
+
+```bash
+Remove-Item testing/fixtures/reference-integrity/broken-source-path.tmp.yaml
+```
+
+---
+
 ## PILOT-0001 Compatibility
 
 PILOT-0001 files are optional until n8n creates them.
@@ -132,4 +166,3 @@ Acceptance criteria:
 Repository validation passes before pilot artifacts exist.
 Generated pilot artifacts must be structured before validation can pass.
 ```
-
