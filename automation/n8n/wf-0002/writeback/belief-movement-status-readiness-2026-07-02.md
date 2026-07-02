@@ -24,15 +24,17 @@ python scripts\wf_0002_status.py
 workflow_id: WF-0002
 source_human_truth_id: HT-0100
 input_fixture_valid: true
+belief_shift_issue_fixture_review_ready: true
 placeholder_rejection_enforced: true
 source_review_fixture_promotion_ready: true
 uses_live_issue_reference: false
 writeback_performed: false
 belief_shift_issue_created: false
 yaml_object_created: false
+generation_preflight_contract_created: true
 generation_gate_created: false
 validation_passed: true
-next_action: build_wf_0002_generation_preflight_gate_after_reviewed_source_selection
+next_action: create_wf_0002_generation_preflight_gate_in_n8n
 ```
 
 ---
@@ -53,6 +55,7 @@ No GitHub issue was created.
 No Belief Shift issue was created.
 No YAML object was written.
 No Meaning Atom was created.
+WF-0002 generation preflight contract exists locally.
 No generation gate exists yet.
 No VPS reboot was performed.
 No Docker, n8n, nginx, Postgres or service restart was performed.

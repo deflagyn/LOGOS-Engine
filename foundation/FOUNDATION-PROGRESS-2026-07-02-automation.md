@@ -43,20 +43,24 @@ automation/n8n/wf-0001/writeback/promotion-readiness-preflight-gate-test-2026-07
 automation/n8n/wf-0001/writeback/wf-0001-status-readiness-2026-07-02.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md
+automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-CONTRACT.md
 automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-status-readiness-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-contract-2026-07-02.md
 schemas/wf-0001-idea-intake.schema.yaml
 schemas/wf-0002-belief-movement-input.schema.yaml
 testing/fixtures/wf-0001-idea-intake.json.example
 testing/fixtures/wf-0001-issue-29.md
 testing/fixtures/wf-0001-issue-reviewed-stable.md
 testing/fixtures/wf-0002-belief-movement-input.json.example
+testing/fixtures/wf-0002-belief-shift-issue.md
 scripts/validate_wf_0001_idea_intake.py
 scripts/validate_wf_0001_issue.py
 scripts/validate_wf_0001_promotion_readiness.py
 scripts/wf_0001_status.py
 scripts/validate_wf_0002_belief_movement_input.py
+scripts/validate_wf_0002_belief_shift_issue.py
 scripts/wf_0002_status.py
 ```
 
@@ -178,7 +182,16 @@ WF-0002 status:
 python scripts\wf_0002_status.py
 validation_passed: true
 uses_live_issue_reference: false
-next_action: build_wf_0002_generation_preflight_gate_after_reviewed_source_selection
+generation_preflight_contract_created: true
+next_action: create_wf_0002_generation_preflight_gate_in_n8n
+```
+
+WF-0002 generation preflight contract:
+
+```text
+python scripts\validate_wf_0002_belief_shift_issue.py --input testing\fixtures\wf-0002-belief-shift-issue.md --title "BS-0000: Preserve before interpreting"
+writeback_performed: false
+yaml_object_created: false
 ```
 
 ---

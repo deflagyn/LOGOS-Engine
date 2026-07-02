@@ -20,6 +20,7 @@ from logos_engine.wf_0001_issue import (  # noqa: E402
     validate_wf_0001_promotion_readiness,
 )
 from logos_engine.wf_0002_belief_movement import (  # noqa: E402
+    validate_wf_0002_belief_shift_issue_body,
     validate_wf_0002_belief_movement_input,
 )
 
@@ -28,17 +29,22 @@ REQUIRED_ARTIFACTS = [
     "automation/workflows/belief-shift-generator.md",
     "automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md",
     "automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md",
+    "automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-CONTRACT.md",
     "automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md",
     "automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md",
     "automation/n8n/wf-0002/writeback/belief-movement-status-readiness-2026-07-02.md",
+    "automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-contract-2026-07-02.md",
     "schemas/wf-0002-belief-movement-input.schema.yaml",
     "testing/fixtures/wf-0002-belief-movement-input.json.example",
+    "testing/fixtures/wf-0002-belief-shift-issue.md",
     "testing/fixtures/wf-0001-issue-reviewed-stable.md",
     "scripts/validate_wf_0002_belief_movement_input.py",
+    "scripts/validate_wf_0002_belief_shift_issue.py",
     "scripts/wf_0002_status.py",
 ]
 
 SOURCE_FIXTURE_TITLE = "HT-0100: Intake must preserve raw observations before interpretation"
+BELIEF_SHIFT_ISSUE_TITLE = "BS-0000: Preserve before interpreting"
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -71,6 +77,7 @@ def build_status(root: Path) -> dict[str, Any]:
     ]
 
     input_fixture_path = root / "testing" / "fixtures" / "wf-0002-belief-movement-input.json.example"
+    issue_fixture_path = root / "testing" / "fixtures" / "wf-0002-belief-shift-issue.md"
     source_fixture_path = root / "testing" / "fixtures" / "wf-0001-issue-reviewed-stable.md"
 
     input_data = load_json(input_fixture_path)
@@ -91,6 +98,13 @@ def build_status(root: Path) -> dict[str, Any]:
         review_attestation=PROMOTION_REVIEW_ATTESTATION,
     )
 
+    issue_body = issue_fixture_path.read_text(encoding="utf-8")
+    issue_fixture_review_ready, issue_fixture_error = check(
+        validate_wf_0002_belief_shift_issue_body,
+        issue_body,
+        title=BELIEF_SHIFT_ISSUE_TITLE,
+    )
+
     fixture_has_source_issue_reference = any(
         key in input_data for key in ("source_issue_number", "source_issue_url")
     )
@@ -101,6 +115,7 @@ def build_status(root: Path) -> dict[str, Any]:
         and input_fixture_valid
         and placeholder_rejected
         and source_fixture_promotion_ready
+        and issue_fixture_review_ready
         and fixture_traceability_is_local
     )
 
@@ -108,10 +123,14 @@ def build_status(root: Path) -> dict[str, Any]:
         next_action = "restore_missing_wf_0002_artifacts"
     elif not input_fixture_valid or not placeholder_rejected:
         next_action = "fix_wf_0002_input_contract"
-    elif not source_fixture_promotion_ready or not fixture_traceability_is_local:
+    elif (
+        not source_fixture_promotion_ready
+        or not issue_fixture_review_ready
+        or not fixture_traceability_is_local
+    ):
         next_action = "fix_wf_0002_source_traceability"
     else:
-        next_action = "build_wf_0002_generation_preflight_gate_after_reviewed_source_selection"
+        next_action = "create_wf_0002_generation_preflight_gate_in_n8n"
 
     return {
         "workflow_id": "WF-0002",
@@ -130,6 +149,8 @@ def build_status(root: Path) -> dict[str, Any]:
         },
         "input_fixture_valid": input_fixture_valid,
         "input_fixture_error": input_fixture_error,
+        "belief_shift_issue_fixture_review_ready": issue_fixture_review_ready,
+        "belief_shift_issue_fixture_error": issue_fixture_error,
         "placeholder_rejection_enforced": placeholder_rejected,
         "placeholder_rejection_error": placeholder_rejection_error,
         "missing_required_artifacts": missing_artifacts,
@@ -137,6 +158,7 @@ def build_status(root: Path) -> dict[str, Any]:
         "belief_shift_issue_created": False,
         "yaml_object_created": False,
         "meaning_atom_created": False,
+        "generation_preflight_contract_created": True,
         "generation_gate_created": False,
         "validation_passed": validation_passed,
         "next_action": next_action,
@@ -149,18 +171,22 @@ def render_text(status: dict[str, Any]) -> str:
         f"workflow_id: {status['workflow_id']}",
         f"source_human_truth_id: {source['human_truth_id']}",
         f"input_fixture_valid: {str(status['input_fixture_valid']).lower()}",
+        f"belief_shift_issue_fixture_review_ready: {str(status['belief_shift_issue_fixture_review_ready']).lower()}",
         f"placeholder_rejection_enforced: {str(status['placeholder_rejection_enforced']).lower()}",
         f"source_review_fixture_promotion_ready: {str(source['review_fixture_promotion_ready']).lower()}",
         f"uses_live_issue_reference: {str(source['uses_live_issue_reference']).lower()}",
         f"writeback_performed: {str(status['writeback_performed']).lower()}",
         f"belief_shift_issue_created: {str(status['belief_shift_issue_created']).lower()}",
         f"yaml_object_created: {str(status['yaml_object_created']).lower()}",
+        f"generation_preflight_contract_created: {str(status['generation_preflight_contract_created']).lower()}",
         f"generation_gate_created: {str(status['generation_gate_created']).lower()}",
         f"validation_passed: {str(status['validation_passed']).lower()}",
         f"next_action: {status['next_action']}",
     ]
     if status["input_fixture_error"]:
         lines.append(f"input_fixture_error: {status['input_fixture_error']}")
+    if status["belief_shift_issue_fixture_error"]:
+        lines.append(f"belief_shift_issue_fixture_error: {status['belief_shift_issue_fixture_error']}")
     if status["placeholder_rejection_error"]:
         lines.append(f"placeholder_rejection_error: {status['placeholder_rejection_error']}")
     if source["review_fixture_error"]:

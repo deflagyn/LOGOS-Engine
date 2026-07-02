@@ -115,6 +115,23 @@ def run_wf_0002_schema_validation(repo: Path, input_path: Path) -> subprocess.Co
     )
 
 
+def run_wf_0002_belief_shift_issue_validation(
+    repo: Path, input_path: Path, title: str | None = None
+) -> subprocess.CompletedProcess[str]:
+    script = repo / "scripts" / "validate_wf_0002_belief_shift_issue.py"
+    command = [sys.executable, str(script), "--input", str(input_path)]
+    if title is not None:
+        command.extend(["--title", title])
+    return subprocess.run(
+        command,
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+
 def run_wf_0001_issue_validation(
     repo: Path, input_path: Path, title: str | None = None
 ) -> subprocess.CompletedProcess[str]:
@@ -281,6 +298,58 @@ class Pilot0001GovernanceTests(unittest.TestCase):
         self.assertNotIn("source_issue_number", data)
         self.assertNotIn("source_issue_url", data)
 
+    def test_wf_0002_belief_shift_issue_fixture_is_review_ready(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0002-belief-shift-issue.md"
+
+            result = run_wf_0002_belief_shift_issue_validation(
+                repo,
+                fixture,
+                title="BS-0000: Preserve before interpreting",
+            )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn(
+            "WF-0002 Belief Shift issue body passed review-readiness validation.",
+            result.stdout,
+        )
+        self.assertIn("logos_id: BS-0000", result.stdout)
+        self.assertIn("source_human_truth_id: HT-0100", result.stdout)
+        self.assertIn("yaml_object_created: false", result.stdout)
+
+    def test_wf_0002_belief_shift_issue_rejects_placeholder_source_ht(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0002-belief-shift-issue.md"
+            mutated = fixture.read_text(encoding="utf-8").replace(
+                "## Source Human Truth ID\nHT-0100\n",
+                "## Source Human Truth ID\nHT-0000\n",
+            )
+            input_path = repo / "testing" / "fixtures" / "tmp-wf-0002-belief-shift-issue.md"
+            input_path.write_text(mutated, encoding="utf-8")
+
+            result = run_wf_0002_belief_shift_issue_validation(repo, input_path)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Source Human Truth ID", result.stderr)
+
+    def test_wf_0002_belief_shift_issue_requires_no_yaml_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0002-belief-shift-issue.md"
+            mutated = fixture.read_text(encoding="utf-8").replace(
+                "- no YAML object writeback\n",
+                "",
+            )
+            input_path = repo / "testing" / "fixtures" / "tmp-wf-0002-belief-shift-issue.md"
+            input_path.write_text(mutated, encoding="utf-8")
+
+            result = run_wf_0002_belief_shift_issue_validation(repo, input_path)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("no YAML object writeback", result.stderr)
+
     def test_wf_0001_issue_fixture_is_review_ready(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
             repo = copy_repo_to_temp(Path(raw_temp_dir))
@@ -400,17 +469,19 @@ class Pilot0001GovernanceTests(unittest.TestCase):
 
         source = status["source"]
         self.assertTrue(status["input_fixture_valid"])
+        self.assertTrue(status["belief_shift_issue_fixture_review_ready"])
         self.assertTrue(status["placeholder_rejection_enforced"])
         self.assertTrue(source["review_fixture_promotion_ready"])
         self.assertFalse(source["uses_live_issue_reference"])
         self.assertFalse(status["writeback_performed"])
         self.assertFalse(status["belief_shift_issue_created"])
         self.assertFalse(status["yaml_object_created"])
+        self.assertTrue(status["generation_preflight_contract_created"])
         self.assertFalse(status["generation_gate_created"])
         self.assertTrue(status["validation_passed"])
         self.assertEqual(
             status["next_action"],
-            "build_wf_0002_generation_preflight_gate_after_reviewed_source_selection",
+            "create_wf_0002_generation_preflight_gate_in_n8n",
         )
 
     def test_response_input_fixture_matches_schema(self) -> None:
