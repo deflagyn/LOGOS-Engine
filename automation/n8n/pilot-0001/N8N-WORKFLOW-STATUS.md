@@ -2,7 +2,7 @@
 
 Date: 2026-07-02
 
-Status: raw meaning and meaning edges written by controlled n8n workflows
+Status: raw meaning, meaning edges and LOGOS objects written by controlled n8n workflows
 
 ---
 
@@ -167,12 +167,8 @@ pilots/PILOT-0001/input/raw-meaning.yaml
 Next step:
 
 ```text
-Generate LOGOS Objects candidate artifacts
--> human-truth.yaml
--> human-contradiction.yaml
--> belief-shift.yaml
--> meaning-atoms.yaml
--> story-pattern.yaml
+Generate Runtime Draft
+-> script-draft.md
 ```
 
-Keep script, experiment, learning, law review and full writeback disabled.
+Keep experiment, learning, law review and full writeback disabled.
