@@ -1,0 +1,122 @@
+id: RUN-PILOT-0001
+type: pilot_run_manifest
+status: candidate
+pilot_id: PILOT-0001
+source_issue: 27
+source_issue_url: "https://github.com/deflagyn/LOGOS-Engine/issues/27"
+started_at: "2026-07-02"
+completed_through_stage: experiment_plan_candidate
+source_of_truth: github_repository
+n8n_role: controlled_execution_layer
+no_vps_reboot_performed: true
+no_service_restart_performed: true
+law_promotion_allowed: false
+review_required: true
+
+workflows:
+  - name: "LOGOS PILOT-0001 System Run"
+    n8n_workflow_id: nFIbtlA2pYrA4MXb
+    scope: inactive_system_skeleton
+    active_after_run: false
+  - name: "LOGOS PILOT-0001 Layer 1 Preview Trigger"
+    n8n_workflow_id: AHsnijaOOPm8HaJl
+    scope: raw_meaning_preview_only
+    active_after_run: false
+  - name: "LOGOS PILOT-0001 Raw Meaning Writeback"
+    n8n_workflow_id: yosTQyMXEYP6urYn
+    scope: raw_meaning_only
+    active_after_run: false
+  - name: "LOGOS PILOT-0001 Meaning Edges Writeback"
+    n8n_workflow_id: idkqB0Z4NXdkH3ZQ
+    scope: meaning_edges_only
+    active_after_run: false
+  - name: "LOGOS PILOT-0001 LOGOS Objects Writeback"
+    n8n_workflow_id: FGniLSGgR60qsYWT
+    scope: logos_objects_only
+    active_after_run: false
+  - name: "LOGOS PILOT-0001 Runtime Draft Writeback"
+    n8n_workflow_id: cnCw7fqTaXxJkFvm
+    scope: script_draft_only
+    active_after_run: false
+  - name: "LOGOS PILOT-0001 Experiment Plan Writeback"
+    n8n_workflow_id: idsqmy1mYrkh0gZn
+    scope: experiment_plan_only
+    active_after_run: false
+
+artifacts:
+  - path: pilots/PILOT-0001/input/raw-meaning.yaml
+    artifact_type: raw_meaning
+    object_id: RM-PILOT-0001
+    writeback_commit_sha: 0d90663cc799e247c5936d4eb6b058f1fe0eb92f
+  - path: pilots/PILOT-0001/output/meaning-edges.yaml
+    artifact_type: meaning_edges
+    object_id: ME-PILOT-0001
+    writeback_commit_sha: 2438361ed68dfccd9621bef7aa138fec52cd07d3
+  - path: pilots/PILOT-0001/output/human-truth.yaml
+    artifact_type: human_truth
+    object_id: HT-PILOT-0001
+    writeback_commit_sha: 45c0703597a6420a1bf9f72789e02a8fe7ddd8a3
+  - path: pilots/PILOT-0001/output/human-contradiction.yaml
+    artifact_type: human_contradiction
+    object_id: HC-PILOT-0001
+    writeback_commit_sha: 9d3e2893357bd5b093d12e82ba842b8b5a498dde
+  - path: pilots/PILOT-0001/output/belief-shift.yaml
+    artifact_type: belief_shift
+    object_id: BS-PILOT-0001
+    writeback_commit_sha: 8e221acd61affa423ee3863d17c38be920754725
+  - path: pilots/PILOT-0001/output/meaning-atoms.yaml
+    artifact_type: meaning_atom
+    object_id: MA-PILOT-0001
+    writeback_commit_sha: 162373c10a88e565cbf6c27add42d4373f1786f7
+  - path: pilots/PILOT-0001/output/story-pattern.yaml
+    artifact_type: story_pattern
+    object_id: SP-PILOT-0001
+    writeback_commit_sha: a7611d460d8d51308f439cf0b66049ec6170d66a
+  - path: pilots/PILOT-0001/output/script-draft.md
+    artifact_type: script_draft
+    writeback_commit_sha: 159ccc24f7b4ff071c8031d60bd816cb1eeae9bb
+  - path: pilots/PILOT-0001/review/script-draft-review.md
+    artifact_type: review
+    commit_sha: 68d349d
+  - path: pilots/PILOT-0001/output/experiment-plan.yaml
+    artifact_type: experiment
+    object_id: EXP-PILOT-0001
+    writeback_commit_sha: c8e5146d3a2dbf96762a0bc34a0d9da0be03b170
+
+evidence_commits:
+  - sha: 7b8d712
+    message: "Record PILOT-0001 raw meaning writeback"
+  - sha: 90d9f8a
+    message: "Record PILOT-0001 meaning edges writeback"
+  - sha: d300f17
+    message: "Record PILOT-0001 LOGOS objects writeback"
+  - sha: 9ad6232
+    message: "Document PILOT-0001 next stage plan"
+  - sha: 5a61bdb
+    message: "Record PILOT-0001 runtime draft writeback"
+  - sha: 68d349d
+    message: "Review PILOT-0001 runtime draft"
+  - sha: 5047c44
+    message: "Record PILOT-0001 experiment plan writeback"
+
+validation:
+  local:
+    - command: "python scripts\\validate_catalog.py ."
+      result: "LOGOS validation passed."
+    - command: "python -m logos_engine.validate ."
+      result: "LOGOS validation passed."
+  github_actions:
+    latest_run_before_manifest_commit_id: 28591371123
+    latest_run_before_manifest_commit_url: "https://github.com/deflagyn/LOGOS-Engine/actions/runs/28591371123"
+    result: success
+
+current_boundary:
+  experiment_result_exists: false
+  learning_created: false
+  law_candidate_created: false
+  logos_law_created: false
+  next_allowed_step: "Run or simulate the approved experiment plan only after human review."
+  blocked_steps_without_evidence:
+    - learning
+    - law_review
+    - law_promotion
