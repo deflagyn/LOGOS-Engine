@@ -69,10 +69,12 @@ automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-CONTRACT.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-GATE.md
+automation/n8n/wf-0002/BELIEF-MOVEMENT-ISSUE-CREATION-GATE.md
 automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-status-readiness-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-contract-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-gate-test-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-issue-creation-gate-test-2026-07-02.md
 scripts/wf_0002_status.py
 ```

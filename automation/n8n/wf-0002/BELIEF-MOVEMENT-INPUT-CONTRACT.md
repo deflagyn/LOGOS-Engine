@@ -74,6 +74,7 @@ automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07
 automation/n8n/wf-0002/writeback/belief-movement-status-readiness-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-contract-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-gate-test-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-issue-creation-gate-test-2026-07-02.md
 ```
 
 Dedicated n8n preview gate:

@@ -56,11 +56,14 @@ automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-CONTRACT.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-GATE.md
+automation/n8n/wf-0002/BELIEF-MOVEMENT-ISSUE-CREATION-GATE.md
 automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-status-readiness-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-contract-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-gate-test-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-issue-creation-gate-test-2026-07-02.md
+testing/fixtures/wf-0002-issue-30.md
 ```
 
 Current boundary:
@@ -73,6 +76,8 @@ HT-0000 placeholder Human Truth IDs are rejected.
 The current fixture traces to a local reviewed-stable HT-0100 fixture, not to live issue #29.
 The generation preflight contract validates a review-facing Belief Shift issue body before any future n8n GitHub issue creation node.
 The n8n generation preflight gate is implemented and inactive.
+The n8n issue creation gate created issue #30 and is inactive.
+Issue #30 remains a review-facing BS-0000 candidate, not a YAML object.
 ```
 
 Current n8n preview gate:
@@ -89,6 +94,15 @@ Current n8n generation preflight gate:
 name: LOGOS WF-0002 Belief Movement Generation Preflight Gate
 id: uBrha0GALDy3HfSC
 active: false
+```
+
+Current n8n issue creation gate:
+
+```text
+name: LOGOS WF-0002 Belief Movement Issue Creation Gate
+id: wjiTK4Ov1nY1EndY
+active: false
+created_issue: https://github.com/deflagyn/LOGOS-Engine/issues/30
 ```
 
 ---

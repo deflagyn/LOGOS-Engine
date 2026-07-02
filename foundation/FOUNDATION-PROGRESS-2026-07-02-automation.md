@@ -45,11 +45,13 @@ automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-CONTRACT.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-GENERATION-PREFLIGHT-GATE.md
+automation/n8n/wf-0002/BELIEF-MOVEMENT-ISSUE-CREATION-GATE.md
 automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-status-readiness-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-contract-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-generation-preflight-gate-test-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-issue-creation-gate-test-2026-07-02.md
 schemas/wf-0001-idea-intake.schema.yaml
 schemas/wf-0002-belief-movement-input.schema.yaml
 testing/fixtures/wf-0001-idea-intake.json.example
@@ -57,6 +59,7 @@ testing/fixtures/wf-0001-issue-29.md
 testing/fixtures/wf-0001-issue-reviewed-stable.md
 testing/fixtures/wf-0002-belief-movement-input.json.example
 testing/fixtures/wf-0002-belief-shift-issue.md
+testing/fixtures/wf-0002-issue-30.md
 scripts/validate_wf_0001_idea_intake.py
 scripts/validate_wf_0001_issue.py
 scripts/validate_wf_0001_promotion_readiness.py
@@ -186,7 +189,10 @@ validation_passed: true
 uses_live_issue_reference: false
 generation_preflight_contract_created: true
 generation_gate_created: true
-next_action: create_wf_0002_issue_creation_gate_after_preflight_stabilizes
+issue_creation_gate_created: true
+belief_shift_issue_created: true
+yaml_object_created: false
+next_action: review_issue_30_before_yaml_promotion_gate
 ```
 
 WF-0002 generation preflight contract:
@@ -208,6 +214,19 @@ active_after_test: false
 writeback_performed: false
 github_issue_created: false
 yaml_object_created: false
+```
+
+WF-0002 issue creation n8n gate:
+
+```text
+workflow: LOGOS WF-0002 Belief Movement Issue Creation Gate
+workflow_id: wjiTK4Ov1nY1EndY
+placeholder_source_rejection_execution_id: 1111
+valid_issue_creation_execution_id: 1112
+created_issue: https://github.com/deflagyn/LOGOS-Engine/issues/30
+active_after_test: false
+writes_yaml: false
+creates_meaning_atom: false
 ```
 
 ---

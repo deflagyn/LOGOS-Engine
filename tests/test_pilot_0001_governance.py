@@ -350,6 +350,21 @@ class Pilot0001GovernanceTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("no YAML object writeback", result.stderr)
 
+    def test_wf_0002_created_issue_30_fixture_is_review_ready(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0002-issue-30.md"
+
+            result = run_wf_0002_belief_shift_issue_validation(
+                repo,
+                fixture,
+                title="BS-0000: Preserve before interpreting",
+            )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("source_human_truth_id: HT-0100", result.stdout)
+        self.assertIn("yaml_object_created: false", result.stdout)
+
     def test_wf_0001_issue_fixture_is_review_ready(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
             repo = copy_repo_to_temp(Path(raw_temp_dir))
@@ -468,20 +483,28 @@ class Pilot0001GovernanceTests(unittest.TestCase):
             status = run_wf_0002_status(repo)
 
         source = status["source"]
+        created_issue = status["created_issue"]
         self.assertTrue(status["input_fixture_valid"])
         self.assertTrue(status["belief_shift_issue_fixture_review_ready"])
+        self.assertTrue(status["created_issue_review_ready"])
         self.assertTrue(status["placeholder_rejection_enforced"])
         self.assertTrue(source["review_fixture_promotion_ready"])
         self.assertFalse(source["uses_live_issue_reference"])
-        self.assertFalse(status["writeback_performed"])
-        self.assertFalse(status["belief_shift_issue_created"])
+        self.assertTrue(status["writeback_performed"])
+        self.assertTrue(status["github_issue_writeback_performed"])
+        self.assertFalse(status["yaml_writeback_performed"])
+        self.assertTrue(status["belief_shift_issue_created"])
         self.assertFalse(status["yaml_object_created"])
         self.assertTrue(status["generation_preflight_contract_created"])
         self.assertTrue(status["generation_gate_created"])
+        self.assertTrue(status["issue_creation_gate_created"])
+        self.assertEqual(created_issue["number"], 30)
+        self.assertTrue(created_issue["review_ready"])
+        self.assertFalse(created_issue["yaml_promotion_ready"])
         self.assertTrue(status["validation_passed"])
         self.assertEqual(
             status["next_action"],
-            "create_wf_0002_issue_creation_gate_after_preflight_stabilizes",
+            "review_issue_30_before_yaml_promotion_gate",
         )
 
     def test_response_input_fixture_matches_schema(self) -> None:
