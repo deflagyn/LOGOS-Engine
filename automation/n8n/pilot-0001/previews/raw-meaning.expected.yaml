@@ -1,0 +1,14 @@
+id: RM-PILOT-0001
+type: raw_meaning
+pilot_id: PILOT-0001
+source_issue: 27
+source_issue_url: "https://github.com/deflagyn/LOGOS-Engine/issues/27"
+raw_text: |
+  Если мужчина получает от женщины безопасное пространство он там начинает отдыхать, привязываться и как следствие появляется больше ресурсов у него для захвата более новых территорий с новыми ресурсами которыми он делится со своей женщиной.
+preserve_author_voice: true
+source_must_remain: true
+axiom: AX-021
+writeback_status: expected_preview_only
+notes: >
+  This file is the reviewed expected output for n8n Node 06.
+  It is not the real PILOT-0001 GitHub writeback artifact.

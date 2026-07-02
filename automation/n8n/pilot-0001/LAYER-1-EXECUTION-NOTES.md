@@ -141,6 +141,7 @@ Do not enable Node 12 until preview is reviewed.
 Workflow remains active=false.
 Nodes 07-14 remain disabled except Node 12 was renamed as pending writeback and remains disabled.
 No pilot files were written to GitHub.
+Expected Node 06 output is recorded in automation/n8n/pilot-0001/previews/raw-meaning.expected.yaml.
 ```
 
 ---
@@ -155,4 +156,3 @@ Options for the next step:
 3. Provide n8n browser/session access to allow Codex to run manual execution.
 4. After preview review, configure GitHub write credential in n8n and enable only raw-meaning.yaml writeback.
 ```
-
