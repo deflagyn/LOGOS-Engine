@@ -55,6 +55,39 @@ Create GitHub Issue
 Return Issue URL
 ```
 
+Current implemented n8n gate:
+
+```text
+name: LOGOS WF-0001 Idea Intake Issue Gate
+id: s00B4QAhJ3MYZ1tq
+active: false
+```
+
+Current implementation boundary:
+
+```text
+Controlled webhook input
+→ validate required fields and confirmation string
+→ build Human Truth issue body
+→ create GitHub Issue
+→ return issue URL
+```
+
+Evidence:
+
+```text
+automation/n8n/wf-0001/IDEA-INTAKE-ISSUE-GATE.md
+automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
+https://github.com/deflagyn/LOGOS-Engine/issues/29
+```
+
+Limit:
+
+```text
+This first gate does not use an LLM node.
+The payload must include the Human Truth candidate and test plan.
+```
+
 ---
 
 ## Manual Dry Run
@@ -101,6 +134,12 @@ Evidence:
 
 ```text
 A test issue or dry-run file.
+```
+
+Current evidence:
+
+```text
+GitHub issue #29 was created by n8n from a controlled WF-0001 payload.
 ```
 
 Future automation:

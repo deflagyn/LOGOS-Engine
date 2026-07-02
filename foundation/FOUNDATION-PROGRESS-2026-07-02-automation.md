@@ -30,6 +30,13 @@ testing/manual/TEST-FOUNDATION-F.md
 automation/samples/DRYRUN-0001-foundation-f.md
 ```
 
+Implementation evidence added:
+
+```text
+automation/n8n/wf-0001/IDEA-INTAKE-ISSUE-GATE.md
+automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
+```
+
 ---
 
 ## Workflow Set
@@ -52,6 +59,7 @@ WF-0006 Weekly Learning Report
 - Each workflow identifies its GitHub artifact.
 - A simulated chain dry run exists.
 - The chain can move from raw idea to learning report in design form.
+- WF-0001 has a controlled n8n webhook that creates a structured GitHub Human Truth candidate issue.
 
 ---
 
@@ -69,19 +77,28 @@ Dry run sample:
 automation/samples/DRYRUN-0001-foundation-f.md
 ```
 
+n8n implementation test:
+
+```text
+workflow: LOGOS WF-0001 Idea Intake Issue Gate
+workflow_id: s00B4QAhJ3MYZ1tq
+success_execution_id: 1096
+rejection_execution_id: 1097
+created_issue: https://github.com/deflagyn/LOGOS-Engine/issues/29
+```
+
 ---
 
 ## Pending
 
-- Build real n8n workflows.
-- Connect Telegram or webhook input.
-- Connect GitHub issue creation.
-- Test one real workflow end to end.
+- Add Telegram or form intake after the controlled webhook path remains stable.
+- Add optional Human Truth drafting only behind a review gate.
+- Promote reviewed issues into YAML object files through a separate gate.
 
 ---
 
 ## Decision
 
-Group F is design-complete but implementation is pending.
+Group F is design-complete and WF-0001 now has a first controlled n8n implementation.
 
-The next technical phase should convert these designs into n8n workflows one by one.
+The next technical phase should harden WF-0001, then convert the remaining workflow designs into n8n workflows one by one.

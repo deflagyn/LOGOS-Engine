@@ -38,3 +38,18 @@ Every workflow must define:
 No workflow is considered ready until it has a manual dry run.
 
 Automation should encode a working process, not guess one.
+
+---
+
+## Implemented n8n Gates
+
+```text
+WF-0001 Idea Intake Issue Gate
+```
+
+Evidence:
+
+```text
+automation/n8n/wf-0001/IDEA-INTAKE-ISSUE-GATE.md
+automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
+```

@@ -2,7 +2,7 @@
 
 Owner issue: #16
 
-Status: draft
+Status: partially automated
 
 ---
 
@@ -80,4 +80,17 @@ Every workflow creates or updates a GitHub artifact.
 
 ## Result
 
-Design files created. Dry run evidence pending.
+Design files created.
+
+WF-0001 controlled n8n issue creation evidence exists:
+
+```text
+automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
+https://github.com/deflagyn/LOGOS-Engine/issues/29
+```
+
+Remaining manual coverage:
+
+```text
+Review issue #29 for template completeness and decide whether the issue should be promoted into a YAML object later.
+```

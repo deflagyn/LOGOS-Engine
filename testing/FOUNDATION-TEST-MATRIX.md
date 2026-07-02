@@ -99,19 +99,23 @@ Expected evidence:
 
 ## Group F — Automation Runtime Design
 
-Status: next
+Status: in progress
 
 Test:
 
 - every workflow has input, output and test plan;
 - n8n remains runtime layer;
 - GitHub remains source of truth.
+- WF-0001 can create a structured GitHub issue through n8n.
 
 Expected evidence:
 
 - issue `#16`
 - workflow design files
 - at least one dry-run workflow description
+- `automation/n8n/wf-0001/IDEA-INTAKE-ISSUE-GATE.md`
+- `automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md`
+- issue `#29`
 
 ---
 
