@@ -1,0 +1,9 @@
+id: SP-005
+type: story_pattern
+status: draft
+language: en
+scope: universal
+title: "Not a Lecture, a Thought"
+structure: "Personal observation -> quiet question -> human contradiction -> reframe -> one sentence to remember"
+use_case: "For podcast-style videos where a doctor speaks not as a lecturer, but as a thoughtful guide."
+source_path: patterns/STORY-PATTERNS.md

@@ -1,0 +1,10 @@
+id: SP-001
+type: story_pattern
+status: draft
+language: en
+scope: universal
+title: "Mirror Reframe"
+structure: "Mirror / visible routine -> hidden value -> contradiction -> reframe -> emotional resolution"
+use_case: "When the audience already accepts visible self-care but has not connected it to invisible health."
+example_meaning_atom: "True self-care does not end at the surface."
+source_path: patterns/STORY-PATTERNS.md

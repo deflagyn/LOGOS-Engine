@@ -1,0 +1,9 @@
+# Local secrets and credentials
+.secrets/
+.env
+.env.*
+!.env.example
+
+# Python runtime cache
+__pycache__/
+*.py[cod]

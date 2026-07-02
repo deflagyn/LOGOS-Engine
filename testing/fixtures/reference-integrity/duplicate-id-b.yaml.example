@@ -1,0 +1,6 @@
+id: HT-FIXTURE-DUPLICATE-0001
+type: human_truth
+status: draft
+language: en
+title: "Duplicate ID fixture B"
+human_truth: "The validator should report the second duplicate path."

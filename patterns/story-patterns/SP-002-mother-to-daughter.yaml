@@ -1,0 +1,10 @@
+id: SP-002
+type: story_pattern
+status: draft
+language: en
+scope: universal
+title: "Mother to Daughter"
+structure: "What we teach daughters -> what we forget to teach -> new tradition -> inherited care"
+use_case: "When the goal is to transform a behavior into cultural inheritance."
+example_meaning_atom: "Some forms of care should be inherited."
+source_path: patterns/STORY-PATTERNS.md

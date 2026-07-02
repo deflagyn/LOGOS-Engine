@@ -1,0 +1,10 @@
+id: SP-004
+type: story_pattern
+status: draft
+language: en
+scope: universal
+title: "Invisible Value"
+structure: "Visible value -> invisible value -> question -> realization"
+use_case: "When the goal is to elevate hidden health, trust, love or calm as more valuable than visible appearance."
+example_meaning_atom: "Not everything valuable can be seen."
+source_path: patterns/STORY-PATTERNS.md

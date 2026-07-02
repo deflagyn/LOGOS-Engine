@@ -1,0 +1,11 @@
+id: BS-FIXTURE-BROKEN-0001
+type: belief_shift
+status: draft
+language: en
+title: "Broken reference fixture"
+old_belief: "Broken references may pass unnoticed."
+new_belief: "Broken references should fail validation."
+human_truth_id: HT-DOES-NOT-EXIST
+meaning_atom_id: MA-DOES-NOT-EXIST
+references:
+  - testing/fixtures/reference-integrity/missing-file.md

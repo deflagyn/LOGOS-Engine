@@ -1,0 +1,20 @@
+id: BS-FIXTURE-0001
+type: belief_shift
+status: draft
+language: en
+scope: runtime
+title: "Reference integrity fixture"
+old_belief: "Validation only checks that files exist."
+new_belief: "Validation checks that declared references resolve."
+source_ids:
+  - HT-0001
+  - HC-0001
+meaning_atom_id: MA-0001
+story_pattern_id: SP-005
+script_id: SCRIPT-0001
+experiment_id: EXP-0001
+references:
+  - clients/deflagyn/scripts/SCRIPT-0001-care-not-surface.md
+notes: >
+  This fixture proves that declared object IDs and file paths can resolve during
+  normal validation without creating a generated pilot artifact.

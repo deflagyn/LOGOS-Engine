@@ -1,0 +1,6 @@
+id: HT-FIXTURE-DUPLICATE-0001
+type: human_truth
+status: draft
+language: en
+title: "Duplicate ID fixture A"
+human_truth: "Two LOGOS objects must not share one ID."

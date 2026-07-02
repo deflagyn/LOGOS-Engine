@@ -52,6 +52,7 @@ OBJECT_REQUIRED_FIELDS = [
 
 EXCLUDED_DIRS = {
     ".git",
+    ".secrets",
     ".venv",
     "node_modules",
     "__pycache__",

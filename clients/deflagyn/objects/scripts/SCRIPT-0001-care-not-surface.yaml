@@ -1,0 +1,18 @@
+id: SCRIPT-0001
+type: script
+status: ready_for_production
+client: deflagyn
+language: uk
+title: "Справжня турбота не закінчується на поверхні"
+format: vertical_video
+duration_seconds: 45
+source_path: clients/deflagyn/scripts/SCRIPT-0001-care-not-surface.md
+linked_objects:
+  belief_shift_id: BS-0001
+  meaning_atom_id: MA-0001
+  story_pattern_id: SP-005
+platforms:
+  - TikTok
+  - YouTube Shorts
+  - Instagram Reels
+  - Threads

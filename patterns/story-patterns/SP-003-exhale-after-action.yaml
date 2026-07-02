@@ -1,0 +1,10 @@
+id: SP-003
+type: story_pattern
+status: draft
+language: en
+scope: universal
+title: "Exhale After Action"
+structure: "Anxiety -> uncertainty -> reasonable action -> calm -> return to life"
+use_case: "When the goal is to move the audience from worry to grounded action without promising certainty."
+example_meaning_atom: "Peace begins when you know you did what was reasonable."
+source_path: patterns/STORY-PATTERNS.md
