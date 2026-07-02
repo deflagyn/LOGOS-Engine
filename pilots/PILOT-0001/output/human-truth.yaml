@@ -1,0 +1,19 @@
+id: HT-PILOT-0001
+type: human_truth
+status: candidate
+pilot_id: PILOT-0001
+source_issue: 27
+source_raw_meaning_id: RM-PILOT-0001
+trace_to_previous:
+  - RM-PILOT-0001
+  - ME-PILOT-0001
+title: "Безопасное пространство даёт отдых и притяжение, что восполняет ресурсы"
+review_required: true
+law_promotion_allowed: false
+human_truth: |-
+  Когда мужчина получает от женщины ощущение безопасного пространства, он может снизить бдительность, отдыхать и формировать привязанность — это освобождает внутренние ресурсы (энергию, внимание, мотивацию), которые затем проявляются во внешней активности и достижениях.
+derived_interpretation: |-
+  Сохранена авторская причинно-следственная цепочка из ME-PILOT-0001: SafeSpace->RestAndAttachment -> Attachment->ResourceIncrease -> ResourceIncrease->TerritorialExpansion -> TerritorialExpansion->ResourceSharingWithWoman. Образность оставлена: «территории» и «ресурсы» трактованы как метафоры для проектов, возможностей и влияния. Статус: candidate. Источник: RM-PILOT-0001, ME-PILOT-0001.
+test_note: |-
+  Требуется ревью (review_required: true). law_promotion_allowed: false. Этическая оговорка: не превращать наблюдение в оправдание манипуляции или претензий на 'вложение→власть'. Это наблюдение о динамике, а не универсальный закон.
+writeback_status: n8n_controlled_writeback
