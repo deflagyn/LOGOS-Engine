@@ -87,6 +87,12 @@ artifacts:
   - path: pilots/PILOT-0001/experiment/TEST-PROTOCOL.md
     artifact_type: experiment_protocol
     status: ready_for_manual_execution
+  - path: pilots/PILOT-0001/experiment/RESPONDENT-PACKET.md
+    artifact_type: respondent_packet
+    status: ready_for_real_respondent_use
+  - path: pilots/PILOT-0001/experiment/COLLECTOR-GUIDE.md
+    artifact_type: collector_guide
+    status: ready_for_real_response_collection
   - path: pilots/PILOT-0001/experiment/response-template.yaml
     artifact_type: experiment_response_template
     object_id: RESPONSE-PILOT-0001-0000
@@ -119,6 +125,9 @@ artifacts:
     artifact_type: validation_report
     status: passed
   - path: testing/reports/PILOT-0001-STATUS-READINESS-DRYRUN.md
+    artifact_type: validation_report
+    status: passed
+  - path: testing/reports/PILOT-0001-COLLECTION-PACKET-READINESS.md
     artifact_type: validation_report
     status: passed
 

@@ -35,6 +35,8 @@ REQUIRED_ARTIFACTS = [
     "pilots/PILOT-0001/review/script-draft-review.md",
     "pilots/PILOT-0001/output/experiment-plan.yaml",
     "pilots/PILOT-0001/experiment/TEST-PROTOCOL.md",
+    "pilots/PILOT-0001/experiment/RESPONDENT-PACKET.md",
+    "pilots/PILOT-0001/experiment/COLLECTOR-GUIDE.md",
     "pilots/PILOT-0001/experiment/response-template.yaml",
 ]
 
@@ -134,4 +136,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
