@@ -1,0 +1,18 @@
+[project]
+name = "logos-engine"
+version = "0.1.0"
+description = "Validation utilities for LOGOS Engine catalog"
+requires-python = ">=3.10"
+dependencies = [
+  "PyYAML>=6.0.1",
+  "jsonschema>=4.22.0"
+]
+
+[project.scripts]
+logos-validate = "logos_engine.validate:main"
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
