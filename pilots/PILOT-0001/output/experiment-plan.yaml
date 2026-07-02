@@ -1,0 +1,63 @@
+id: EXP-PILOT-0001
+type: experiment
+status: candidate
+pilot_id: PILOT-0001
+source_issue: 27
+source_raw_meaning_id: RM-PILOT-0001
+source_script_path: pilots/PILOT-0001/output/script-draft.md
+review_source_path: pilots/PILOT-0001/review/script-draft-review.md
+belief_shift_id: BS-PILOT-0001
+meaning_atom_id: MA-PILOT-0001
+story_pattern_id: SP-PILOT-0001
+hypothesis: |-
+  Если аудитория видит сцену безопасного пространства как добровольную поддержку, а не как сделку или обязанность, то смысловой сдвиг BS-PILOT-0001 будет воспринят как восстановление, которое может усиливать ресурсность и совместную отдачу без давления.
+test_channel: controlled_qualitative_review
+audience: |-
+  Небольшая группа респондентов, способная оценить сцену отношений на уровне смысла, добровольности, границ и эмоционального результата. Это не массовый performance-тест.
+content_under_test:
+  path: pilots/PILOT-0001/output/script-draft.md
+  artifact_type: script_draft
+  status: candidate
+success_signals:
+  - "Респонденты считывают безопасность как добровольное пространство, а не как обязанность женщины."
+  - "Респонденты считывают отдачу как добровольное разделение результата, а не как долг мужчины."
+  - "Сдвиг от постоянной борьбы к восстановлению как источнику роста распознаётся без дополнительного объяснения."
+  - "Метафора расширения воспринимается как возможности, проекты или ответственность, а не как буквальный захват."
+meaning_signals:
+  - signal: voluntary_safety
+    target: "Безопасность воспринимается как дар/условие доверия, не как инструмент контроля."
+  - signal: recovery_as_resource
+    target: "Отдых считывается как восстановление ресурса, а не слабость."
+  - signal: non_coercive_return
+    target: "Совместная отдача воспринимается как добровольная, не требуемая."
+  - signal: boundary_awareness
+    target: "Границы и согласие остаются заметными в интерпретации сцены."
+measurement_plan:
+  qualitative_questions:
+    - "Что, по вашему ощущению, изменилось у героя после безопасного пространства?"
+    - "Выглядит ли отдача в финале добровольной или обязанной? Почему?"
+    - "Есть ли в сцене ощущение давления, долга или манипуляции? Где именно?"
+    - "Как вы понимаете метафору расширения возможностей в этой сцене?"
+  scoring:
+    attention: 0-20
+    retention: 0-20
+    action: 0-20
+    meaning_signal: 0-20
+    learning_quality: 0-20
+boundary_checks:
+  - "No obligation claim."
+  - "No entitlement claim."
+  - "No law claim."
+  - "No learning claim before real experiment evidence."
+risk_notes:
+  - "Тема может быть прочитана как гендерная сделка, если добровольность будет недостаточно явной."
+  - "Метафора захвата территорий требует постоянного рефрейма в сторону возможностей и ответственности."
+  - "Сцену нельзя использовать как инструкцию по получению отдачи через создание чувства долга."
+evidence_needed:
+  - "Записи ответов респондентов."
+  - "Сводная таблица смысловых сигналов."
+  - "Отдельная фиксация негативных прочтений: долг, давление, манипуляция."
+  - "Решение ревьюера о следующей итерации."
+review_required: true
+law_promotion_allowed: false
+writeback_status: n8n_controlled_writeback
