@@ -94,6 +94,15 @@ artifacts:
   - path: pilots/PILOT-0001/experiment/responses/README.md
     artifact_type: response_collection_folder
     status: waiting_for_real_responses
+  - path: scripts/create_pilot_response.py
+    artifact_type: response_intake_tool
+    status: ready_for_real_response_input
+  - path: testing/fixtures/pilot-0001-response-input.json.example
+    artifact_type: response_intake_fixture
+    status: dry_run_example_only
+  - path: testing/reports/PILOT-0001-RESPONSE-INTAKE-DRYRUN.md
+    artifact_type: validation_report
+    status: passed
   - path: testing/reports/PILOT-0001-EVIDENCE-GATE-DRYRUN.md
     artifact_type: validation_report
     status: passed

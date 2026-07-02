@@ -109,6 +109,38 @@ evidence_boundary.law_promotion_allowed: true
 
 ---
 
+## Response Intake Script Check
+
+Dry run:
+
+```text
+python scripts\create_pilot_response.py --input testing/fixtures/pilot-0001-response-input.json.example --dry-run
+```
+
+Expected:
+
+```text
+prints RESPONSE-PILOT-0001-0001 YAML
+does not create a real response file
+does not update RUN-MANIFEST.yaml
+```
+
+Real run, only after a real respondent answer has been cleaned:
+
+```text
+python scripts\create_pilot_response.py --input path/to/real-response.json
+```
+
+Expected:
+
+```text
+creates pilots/PILOT-0001/experiment/responses/RESPONSE-PILOT-0001-000N.yaml
+updates RUN-MANIFEST.yaml current_boundary.real_response_count
+normal validation passes
+```
+
+---
+
 ## Manifest Check
 
 `RUN-MANIFEST.yaml` must keep:
@@ -140,4 +172,3 @@ temporary learning.md fails without real responses
 invalid response files fail
 manifest response count drift fails
 ```
-

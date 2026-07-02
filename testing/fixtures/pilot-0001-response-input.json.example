@@ -1,0 +1,33 @@
+{
+  "response_date": "2026-07-02",
+  "respondent_id": "R001",
+  "respondent_context": "anonymous qualitative reviewer",
+  "personal_data_removed": true,
+  "simulated_response": false,
+  "answers": {
+    "q1_changed_in_hero": "Он расслабился, перестал быть в постоянной защите и смог снова думать о проекте спокойно.",
+    "q2_return_voluntary_or_obligated": "Скорее добровольной: он сам захотел поделиться результатом, а не потому что обязан.",
+    "q3_pressure_debt_or_manipulation": "Сильного давления не видно, но важно не превратить эту сцену в ожидание благодарности.",
+    "q4_meaning_of_expansion_metaphor": "Это похоже на расширение возможностей: больше энергии, ответственности и готовности делать новое."
+  },
+  "meaning_signal_scores": {
+    "voluntary_safety": 4,
+    "recovery_as_resource": 5,
+    "non_coercive_return": 4,
+    "boundary_awareness": 4,
+    "metaphorical_expansion": 4
+  },
+  "failure_signals": {
+    "woman_owes_safety": false,
+    "man_owes_return": false,
+    "relationship_as_transaction": false,
+    "resource_sharing_as_payment": false,
+    "expansion_as_domination": false,
+    "safety_as_manipulation": false,
+    "notes": "Potential risk only if the scene is later edited toward obligation."
+  },
+  "raw_quotes": [
+    "Он как будто перестал выживать и начал возвращаться в себя."
+  ],
+  "moderator_notes": "Example input for dry-run testing only. Do not commit generated response from this fixture as real evidence."
+}

@@ -27,3 +27,29 @@ keep evidence_boundary.creates_logos_law: false
 
 Learning can be drafted only after at least three real response YAML files exist.
 
+---
+
+## Recommended Local Intake
+
+Use:
+
+```text
+python scripts\create_pilot_response.py --input response.json
+```
+
+The script:
+
+```text
+creates the next RESPONSE-PILOT-0001-000N.yaml file
+requires personal_data_removed: true
+rejects simulated_response: true
+sets all learning/law boundary flags to false
+updates RUN-MANIFEST.yaml real_response_count
+```
+
+Dry run:
+
+```text
+python scripts\create_pilot_response.py --input testing/fixtures/pilot-0001-response-input.json.example --dry-run
+```
+
