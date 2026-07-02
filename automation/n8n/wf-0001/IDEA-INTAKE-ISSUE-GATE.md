@@ -179,3 +179,9 @@ Dedicated n8n promotion preflight:
 ```text
 automation/n8n/wf-0001/PROMOTION-READINESS-PREFLIGHT-GATE.md
 ```
+
+Current readiness can be checked locally with:
+
+```text
+python scripts\wf_0001_status.py
+```

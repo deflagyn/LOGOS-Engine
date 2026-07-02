@@ -150,6 +150,21 @@ def run_pilot_status(repo: Path) -> dict[str, object]:
     return json.loads(result.stdout)
 
 
+def run_wf_0001_status(repo: Path) -> dict[str, object]:
+    script = repo / "scripts" / "wf_0001_status.py"
+    result = subprocess.run(
+        [sys.executable, str(script), "--json"],
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise AssertionError(result.stderr)
+    return json.loads(result.stdout)
+
+
 class Pilot0001GovernanceTests(unittest.TestCase):
     def test_wf_0001_idea_intake_fixture_matches_schema(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
@@ -279,6 +294,23 @@ class Pilot0001GovernanceTests(unittest.TestCase):
         self.assertIn("WF-0001 issue passed YAML promotion-readiness validation.", result.stdout)
         self.assertIn("logos_id: HT-0100", result.stdout)
         self.assertIn("writeback_performed: false", result.stdout)
+
+    def test_wf_0001_status_reports_issue_29_blocked_from_promotion(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            status = run_wf_0001_status(repo)
+
+        created_issue = status["created_issue"]
+        self.assertTrue(status["payload_fixture_valid"])
+        self.assertTrue(created_issue["review_ready"])
+        self.assertFalse(created_issue["promotion_ready"])
+        self.assertIn("HT-0000 placeholder", created_issue["promotion_block_reason"])
+        self.assertTrue(status["reviewed_stable_fixture_promotion_ready"])
+        self.assertTrue(status["validation_passed"])
+        self.assertEqual(
+            status["next_action"],
+            "assign_stable_ht_id_or_collect_next_real_idea",
+        )
 
     def test_response_input_fixture_matches_schema(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
