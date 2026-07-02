@@ -1,0 +1,46 @@
+id: RESPONSE-PILOT-0001-0000
+type: experiment_response
+status: blank_template
+pilot_id: PILOT-0001
+experiment_id: EXP-PILOT-0001
+source_script_path: pilots/PILOT-0001/output/script-draft.md
+response_date: null
+respondent_id: null
+respondent_context: null
+personal_data_removed: true
+
+answers:
+  q1_changed_in_hero: null
+  q2_return_voluntary_or_obligated: null
+  q3_pressure_debt_or_manipulation: null
+  q4_meaning_of_expansion_metaphor: null
+
+meaning_signal_scores:
+  voluntary_safety: null
+  recovery_as_resource: null
+  non_coercive_return: null
+  boundary_awareness: null
+  metaphorical_expansion: null
+
+failure_signals:
+  woman_owes_safety: false
+  man_owes_return: false
+  relationship_as_transaction: false
+  resource_sharing_as_payment: false
+  expansion_as_domination: false
+  safety_as_manipulation: false
+  notes: null
+
+raw_quotes:
+  - null
+
+moderator_notes: null
+
+evidence_boundary:
+  real_response_required: true
+  simulated_response: false
+  creates_learning: false
+  creates_law_candidate: false
+  creates_logos_law: false
+  law_promotion_allowed: false
+
