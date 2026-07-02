@@ -1,0 +1,52 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: WF-0001 Idea Intake Input
+version: 0.1
+
+type: object
+additionalProperties: false
+required:
+  - confirm_intake
+  - raw_idea
+  - source
+  - language
+  - scope
+  - human_truth_candidate
+  - test_plan
+properties:
+  confirm_intake:
+    const: CREATE_WF_0001_HUMAN_TRUTH_ISSUE
+  raw_idea:
+    type: string
+    minLength: 1
+    description: "Original idea or observation. Preserve before interpretation."
+  source:
+    type: string
+    minLength: 1
+    description: "Where the idea came from."
+  language:
+    type: string
+    minLength: 2
+    maxLength: 16
+    description: "Input language code or short language name."
+  scope:
+    enum:
+      - universal
+      - runtime
+  optional_context:
+    type: string
+  human_truth_candidate:
+    type: string
+    minLength: 1
+    description: "Candidate text supplied by a human or a reviewed upstream process."
+  meaning_resources:
+    type: string
+  test_plan:
+    type: string
+    minLength: 1
+  connected_objects:
+    type: string
+  title_suffix:
+    type: string
+    minLength: 1
+    maxLength: 120
+

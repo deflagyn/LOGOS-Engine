@@ -22,6 +22,12 @@ Purpose:
 Turn a controlled raw idea payload into a structured GitHub Human Truth candidate issue.
 ```
 
+Repository schema:
+
+```text
+schemas/wf-0001-idea-intake.schema.yaml
+```
+
 This workflow does not write YAML objects.
 
 It does not create learning or law artifacts.
@@ -80,6 +86,12 @@ It does not use an LLM node yet.
 
 This keeps the first implementation focused on intake discipline and GitHub issue creation.
 
+The local schema can be checked with:
+
+```text
+python scripts\validate_wf_0001_idea_intake.py --input testing\fixtures\wf-0001-idea-intake.json.example
+```
+
 ---
 
 ## GitHub API Call
@@ -105,6 +117,8 @@ Do not hardcode a token in workflow JSON.
 ```text
 created: true
 active: false
+repo_schema_created: true
+repo_schema_fixture_tested: true
 controlled_issue_creation_tested: true
 missing_confirm_rejection_tested: true
 ```
@@ -141,4 +155,3 @@ Do not use this gate to create YAML objects.
 Do not use this gate to create learning or law candidates.
 
 Do not add Telegram/form intake until this controlled webhook path remains stable.
-

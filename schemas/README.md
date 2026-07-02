@@ -16,6 +16,7 @@ Schemas are used to keep the catalog structured and prepare the system for futur
 - `story-pattern.schema.yaml`
 - `experiment.schema.yaml`
 - `pilot-response-input.schema.yaml` — intake JSON contract for PILOT-0001 real responses
+- `wf-0001-idea-intake.schema.yaml` — intake JSON contract for WF-0001 GitHub issue creation
 - `product-profile.schema.yaml`
 
 ---

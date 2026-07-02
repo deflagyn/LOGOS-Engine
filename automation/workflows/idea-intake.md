@@ -73,6 +73,14 @@ Controlled webhook input
 → return issue URL
 ```
 
+Repository payload contract:
+
+```text
+schemas/wf-0001-idea-intake.schema.yaml
+testing/fixtures/wf-0001-idea-intake.json.example
+scripts/validate_wf_0001_idea_intake.py
+```
+
 Evidence:
 
 ```text

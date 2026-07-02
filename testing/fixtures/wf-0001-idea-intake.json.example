@@ -1,0 +1,14 @@
+{
+  "confirm_intake": "CREATE_WF_0001_HUMAN_TRUTH_ISSUE",
+  "raw_idea": "A meaning engine needs an intake door that preserves raw observations before they are rewritten into structured belief-change objects.",
+  "source": "WF-0001 controlled n8n implementation test on 2026-07-02",
+  "language": "en",
+  "scope": "universal",
+  "optional_context": "This is a real operational candidate about LOGOS process integrity, not a runtime marketing claim.",
+  "human_truth_candidate": "People trust a meaning system more when raw observations are preserved before interpretation.",
+  "meaning_resources": "Trust, traceability, review discipline, fear of beautiful but disconnected outputs.",
+  "test_plan": "Purpose: Check whether a raw operational idea can enter LOGOS as a structured Human Truth candidate.\nInput: One controlled intake payload.\nExpected output: One GitHub Issue with LOGOS ID placeholder, source, raw observation, Human Truth candidate and test plan.\nManual test: Inspect the created issue body and verify that it contains all required template sections.\nAcceptance criteria: Issue URL exists, no YAML object is written, no learning or law artifact is created.\nEvidence: n8n execution id and GitHub issue URL.\nFuture automation: Add Telegram/form intake only after this controlled webhook path stays stable.",
+  "connected_objects": "WF-0001, Foundation F, Foundation I",
+  "title_suffix": "Intake must preserve raw observations before interpretation"
+}
+

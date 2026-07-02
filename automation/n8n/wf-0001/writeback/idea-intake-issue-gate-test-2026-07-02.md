@@ -19,6 +19,14 @@ active_after_test: false
 node_count: 5
 ```
 
+Repository contract:
+
+```text
+schemas/wf-0001-idea-intake.schema.yaml
+testing/fixtures/wf-0001-idea-intake.json.example
+scripts/validate_wf_0001_idea_intake.py
+```
+
 ---
 
 ## Activation Smoke Test
@@ -92,6 +100,29 @@ WF-0001 now has a real n8n-to-GitHub issue creation path for controlled Human Tr
 
 ---
 
+## Local Schema Test
+
+Command:
+
+```text
+python scripts\validate_wf_0001_idea_intake.py --input testing\fixtures\wf-0001-idea-intake.json.example
+```
+
+Result:
+
+```text
+WF-0001 idea intake schema passed.
+```
+
+Rejection coverage:
+
+```text
+missing confirm_intake is rejected
+unknown scope is rejected
+```
+
+---
+
 ## Rejection Test
 
 Mutation:
@@ -144,4 +175,3 @@ The payload must include the candidate text and test plan.
 The created issue still requires human review before any YAML object is promoted.
 Telegram/form intake is not connected yet.
 ```
-

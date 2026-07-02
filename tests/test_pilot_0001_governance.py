@@ -39,8 +39,19 @@ def load_response_input(repo: Path) -> dict[str, object]:
     return json.loads(fixture.read_text(encoding="utf-8"))
 
 
+def load_wf_0001_input(repo: Path) -> dict[str, object]:
+    fixture = repo / "testing" / "fixtures" / "wf-0001-idea-intake.json.example"
+    return json.loads(fixture.read_text(encoding="utf-8"))
+
+
 def write_response_input(repo: Path, data: dict[str, object]) -> Path:
     input_path = repo / "testing" / "fixtures" / "tmp-response-input.json"
+    input_path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    return input_path
+
+
+def write_wf_0001_input(repo: Path, data: dict[str, object]) -> Path:
+    input_path = repo / "testing" / "fixtures" / "tmp-wf-0001-input.json"
     input_path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
     return input_path
 
@@ -69,6 +80,18 @@ def run_response_schema_validation(repo: Path, input_path: Path) -> subprocess.C
     )
 
 
+def run_wf_0001_schema_validation(repo: Path, input_path: Path) -> subprocess.CompletedProcess[str]:
+    script = repo / "scripts" / "validate_wf_0001_idea_intake.py"
+    return subprocess.run(
+        [sys.executable, str(script), "--input", str(input_path)],
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+
 def run_pilot_status(repo: Path) -> dict[str, object]:
     script = repo / "scripts" / "pilot_0001_status.py"
     result = subprocess.run(
@@ -85,6 +108,40 @@ def run_pilot_status(repo: Path) -> dict[str, object]:
 
 
 class Pilot0001GovernanceTests(unittest.TestCase):
+    def test_wf_0001_idea_intake_fixture_matches_schema(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0001-idea-intake.json.example"
+
+            result = run_wf_0001_schema_validation(repo, fixture)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("WF-0001 idea intake schema passed.", result.stdout)
+
+    def test_wf_0001_idea_intake_rejects_missing_confirmation(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            data = load_wf_0001_input(repo)
+            del data["confirm_intake"]
+            input_path = write_wf_0001_input(repo, data)
+
+            result = run_wf_0001_schema_validation(repo, input_path)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("confirm_intake", result.stderr)
+
+    def test_wf_0001_idea_intake_rejects_unknown_scope(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            data = load_wf_0001_input(repo)
+            data["scope"] = "campaign"
+            input_path = write_wf_0001_input(repo, data)
+
+            result = run_wf_0001_schema_validation(repo, input_path)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("scope", result.stderr)
+
     def test_response_input_fixture_matches_schema(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
             repo = copy_repo_to_temp(Path(raw_temp_dir))
