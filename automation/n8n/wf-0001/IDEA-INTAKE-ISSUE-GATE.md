@@ -135,6 +135,7 @@ Test evidence:
 ```text
 automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-schema-parity-test-2026-07-02.md
+automation/n8n/wf-0001/writeback/idea-intake-issue-review-readiness-2026-07-02.md
 ```
 
 ---
@@ -157,3 +158,9 @@ Do not use this gate to create YAML objects.
 Do not use this gate to create learning or law candidates.
 
 Do not add Telegram/form intake until this controlled webhook path remains stable.
+
+Review-readiness of created issues can be checked locally with:
+
+```text
+python scripts\validate_wf_0001_issue.py --input testing\fixtures\wf-0001-issue-29.md --title "HT-0000: Intake must preserve raw observations before interpretation"
+```

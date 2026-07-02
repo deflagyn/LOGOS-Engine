@@ -92,6 +92,23 @@ def run_wf_0001_schema_validation(repo: Path, input_path: Path) -> subprocess.Co
     )
 
 
+def run_wf_0001_issue_validation(
+    repo: Path, input_path: Path, title: str | None = None
+) -> subprocess.CompletedProcess[str]:
+    script = repo / "scripts" / "validate_wf_0001_issue.py"
+    command = [sys.executable, str(script), "--input", str(input_path)]
+    if title is not None:
+        command.extend(["--title", title])
+    return subprocess.run(
+        command,
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+
+
 def run_pilot_status(repo: Path) -> dict[str, object]:
     script = repo / "scripts" / "pilot_0001_status.py"
     result = subprocess.run(
@@ -141,6 +158,54 @@ class Pilot0001GovernanceTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("scope", result.stderr)
+
+    def test_wf_0001_issue_fixture_is_review_ready(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0001-issue-29.md"
+
+            result = run_wf_0001_issue_validation(
+                repo,
+                fixture,
+                title="HT-0000: Intake must preserve raw observations before interpretation",
+            )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("WF-0001 issue body passed review-readiness validation.", result.stdout)
+        self.assertIn("status: candidate", result.stdout)
+        self.assertIn("scope: universal", result.stdout)
+
+    def test_wf_0001_issue_rejects_missing_human_truth_section(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0001-issue-29.md"
+            mutated = fixture.read_text(encoding="utf-8").replace(
+                "## Human Truth candidate\nPeople trust a meaning system more when raw observations are preserved before interpretation.\n",
+                "",
+            )
+            input_path = repo / "testing" / "fixtures" / "tmp-wf-0001-issue.md"
+            input_path.write_text(mutated, encoding="utf-8")
+
+            result = run_wf_0001_issue_validation(repo, input_path)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("missing section: Human Truth candidate", result.stderr)
+
+    def test_wf_0001_issue_rejects_invalid_scope(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            fixture = repo / "testing" / "fixtures" / "wf-0001-issue-29.md"
+            mutated = fixture.read_text(encoding="utf-8").replace(
+                "## Scope\nuniversal\n",
+                "## Scope\ncampaign\n",
+            )
+            input_path = repo / "testing" / "fixtures" / "tmp-wf-0001-issue.md"
+            input_path.write_text(mutated, encoding="utf-8")
+
+            result = run_wf_0001_issue_validation(repo, input_path)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Scope must be universal or runtime", result.stderr)
 
     def test_response_input_fixture_matches_schema(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:

@@ -81,12 +81,20 @@ testing/fixtures/wf-0001-idea-intake.json.example
 scripts/validate_wf_0001_idea_intake.py
 ```
 
+Issue review-readiness check:
+
+```text
+testing/fixtures/wf-0001-issue-29.md
+scripts/validate_wf_0001_issue.py
+```
+
 Evidence:
 
 ```text
 automation/n8n/wf-0001/IDEA-INTAKE-ISSUE-GATE.md
 automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-schema-parity-test-2026-07-02.md
+automation/n8n/wf-0001/writeback/idea-intake-issue-review-readiness-2026-07-02.md
 https://github.com/deflagyn/LOGOS-Engine/issues/29
 ```
 
@@ -155,4 +163,11 @@ Future automation:
 
 ```text
 n8n creates the issue directly from Telegram or webhook input.
+```
+
+Review boundary:
+
+```text
+WF-0001 issue review-readiness does not create a YAML object.
+Human Truth object promotion must be a separate reviewed gate.
 ```
