@@ -15,7 +15,7 @@ pilots/PILOT-0001/
 ## Current Preview
 
 ```text
-raw-meaning.expected.yaml
+raw-meaning.expected.yaml.example
 ```
 
 Purpose:
@@ -87,3 +87,5 @@ live raw_text equals raw-meaning.expected.yaml raw_text
 ```
 
 The temporary controlled workflow was deactivated after the preview call.
+
+The expected preview uses `.yaml.example` so the validator does not treat it as a second real LOGOS object with `RM-PILOT-0001`.

@@ -158,14 +158,18 @@ Layer 1 manual execution needs n8n UI/session access or a later controlled trigg
 
 Layer 1 preview was executed through a temporary controlled trigger and matched the expected raw text.
 
+Raw meaning writeback completed:
+
+```text
+pilots/PILOT-0001/input/raw-meaning.yaml
+```
+
 Next step:
 
 ```text
-Configure GitHub write credential in n8n
--> enable only raw-meaning.yaml writeback
--> write pilots/PILOT-0001/input/raw-meaning.yaml
--> dispatch validator
+Dispatch validator
 -> comment evidence on issue #27
+-> continue to Meaning Edges only after raw meaning validation stays green
 ```
 
 Keep LLM and full artifact writeback disabled.

@@ -1,0 +1,11 @@
+{
+  "workflow_id": "yosTQyMXEYP6urYn",
+  "workflow_name": "LOGOS PILOT-0001 Raw Meaning Writeback",
+  "pilot_id": "PILOT-0001",
+  "target_path": "pilots/PILOT-0001/input/raw-meaning.yaml",
+  "writeback_scope": "raw_meaning_only",
+  "github_content_url": "https://github.com/deflagyn/LOGOS-Engine/blob/main/pilots/PILOT-0001/input/raw-meaning.yaml",
+  "commit_sha": "0d90663cc799e247c5936d4eb6b058f1fe0eb92f",
+  "commit_html_url": "https://github.com/deflagyn/LOGOS-Engine/commit/0d90663cc799e247c5936d4eb6b058f1fe0eb92f",
+  "status": "raw_meaning_writeback_completed"
+}

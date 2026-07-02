@@ -172,9 +172,10 @@ Do not enable Node 12 until preview is reviewed.
 Workflow remains active=false.
 Nodes 07-14 remain disabled except Node 12 was renamed as pending writeback and remains disabled.
 No pilot files were written to GitHub.
-Expected Node 06 output is recorded in automation/n8n/pilot-0001/previews/raw-meaning.expected.yaml.
+Expected Node 06 output is recorded in automation/n8n/pilot-0001/previews/raw-meaning.expected.yaml.example.
 Live preview output is recorded in automation/n8n/pilot-0001/previews/layer1-live-preview.json.
 Live preview raw_text matches the expected preview raw_text.
+Real n8n writeback artifact is now pilots/PILOT-0001/input/raw-meaning.yaml.
 ```
 
 ---
