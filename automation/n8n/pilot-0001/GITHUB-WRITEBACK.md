@@ -159,12 +159,12 @@ Body:
 Current status lookup behavior:
 
 ```text
-polling_mode: single_lookup_after_45s
+polling_mode: bounded_3_attempts_15s_interval
 validator_status: success | failure | cancelled | skipped | in_progress
 validator_run_url: GitHub Actions run URL when found
 ```
 
-If the run is still in progress after the lookup window, downstream nodes must treat validation as not proven yet.
+If the run is still in progress after all lookup attempts, downstream nodes must treat validation as not proven yet.
 
 Safety:
 

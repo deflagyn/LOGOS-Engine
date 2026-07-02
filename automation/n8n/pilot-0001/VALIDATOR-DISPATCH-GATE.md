@@ -30,10 +30,14 @@ It is a gate between n8n writeback and downstream trust.
 01 Controlled Validator Dispatch Webhook
 02 Validate Dispatch Request
 03 Dispatch Validate LOGOS Catalog
-04 Wait For Validator Run
-05 Lookup Validator Runs
-06 Build Validator Status Response
-07 Respond Validator Status JSON
+04 Wait Before Lookup 1
+05 Lookup Validator Runs 1
+06 Wait Before Lookup 2
+07 Lookup Validator Runs 2
+08 Wait Before Lookup 3
+09 Lookup Validator Runs 3
+10 Build Validator Status Response
+11 Respond Validator Status JSON
 ```
 
 ---
@@ -101,6 +105,7 @@ created: true
 active: false
 controlled_dispatch_tested: true
 status_lookup_tested: true
+bounded_polling_tested: true
 ```
 
 Creation evidence:
@@ -119,6 +124,12 @@ Polling test evidence:
 
 ```text
 automation/n8n/pilot-0001/writeback/validator-dispatch-gate-polling-test-2026-07-02.md
+```
+
+Bounded polling test evidence:
+
+```text
+automation/n8n/pilot-0001/writeback/validator-dispatch-gate-bounded-polling-test-2026-07-02.md
 ```
 
 ---
@@ -144,12 +155,12 @@ Do not enable learning or law review from this gate.
 
 ## Known Limit
 
-This workflow performs a single GitHub Actions lookup after dispatch.
+This workflow performs bounded GitHub Actions lookup after dispatch.
 
 Current polling mode:
 
 ```text
-single_lookup_after_45s
+bounded_3_attempts_15s_interval
 ```
 
 If the validator run completes within the lookup window, the response includes:
@@ -160,7 +171,7 @@ validator_run_url
 validator_run_conclusion
 ```
 
-If the validator run is still running, the response may still be:
+If the validator run is still running after all attempts, the response may still be:
 
 ```text
 validator_status: in_progress
@@ -169,5 +180,5 @@ validator_status: in_progress
 Future improvement:
 
 ```text
-Replace single lookup with bounded polling until completion, timeout or failure.
+Add conditional branching to stop lookup attempts early after completion, if the graph remains readable.
 ```

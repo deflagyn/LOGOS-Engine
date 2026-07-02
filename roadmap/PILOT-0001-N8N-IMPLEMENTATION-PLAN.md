@@ -485,6 +485,9 @@ GitHub Action run: 28595297447
 status lookup test: passed
 polling mode: single_lookup_after_45s
 polling test run: 28595880528
+bounded polling test: passed
+bounded polling mode: bounded_3_attempts_15s_interval
+bounded polling test run: 28609662029
 ```
 
 Acceptance criteria:

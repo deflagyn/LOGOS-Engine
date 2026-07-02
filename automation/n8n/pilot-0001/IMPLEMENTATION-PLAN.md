@@ -217,10 +217,10 @@ Initial MVP may record:
 validator_status: dispatched
 ```
 
-Current validator gate now performs a single status lookup after dispatch and reports:
+Current validator gate now performs bounded status lookup after dispatch and reports:
 
 ```text
-polling_mode: single_lookup_after_45s
+polling_mode: bounded_3_attempts_15s_interval
 validator_status: success | failure | cancelled | skipped | in_progress
 validator_run_url: GitHub Actions run URL
 ```
@@ -228,7 +228,7 @@ validator_run_url: GitHub Actions run URL
 Future improvement:
 
 ```text
-Replace the single lookup with bounded polling until completion, timeout or failure.
+Add conditional branching to stop lookup attempts early after completion, if the graph remains readable.
 ```
 
 ### 7. Comment On Issue #27
@@ -490,7 +490,7 @@ issue #27 comment URL
 After a successful manual run:
 
 ```text
-1. Replace single GitHub Actions lookup with bounded polling.
+1. Add early-stop branching to the bounded GitHub Actions polling gate.
 2. Add webhook trigger.
 3. Add configurable pilot_id and source_issue.
 4. Add Telegram intake only after the pilot template is stable.
