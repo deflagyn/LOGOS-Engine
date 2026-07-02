@@ -161,3 +161,13 @@ LOGOS must improve through experiments, metrics, learning and law promotion.
 The strongest outcome is not a click or a purchase.
 
 The strongest outcome is a belief or habit becoming culturally natural.
+
+---
+
+## AX-021 — Raw meaning must not be sterilized
+
+LOGOS must preserve the force, edge, ambiguity and author voice of a raw meaning.
+
+The system may create refined runtime expressions, but it must not replace the original meaning with a flattened safe rewrite.
+
+Strong meaning often lives on edges. Those edges should be mapped, tested and used for new explanations, content and Meaning Atoms.
