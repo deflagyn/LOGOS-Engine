@@ -172,3 +172,19 @@ temporary learning.md fails without real responses
 invalid response files fail
 manifest response count drift fails
 ```
+
+---
+
+## Automated Regression Test
+
+Run:
+
+```text
+python -m unittest discover -s tests
+```
+
+Relevant test file:
+
+```text
+tests/test_pilot_0001_governance.py
+```

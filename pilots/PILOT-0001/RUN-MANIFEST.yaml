@@ -109,6 +109,12 @@ artifacts:
   - path: testing/manual/TEST-FOUNDATION-I.md
     artifact_type: manual_test
     status: updated_with_path_reference_check
+  - path: tests/test_pilot_0001_governance.py
+    artifact_type: automated_test
+    status: passed_locally
+  - path: testing/reports/PILOT-0001-GOVERNANCE-UNIT-TESTS.md
+    artifact_type: validation_report
+    status: passed
 
 evidence_commits:
   - sha: 7b8d712
