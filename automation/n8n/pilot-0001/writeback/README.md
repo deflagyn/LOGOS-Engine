@@ -4,6 +4,26 @@ This folder records n8n writeback evidence without storing secrets.
 
 ---
 
+## Read-Only Runtime Inventory
+
+Report:
+
+```text
+automation/n8n/pilot-0001/writeback/n8n-readonly-inventory-2026-07-02.md
+```
+
+Result:
+
+```text
+n8n API reachable.
+All PILOT-0001 LOGOS workflows found.
+All PILOT-0001 LOGOS workflows active=false.
+Main System Run matches NODES.md at node inventory level.
+No workflow execution, activation, VPS reboot or service restart was performed.
+```
+
+---
+
 ## Raw Meaning Writeback
 
 Controlled n8n workflow:
