@@ -66,5 +66,7 @@ Evidence:
 
 ```text
 automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md
+automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md
 automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md
 ```

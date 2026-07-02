@@ -42,7 +42,9 @@ automation/n8n/wf-0001/writeback/idea-intake-promotion-readiness-2026-07-02.md
 automation/n8n/wf-0001/writeback/promotion-readiness-preflight-gate-test-2026-07-02.md
 automation/n8n/wf-0001/writeback/wf-0001-status-readiness-2026-07-02.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md
+automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md
 automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md
 schemas/wf-0001-idea-intake.schema.yaml
 schemas/wf-0002-belief-movement-input.schema.yaml
 testing/fixtures/wf-0001-idea-intake.json.example
@@ -156,6 +158,16 @@ python scripts\validate_wf_0002_belief_movement_input.py --input testing\fixture
 writeback_performed: false
 creates_belief_shift_issue: false
 creates_yaml_object: false
+```
+
+WF-0002 n8n preview:
+
+```text
+workflow: LOGOS WF-0002 Belief Movement Input Preview Gate
+workflow_id: Rue7sAU14UMv1hTr
+valid_preview_execution_id: 1102
+placeholder_rejection_execution_id: 1103
+writeback_performed: false
 ```
 
 ---

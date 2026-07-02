@@ -60,6 +60,13 @@ Evidence:
 
 ```text
 automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md
+```
+
+Dedicated n8n preview gate:
+
+```text
+automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md
 ```
 
 ---
@@ -86,4 +93,3 @@ Do not use this contract to create Belief Shift YAML.
 Do not use this contract to create Meaning Atom YAML.
 
 Do not use this contract to create learning or law candidates.
-
