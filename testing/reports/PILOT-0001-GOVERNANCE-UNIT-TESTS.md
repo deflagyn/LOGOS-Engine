@@ -34,6 +34,8 @@ python -m unittest discover -s tests
 test_learning_requires_three_real_responses
 test_declared_path_reference_must_exist
 test_response_intake_creates_real_response_and_updates_manifest
+test_response_intake_rejects_personal_data_not_removed
+test_response_intake_rejects_simulated_response
 ```
 
 ---
@@ -41,7 +43,7 @@ test_response_intake_creates_real_response_and_updates_manifest
 ## Local Result
 
 ```text
-Ran 3 tests
+Ran 5 tests
 OK
 ```
 
@@ -63,4 +65,3 @@ python scripts/validate_catalog.py .
 The tests use temporary repository copies.
 
 They do not create real PILOT-0001 response evidence.
-

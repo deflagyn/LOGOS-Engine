@@ -158,3 +158,6 @@ current_boundary:
     min_real_responses_for_learning: 3
     blocks_learning_without_responses: true
     blocks_law_review_without_responses: true
+  response_intake_gate:
+    rejects_personal_data_not_removed: true
+    rejects_simulated_response: true

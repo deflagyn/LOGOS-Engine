@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import json
 from pathlib import Path
 
 from logos_engine.validate import validate_repository
@@ -31,6 +32,29 @@ def copy_repo_to_temp(temp_dir: Path) -> Path:
 
 def issue_messages(root: Path) -> list[str]:
     return [issue.render() for issue in validate_repository(root)]
+
+
+def load_response_input(repo: Path) -> dict[str, object]:
+    fixture = repo / "testing" / "fixtures" / "pilot-0001-response-input.json.example"
+    return json.loads(fixture.read_text(encoding="utf-8"))
+
+
+def write_response_input(repo: Path, data: dict[str, object]) -> Path:
+    input_path = repo / "testing" / "fixtures" / "tmp-response-input.json"
+    input_path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    return input_path
+
+
+def run_response_intake(repo: Path, input_path: Path) -> subprocess.CompletedProcess[str]:
+    script = repo / "scripts" / "create_pilot_response.py"
+    return subprocess.run(
+        [sys.executable, str(script), "--input", str(input_path)],
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
 
 
 class Pilot0001GovernanceTests(unittest.TestCase):
@@ -83,16 +107,7 @@ class Pilot0001GovernanceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw_temp_dir:
             repo = copy_repo_to_temp(Path(raw_temp_dir))
             fixture = repo / "testing" / "fixtures" / "pilot-0001-response-input.json.example"
-            script = repo / "scripts" / "create_pilot_response.py"
-
-            result = subprocess.run(
-                [sys.executable, str(script), "--input", str(fixture)],
-                cwd=repo,
-                text=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                check=False,
-            )
+            result = run_response_intake(repo, fixture)
 
             response_path = (
                 repo
@@ -113,6 +128,42 @@ class Pilot0001GovernanceTests(unittest.TestCase):
         self.assertTrue(response_exists)
         self.assertIn("real_response_count: 1", manifest)
         self.assertEqual(messages, [])
+
+    def test_response_intake_rejects_personal_data_not_removed(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            data = load_response_input(repo)
+            data["personal_data_removed"] = False
+            input_path = write_response_input(repo, data)
+
+            result = run_response_intake(repo, input_path)
+            response_files = list(
+                (repo / "pilots" / "PILOT-0001" / "experiment" / "responses").glob(
+                    "RESPONSE-PILOT-0001-*.yaml"
+                )
+            )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("personal_data_removed must be true", result.stderr)
+        self.assertEqual(response_files, [])
+
+    def test_response_intake_rejects_simulated_response(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            data = load_response_input(repo)
+            data["simulated_response"] = True
+            input_path = write_response_input(repo, data)
+
+            result = run_response_intake(repo, input_path)
+            response_files = list(
+                (repo / "pilots" / "PILOT-0001" / "experiment" / "responses").glob(
+                    "RESPONSE-PILOT-0001-*.yaml"
+                )
+            )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("simulated responses must not be written", result.stderr)
+        self.assertEqual(response_files, [])
 
 
 if __name__ == "__main__":
