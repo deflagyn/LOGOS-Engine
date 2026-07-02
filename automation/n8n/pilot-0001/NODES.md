@@ -38,6 +38,20 @@ See:
 automation/n8n/pilot-0001/ISSUE-COMMENT-GATE.md
 ```
 
+Dedicated validator-to-comment chain:
+
+```text
+name: LOGOS PILOT-0001 Validator Comment Chain
+id: fiHf9XFu8zfPHWzl
+active: false
+```
+
+See:
+
+```text
+automation/n8n/pilot-0001/VALIDATOR-COMMENT-CHAIN.md
+```
+
 ---
 
 ## Node 01 — Manual Trigger

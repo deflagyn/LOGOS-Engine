@@ -532,6 +532,17 @@ validator_result contract test: passed
 validator_result comment URL: https://github.com/deflagyn/LOGOS-Engine/issues/27#issuecomment-4869101911
 ```
 
+Current validator-to-comment chain note:
+
+```text
+An inactive dedicated validator-to-comment workflow now exists:
+LOGOS PILOT-0001 Validator Comment Chain
+id: fiHf9XFu8zfPHWzl
+controlled chain test: passed
+validator run URL: https://github.com/deflagyn/LOGOS-Engine/actions/runs/28611724244
+issue comment URL: https://github.com/deflagyn/LOGOS-Engine/issues/27#issuecomment-4869170239
+```
+
 ---
 
 ### Phase 7 - Response Collection Gate

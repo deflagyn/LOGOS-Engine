@@ -195,6 +195,34 @@ It must not enable learning or law review.
 
 ---
 
+## Validator Result Comment Chain
+
+Dedicated n8n workflow:
+
+```text
+name: LOGOS PILOT-0001 Validator Comment Chain
+id: fiHf9XFu8zfPHWzl
+active: false
+```
+
+Purpose:
+
+```text
+Call the validator gate, then pass the validator result to the issue comment gate.
+```
+
+Safety:
+
+```text
+The chain requires explicit confirm_chain input.
+It allows only ref main.
+It must not write pilot artifacts.
+It must not enable learning or law review.
+All involved workflows must return to active=false after a controlled run.
+```
+
+---
+
 ## Protection Rule
 
 The raw meaning file must not be overwritten by derived outputs.
