@@ -34,10 +34,12 @@ Implementation evidence added:
 
 ```text
 automation/n8n/wf-0001/IDEA-INTAKE-ISSUE-GATE.md
+automation/n8n/wf-0001/PROMOTION-READINESS-PREFLIGHT-GATE.md
 automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-schema-parity-test-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-issue-review-readiness-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-promotion-readiness-2026-07-02.md
+automation/n8n/wf-0001/writeback/promotion-readiness-preflight-gate-test-2026-07-02.md
 schemas/wf-0001-idea-intake.schema.yaml
 testing/fixtures/wf-0001-idea-intake.json.example
 testing/fixtures/wf-0001-issue-29.md
@@ -120,6 +122,16 @@ Expected:
 
 ```text
 Issue #29 is rejected for promotion because HT-0000 is only a placeholder.
+```
+
+n8n promotion preflight:
+
+```text
+workflow: LOGOS WF-0001 Promotion Readiness Preflight Gate
+workflow_id: a8peB0KHbGvAj3gg
+placeholder_rejection_execution_id: 1100
+reviewed_stable_success_execution_id: 1101
+writeback_performed: false
 ```
 
 ---

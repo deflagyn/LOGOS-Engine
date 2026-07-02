@@ -173,3 +173,9 @@ python scripts\validate_wf_0001_promotion_readiness.py --input testing\fixtures\
 ```
 
 Issue #29 currently remains blocked from promotion because it uses the `HT-0000` placeholder.
+
+Dedicated n8n promotion preflight:
+
+```text
+automation/n8n/wf-0001/PROMOTION-READINESS-PREFLIGHT-GATE.md
+```

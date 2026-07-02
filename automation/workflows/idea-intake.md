@@ -93,6 +93,7 @@ Promotion-readiness guard:
 ```text
 testing/fixtures/wf-0001-issue-reviewed-stable.md
 scripts/validate_wf_0001_promotion_readiness.py
+automation/n8n/wf-0001/PROMOTION-READINESS-PREFLIGHT-GATE.md
 ```
 
 Evidence:
@@ -103,6 +104,7 @@ automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-schema-parity-test-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-issue-review-readiness-2026-07-02.md
 automation/n8n/wf-0001/writeback/idea-intake-promotion-readiness-2026-07-02.md
+automation/n8n/wf-0001/writeback/promotion-readiness-preflight-gate-test-2026-07-02.md
 https://github.com/deflagyn/LOGOS-Engine/issues/29
 ```
 
