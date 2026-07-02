@@ -2,7 +2,7 @@
 
 Date: 2026-07-02
 
-Status: Layer 1 wired in n8n
+Status: raw meaning and meaning edges written by controlled n8n workflows
 
 ---
 
@@ -167,9 +167,12 @@ pilots/PILOT-0001/input/raw-meaning.yaml
 Next step:
 
 ```text
-Dispatch validator
--> comment evidence on issue #27
--> continue to Meaning Edges only after raw meaning validation stays green
+Generate LOGOS Objects candidate artifacts
+-> human-truth.yaml
+-> human-contradiction.yaml
+-> belief-shift.yaml
+-> meaning-atoms.yaml
+-> story-pattern.yaml
 ```
 
-Keep LLM and full artifact writeback disabled.
+Keep script, experiment, learning, law review and full writeback disabled.

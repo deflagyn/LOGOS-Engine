@@ -1,0 +1,11 @@
+{
+  "workflow_id": "idkqB0Z4NXdkH3ZQ",
+  "workflow_name": "LOGOS PILOT-0001 Meaning Edges Writeback",
+  "pilot_id": "PILOT-0001",
+  "target_path": "pilots/PILOT-0001/output/meaning-edges.yaml",
+  "writeback_scope": "meaning_edges_only",
+  "github_content_url": "https://github.com/deflagyn/LOGOS-Engine/blob/main/pilots/PILOT-0001/output/meaning-edges.yaml",
+  "commit_sha": "2438361ed68dfccd9621bef7aa138fec52cd07d3",
+  "commit_html_url": "https://github.com/deflagyn/LOGOS-Engine/commit/2438361ed68dfccd9621bef7aa138fec52cd07d3",
+  "status": "meaning_edges_writeback_completed"
+}
