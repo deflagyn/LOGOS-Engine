@@ -188,6 +188,21 @@ def run_wf_0001_status(repo: Path) -> dict[str, object]:
     return json.loads(result.stdout)
 
 
+def run_wf_0002_status(repo: Path) -> dict[str, object]:
+    script = repo / "scripts" / "wf_0002_status.py"
+    result = subprocess.run(
+        [sys.executable, str(script), "--json"],
+        cwd=repo,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise AssertionError(result.stderr)
+    return json.loads(result.stdout)
+
+
 class Pilot0001GovernanceTests(unittest.TestCase):
     def test_wf_0001_idea_intake_fixture_matches_schema(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
@@ -257,6 +272,14 @@ class Pilot0001GovernanceTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("unexpected_generation_output", result.stderr)
+
+    def test_wf_0002_input_fixture_does_not_link_ht_0100_to_issue_29(self) -> None:
+        fixture = ROOT / "testing" / "fixtures" / "wf-0002-belief-movement-input.json.example"
+        data = json.loads(fixture.read_text(encoding="utf-8"))
+
+        self.assertEqual(data["source_human_truth_id"], "HT-0100")
+        self.assertNotIn("source_issue_number", data)
+        self.assertNotIn("source_issue_url", data)
 
     def test_wf_0001_issue_fixture_is_review_ready(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp_dir:
@@ -368,6 +391,26 @@ class Pilot0001GovernanceTests(unittest.TestCase):
         self.assertEqual(
             status["next_action"],
             "assign_stable_ht_id_or_collect_next_real_idea",
+        )
+
+    def test_wf_0002_status_reports_preview_only_readiness(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp_dir:
+            repo = copy_repo_to_temp(Path(raw_temp_dir))
+            status = run_wf_0002_status(repo)
+
+        source = status["source"]
+        self.assertTrue(status["input_fixture_valid"])
+        self.assertTrue(status["placeholder_rejection_enforced"])
+        self.assertTrue(source["review_fixture_promotion_ready"])
+        self.assertFalse(source["uses_live_issue_reference"])
+        self.assertFalse(status["writeback_performed"])
+        self.assertFalse(status["belief_shift_issue_created"])
+        self.assertFalse(status["yaml_object_created"])
+        self.assertFalse(status["generation_gate_created"])
+        self.assertTrue(status["validation_passed"])
+        self.assertEqual(
+            status["next_action"],
+            "build_wf_0002_generation_preflight_gate_after_reviewed_source_selection",
         )
 
     def test_response_input_fixture_matches_schema(self) -> None:

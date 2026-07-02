@@ -1,8 +1,6 @@
 {
   "confirm_movement_input": "PREVIEW_WF_0002_BELIEF_MOVEMENT_INPUT",
   "source_human_truth_id": "HT-0100",
-  "source_issue_number": 29,
-  "source_issue_url": "https://github.com/deflagyn/LOGOS-Engine/issues/29",
   "source_human_truth": "People trust a meaning system more when raw observations are preserved before interpretation.",
   "audience_context": "LOGOS operators and reviewers who need traceability before automation expands.",
   "language": "en",
@@ -13,4 +11,3 @@
   "draft_meaning_atom": "Preserve before interpreting.",
   "test_plan": "Purpose: Check that WF-0002 input can be validated before any generator or writeback node runs.\nInput: One reviewed Human Truth candidate with stable HT ID.\nExpected output: Validated input only.\nManual test: Run the WF-0002 input validator.\nAcceptance criteria: Validator passes and reports no writeback.\nEvidence: CLI output and unit tests.\nFuture automation: n8n may draft a Belief Shift issue only after this input contract remains stable."
 }
-

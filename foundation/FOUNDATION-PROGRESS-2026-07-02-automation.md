@@ -45,6 +45,7 @@ automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-CONTRACT.md
 automation/n8n/wf-0002/BELIEF-MOVEMENT-INPUT-PREVIEW-GATE.md
 automation/n8n/wf-0002/writeback/belief-movement-input-contract-2026-07-02.md
 automation/n8n/wf-0002/writeback/belief-movement-input-preview-gate-test-2026-07-02.md
+automation/n8n/wf-0002/writeback/belief-movement-status-readiness-2026-07-02.md
 schemas/wf-0001-idea-intake.schema.yaml
 schemas/wf-0002-belief-movement-input.schema.yaml
 testing/fixtures/wf-0001-idea-intake.json.example
@@ -56,6 +57,7 @@ scripts/validate_wf_0001_issue.py
 scripts/validate_wf_0001_promotion_readiness.py
 scripts/wf_0001_status.py
 scripts/validate_wf_0002_belief_movement_input.py
+scripts/wf_0002_status.py
 ```
 
 ---
@@ -170,6 +172,15 @@ placeholder_rejection_execution_id: 1103
 writeback_performed: false
 ```
 
+WF-0002 status:
+
+```text
+python scripts\wf_0002_status.py
+validation_passed: true
+uses_live_issue_reference: false
+next_action: build_wf_0002_generation_preflight_gate_after_reviewed_source_selection
+```
+
 ---
 
 ## Pending
@@ -177,7 +188,7 @@ writeback_performed: false
 - Add Telegram or form intake after the controlled webhook path remains stable.
 - Add optional Human Truth drafting only behind a review gate.
 - Promote reviewed issues into YAML object files through a separate gate.
-- Build WF-0002 n8n preview only after the input contract remains stable.
+- Build WF-0002 generation preflight only after reviewed source selection is explicit.
 
 ---
 
