@@ -86,6 +86,7 @@ Evidence:
 ```text
 automation/n8n/wf-0001/IDEA-INTAKE-ISSUE-GATE.md
 automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
+automation/n8n/wf-0001/writeback/idea-intake-schema-parity-test-2026-07-02.md
 https://github.com/deflagyn/LOGOS-Engine/issues/29
 ```
 

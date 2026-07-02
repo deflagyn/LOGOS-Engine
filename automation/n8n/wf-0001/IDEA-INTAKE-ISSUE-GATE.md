@@ -121,6 +121,7 @@ repo_schema_created: true
 repo_schema_fixture_tested: true
 controlled_issue_creation_tested: true
 missing_confirm_rejection_tested: true
+schema_parity_rejection_tested: true
 ```
 
 Created issue:
@@ -133,6 +134,7 @@ Test evidence:
 
 ```text
 automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
+automation/n8n/wf-0001/writeback/idea-intake-schema-parity-test-2026-07-02.md
 ```
 
 ---

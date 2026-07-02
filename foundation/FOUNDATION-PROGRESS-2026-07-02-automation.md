@@ -35,6 +35,7 @@ Implementation evidence added:
 ```text
 automation/n8n/wf-0001/IDEA-INTAKE-ISSUE-GATE.md
 automation/n8n/wf-0001/writeback/idea-intake-issue-gate-test-2026-07-02.md
+automation/n8n/wf-0001/writeback/idea-intake-schema-parity-test-2026-07-02.md
 schemas/wf-0001-idea-intake.schema.yaml
 testing/fixtures/wf-0001-idea-intake.json.example
 scripts/validate_wf_0001_idea_intake.py
@@ -87,6 +88,7 @@ workflow: LOGOS WF-0001 Idea Intake Issue Gate
 workflow_id: s00B4QAhJ3MYZ1tq
 success_execution_id: 1096
 rejection_execution_id: 1097
+schema_parity_rejection_execution_ids: 1098, 1099
 created_issue: https://github.com/deflagyn/LOGOS-Engine/issues/29
 ```
 
