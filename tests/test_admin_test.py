@@ -61,6 +61,38 @@ class AdminTestPreviewTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "language"):
             build_admin_preview({"raw_meaning": "test", "language": "de"})
 
+    def test_first_personal_test_stays_in_clarification_mode(self) -> None:
+        preview = build_admin_preview(
+            {
+                "raw_meaning": (
+                    "Если мужчина получает от женщины безопасное пространство он там начинает "
+                    "отдыхать, привязываться и как следствие появляется больше ресурсов у него "
+                    "для захвата более новых территорий с новыми ресурсами которыми он делится "
+                    "со своей женщиной."
+                ),
+                "audience_context": "первый личный тест",
+                "language": "ru",
+                "scope": "universal",
+            }
+        )
+        data = preview.to_dict()
+
+        self.assertTrue(data["needs_clarification"])
+        self.assertEqual(data["draft_status"], "needs_clarification")
+        self.assertIn("Черновик не собран", data["story_pattern_draft"])
+        self.assertTrue(
+            any("обязанность женщины" in risk for risk in data["detected_risks"]),
+            data["detected_risks"],
+        )
+        self.assertTrue(
+            any("доминирование" in risk for risk in data["detected_risks"]),
+            data["detected_risks"],
+        )
+        self.assertTrue(
+            any("отдачу" in question for question in data["next_questions"]),
+            data["next_questions"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

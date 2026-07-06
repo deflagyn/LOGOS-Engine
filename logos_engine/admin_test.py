@@ -30,6 +30,9 @@ class AdminPreview:
     meaning_atom_draft: str
     story_pattern_draft: str
     emotional_result_draft: str
+    draft_status: str
+    needs_clarification: bool
+    detected_risks: list[str]
     test_plan: str
     risk_notes: str
     wf_0001_payload: dict[str, Any]
@@ -54,6 +57,9 @@ class AdminPreview:
             "meaning_atom_draft": self.meaning_atom_draft,
             "story_pattern_draft": self.story_pattern_draft,
             "emotional_result_draft": self.emotional_result_draft,
+            "draft_status": self.draft_status,
+            "needs_clarification": self.needs_clarification,
+            "detected_risks": self.detected_risks,
             "test_plan": self.test_plan,
             "risk_notes": self.risk_notes,
             "wf_0001_payload": self.wf_0001_payload,
@@ -104,8 +110,31 @@ def _candidate_human_truth(raw_meaning: str, supplied: str) -> str:
     return f"Люди узнают себя в ситуации, где: {_short(base, 140)}"
 
 
-def _candidate_contradiction(human_truth: str, risk_notes: str) -> str:
-    risk = risk_notes or "смысл может быть прочитан как давление, долг или манипуляция"
+def _detected_risks(raw_meaning: str, risk_notes: str) -> list[str]:
+    raw_lower = raw_meaning.lower()
+    risks: list[str] = []
+    if risk_notes:
+        risks.append(risk_notes)
+    if "женщин" in raw_lower or "женщиной" in raw_lower or "женщина" in raw_lower:
+        risks.append("может звучать как обязанность женщины давать безопасность")
+    if "делится" in raw_lower or "отда" in raw_lower or "возвращ" in raw_lower:
+        risks.append("может звучать как сделка или обязанная отдача")
+    if "захват" in raw_lower or "территор" in raw_lower:
+        risks.append("может звучать как доминирование или буквальное расширение власти")
+    if "привя" in raw_lower:
+        risks.append("может звучать как зависимость вместо свободной привязанности")
+    if not risks:
+        risks.append("смысл может быть прочитан как давление, долг или манипуляция")
+
+    deduped: list[str] = []
+    for risk in risks:
+        if risk not in deduped:
+            deduped.append(risk)
+    return deduped
+
+
+def _candidate_contradiction(human_truth: str, risks: list[str]) -> str:
+    risk = "; ".join(risks)
     return (
         "Человек может узнавать правду в этом наблюдении, "
         f"но одновременно сопротивляться ему, если {risk}."
@@ -115,12 +144,10 @@ def _candidate_contradiction(human_truth: str, risk_notes: str) -> str:
 def _candidate_frames(
     human_truth: str,
     desired_change: str,
-    risk_notes: str,
+    risks: list[str],
 ) -> tuple[str, str]:
     old_frame = (
-        f"Этот смысл можно читать узко: {risk_notes}"
-        if risk_notes
-        else "Этот смысл можно читать как красивую формулировку без проверяемой человеческой правды."
+        f"Этот смысл можно читать опасно или узко: {'; '.join(risks)}"
     )
     new_frame = (
         desired_change
@@ -144,6 +171,13 @@ def _story_pattern(old_frame: str, new_frame: str) -> str:
         "Показать знакомую ситуацию, где старое прочтение выглядит естественным; "
         "затем раскрыть скрытое напряжение; затем дать человеку безопасный переход "
         f"к новому прочтению: {new_frame}"
+    )
+
+
+def _incomplete_story_pattern() -> str:
+    return (
+        "Черновик не собран: сначала нужно уточнить желаемый переход и риск неверного прочтения. "
+        "Пока безопаснее работать в режиме вопросов, а не готового Story Pattern."
     )
 
 
@@ -171,6 +205,13 @@ def _next_questions(raw_meaning: str, desired_change: str, risk_notes: str) -> l
         questions.append("Какой новый взгляд должен появиться у человека после контакта со смыслом?")
     if not risk_notes:
         questions.append("Где этот смысл может быть прочитан как давление, долг или манипуляция?")
+    raw_lower = raw_meaning.lower()
+    if "женщин" in raw_lower or "женщиной" in raw_lower or "женщина" in raw_lower:
+        questions.append("Как показать безопасность так, чтобы женщина не выглядела обязанной её давать?")
+    if "захват" in raw_lower or "территор" in raw_lower:
+        questions.append("Как заменить буквальный захват территорий на метафору возможностей без доминирования?")
+    if "делится" in raw_lower:
+        questions.append("Как показать добровольную отдачу, чтобы она не выглядела оплатой за безопасность?")
     if len(raw_meaning) < 80:
         questions.append("Какой живой пример или сцена показывает этот смысл без объяснения?")
     return questions
@@ -247,13 +288,19 @@ def build_admin_preview(payload: dict[str, Any]) -> AdminPreview:
     supplied_human_truth = _clean_text(payload.get("human_truth_candidate"))
     desired_change = _clean_text(payload.get("desired_change"))
     risk_notes = _clean_text(payload.get("risk_notes"))
+    needs_clarification = not desired_change or not risk_notes
 
     human_truth = _candidate_human_truth(raw_meaning, supplied_human_truth)
-    human_contradiction = _candidate_contradiction(human_truth, risk_notes)
-    old_frame, new_frame = _candidate_frames(human_truth, desired_change, risk_notes)
+    detected_risks = _detected_risks(raw_meaning, risk_notes)
+    human_contradiction = _candidate_contradiction(human_truth, detected_risks)
+    old_frame, new_frame = _candidate_frames(human_truth, desired_change, detected_risks)
     belief_shift = f"{old_frame} -> {new_frame}"
     meaning_atom = _meaning_atom(human_truth, desired_change)
-    story_pattern = _story_pattern(old_frame, new_frame)
+    story_pattern = (
+        _incomplete_story_pattern()
+        if needs_clarification
+        else _story_pattern(old_frame, new_frame)
+    )
     emotional_result = "recognition_without_pressure"
     test_plan = _test_plan(audience_context)
 
@@ -296,6 +343,9 @@ def build_admin_preview(payload: dict[str, Any]) -> AdminPreview:
         meaning_atom_draft=meaning_atom,
         story_pattern_draft=story_pattern,
         emotional_result_draft=emotional_result,
+        draft_status="needs_clarification" if needs_clarification else "preview_candidate",
+        needs_clarification=needs_clarification,
+        detected_risks=detected_risks,
         test_plan=test_plan,
         risk_notes=risk_notes or "Not provided yet.",
         wf_0001_payload=wf_0001_payload,

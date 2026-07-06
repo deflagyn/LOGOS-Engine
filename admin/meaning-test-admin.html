@@ -279,12 +279,12 @@
 
       <label>
         Желаемый переход
-        <textarea name="desired_change">От “безопасность делает слабее” к “безопасность возвращает ресурс и способность действовать”.</textarea>
+        <textarea name="desired_change" placeholder="Например: от старого прочтения к новому прочтению. Оставьте пустым, если хотите сначала получить вопросы."></textarea>
       </label>
 
       <label>
         Риски прочтения
-        <textarea name="risk_notes">Может прозвучать так, будто один человек обязан создавать безопасность, а другой обязан вернуть ресурс.</textarea>
+        <textarea name="risk_notes" placeholder="Например: где это может звучать как долг, давление, сделка или манипуляция. Оставьте пустым для автоматического risk scan."></textarea>
       </label>
 
       <label>
@@ -340,9 +340,15 @@
     }
 
     function renderPreview(data) {
+      const riskFlags = (data.detected_risks || [])
+        .map((risk) => `<span class="flag warn">${escapeHtml(risk)}</span>`)
+        .join("");
       return `
         <div class="section">
           <h2>LOGOS Chain Draft</h2>
+          <div>
+            <span class="flag ${data.needs_clarification ? "warn" : ""}">${escapeHtml(data.draft_status)}</span>
+          </div>
           <dl class="kv">
             <dt>Human Truth</dt><dd>${escapeHtml(data.human_truth_candidate)}</dd>
             <dt>Contradiction</dt><dd>${escapeHtml(data.human_contradiction_candidate)}</dd>
@@ -351,6 +357,10 @@
             <dt>Meaning Atom</dt><dd>${escapeHtml(data.meaning_atom_draft)}</dd>
             <dt>Emotional Result</dt><dd>${escapeHtml(data.emotional_result_draft)}</dd>
           </dl>
+        </div>
+        <div class="section">
+          <h2>Detected Risks</h2>
+          <div>${riskFlags}</div>
         </div>
         <div class="section">
           <h2>Boundary</h2>
@@ -372,7 +382,7 @@
         .join("");
       return `
         <div class="section">
-          <h2>Следующие вопросы</h2>
+          <h2>${data.needs_clarification ? "Нужно уточнить перед генерацией" : "Следующие вопросы"}</h2>
           <dl class="kv">${questions}</dl>
         </div>
         <div class="section">
