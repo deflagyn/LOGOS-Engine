@@ -445,6 +445,10 @@
       statusLine.classList.toggle("error", isError);
     }
 
+    function previewApiUrl() {
+      return new URL("../api/admin/preview", window.location.href).pathname;
+    }
+
     function chainItem(title, value) {
       return `
         <div class="chain-item">
@@ -656,7 +660,7 @@
       submitButton.disabled = true;
       setStatus("Считаю preview...");
       try {
-        const response = await fetch("/api/admin/preview", {
+        const response = await fetch(previewApiUrl(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formPayload())
