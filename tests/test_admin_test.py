@@ -27,9 +27,11 @@ class AdminTestPreviewTests(unittest.TestCase):
         data = preview.to_dict()
 
         self.assertIn("безопасное пространство", data["raw_meaning"])
-        self.assertIn("LOGOS_RAW_SYNTHESIS", data["new_frame"])
+        self.assertIn("LOGOS_RAW_SYNTHESIS_V2", data["new_frame"])
         self.assertIn("raw_observation:", data["new_frame"])
         self.assertIn("operator_candidate:", data["new_frame"])
+        self.assertIn("contradiction_raw:", data["new_frame"])
+        self.assertIn("belief_shift_candidate_raw:", data["new_frame"])
         self.assertIn("MEANING_ATOM_RAW", data["meaning_atom_draft"])
         self.assertNotEqual(data["new_frame"], "От безопасности как слабости к безопасности как возвращению ресурса.")
         self.assertEqual(data["wf_0001_payload"]["confirm_intake"], "CREATE_WF_0001_HUMAN_TRUTH_ISSUE")
@@ -125,7 +127,7 @@ class AdminTestPreviewTests(unittest.TestCase):
         )
         data = preview.to_dict()
 
-        self.assertIn("LOGOS_RAW_SYNTHESIS", data["new_frame"])
+        self.assertIn("LOGOS_RAW_SYNTHESIS_V2", data["new_frame"])
         self.assertIn("old_belief_input:", data["new_frame"])
         self.assertIn("new_belief_input:", data["new_frame"])
         self.assertIn("компосировать", data["new_frame"])
@@ -156,12 +158,53 @@ class AdminTestPreviewTests(unittest.TestCase):
         )
         data = preview.to_dict()
 
-        self.assertIn("LOGOS_RAW_SYNTHESIS", data["new_frame"])
+        self.assertIn("LOGOS_RAW_SYNTHESIS_V2", data["new_frame"])
         self.assertIn("operator_candidate: already_available_resource", data["new_frame"])
         self.assertIn("raw_observation: все самое ценное мы получаем бесплатно", data["new_frame"])
+        self.assertIn("belief_shift_candidate_raw:", data["new_frame"])
+        self.assertIn("validation_gap:", data["new_frame"])
         self.assertIn("MEANING_ATOM_RAW", data["meaning_atom_draft"])
         self.assertNotIn("Безопасность без давления", data["meaning_atom_draft"])
         self.assertNotIn("безопасность в отношениях", data["new_frame"])
+
+    def test_raw_synthesis_v2_keeps_logic_without_topic_templates(self) -> None:
+        preview = build_admin_preview(
+            {
+                "raw_meaning": "все самое ценное человек получает бесплатно",
+                "language": "ru",
+                "scope": "universal",
+                "audience_context": "достигатор",
+                "desired_change": (
+                    "От: что ему чегото не хватает для счастья\n"
+                    "К: полноценность текущего состояния; у меня все хорошо и даже больше чем я думал ранее"
+                ),
+                "risk_notes": (
+                    "Где этот смысл может быть прочитан как давление, долг или манипуляция? "
+                    "должен насильно принять новую парадигму антидостигаторства\n"
+                    "Какой живой пример или сцена показывает этот смысл без объяснения? "
+                    "руки ноги голова целая есть здоровье, время, знания, жизненный опыт. значит все хорошо."
+                ),
+                "source": "local admin personal test",
+            }
+        )
+        data = preview.to_dict()
+
+        self.assertIn("LOGOS_RAW_SYNTHESIS_V2", data["new_frame"])
+        self.assertIn("audience_context_input: достигатор", data["new_frame"])
+        self.assertIn(
+            "contradiction_raw: что ему чегото не хватает для счастья <-> "
+            "все самое ценное человек получает бесплатно",
+            data["new_frame"],
+        )
+        self.assertIn(
+            "resource_inventory_input: руки ноги голова целая есть здоровье, время, знания, "
+            "жизненный опыт. значит все хорошо",
+            data["new_frame"],
+        )
+        self.assertIn(
+            "validation_gap: check_that_shift_does_not_become_forced_new_paradigm",
+            data["new_frame"],
+        )
 
 
 if __name__ == "__main__":

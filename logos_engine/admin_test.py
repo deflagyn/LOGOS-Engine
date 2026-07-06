@@ -184,7 +184,52 @@ def _boundary_clause(risks: list[str]) -> str:
     return " | ".join(" ".join(risk.split()) for risk in risks)
 
 
-def _system_new_frame(human_truth: str, desired_change: str, risks: list[str]) -> str:
+def _extract_question_answer(notes: str, question_prefix: str) -> str:
+    normalized_prefix = question_prefix.lower()
+    lines = [line.strip() for line in notes.splitlines() if line.strip()]
+    for line in lines:
+        lowered = line.lower()
+        if lowered.startswith(normalized_prefix):
+            return line[len(question_prefix):].strip(" ?:-")
+    return ""
+
+
+def _resource_inventory(raw_claim: str, risk_notes: str) -> str:
+    scene = _extract_question_answer(risk_notes, "Какой живой пример или сцена показывает этот смысл без объяснения?")
+    if scene:
+        return scene
+    return raw_claim
+
+
+def _contradiction_raw(old_intent: str, raw_claim: str) -> str:
+    if old_intent:
+        return f"{_sanitize_solution_phrase(old_intent)} <-> {_sanitize_solution_phrase(raw_claim)}"
+    return f"missing_old_belief <-> {_sanitize_solution_phrase(raw_claim)}"
+
+
+def _belief_shift_raw(old_intent: str, new_intent: str, raw_claim: str) -> str:
+    old_part = _sanitize_solution_phrase(old_intent) if old_intent else "missing_old_belief"
+    new_part = _sanitize_solution_phrase(new_intent) if new_intent else _sanitize_solution_phrase(raw_claim)
+    return f"from [{old_part}] to [{new_part}]"
+
+
+def _validation_gap(risks: list[str]) -> str:
+    joined = " ".join(risks).lower()
+    if "насильно" in joined or "парадигм" in joined:
+        return "check_that_shift_does_not_become_forced_new_paradigm"
+    if any(marker in joined for marker in ("обязан", "долг")):
+        return "check_that_shift_does_not_create_new_obligation"
+    if any(marker in joined for marker in ("манипуляц", "давлен")):
+        return "check_that_shift_does_not_apply_pressure"
+    return "check_that_shift_preserves_choice_and_context"
+
+
+def _system_new_frame(
+    human_truth: str,
+    desired_change: str,
+    risks: list[str],
+    audience_context: str,
+) -> str:
     if not desired_change:
         return f"Этот смысл становится полезным, когда он сохраняет человеческую правду: {human_truth}"
 
@@ -193,16 +238,21 @@ def _system_new_frame(human_truth: str, desired_change: str, risks: list[str]) -
     claim = _raw_claim(human_truth)
     context = f"{human_truth} {desired_change} {' '.join(risks)}"
     operator = _logic_operator(context)
+    risk_notes = "\n".join(risks)
     return "\n".join(
         [
-            "LOGOS_RAW_SYNTHESIS",
+            "LOGOS_RAW_SYNTHESIS_V2",
             f"raw_observation: {_sanitize_solution_phrase(claim)}",
+            f"audience_context_input: {_sanitize_solution_phrase(audience_context)}",
             f"old_belief_input: {_sanitize_solution_phrase(old_intent) if old_intent else 'missing'}",
             f"new_belief_input: {_sanitize_solution_phrase(new_intent) if new_intent else 'missing'}",
             f"operator_candidate: {_operator_clause(operator)}",
-            "contradiction_candidate: old_belief_input conflicts with raw_observation",
-            f"resource_candidate: {_sanitize_solution_phrase(claim)}",
+            f"triz_move_candidate: {_operator_clause(operator)}",
+            f"contradiction_raw: {_contradiction_raw(old_intent, claim)}",
+            f"resource_inventory_input: {_sanitize_solution_phrase(_resource_inventory(claim, risk_notes))}",
+            f"belief_shift_candidate_raw: {_belief_shift_raw(old_intent, new_intent, claim)}",
             f"boundary_input: {_boundary_clause(risks)}",
+            f"validation_gap: {_validation_gap(risks)}",
             "status: raw_system_candidate_not_final_copy",
         ]
     )
@@ -215,6 +265,7 @@ def _system_meaning_atom(human_truth: str, desired_change: str) -> str:
         [
             "MEANING_ATOM_RAW",
             f"operator_candidate: {_operator_clause(operator)}",
+            f"raw_claim: {claim}",
             f"claim: {claim}",
             "status: candidate",
         ]
@@ -225,12 +276,13 @@ def _candidate_frames(
     human_truth: str,
     desired_change: str,
     risks: list[str],
+    audience_context: str,
 ) -> tuple[str, str]:
     old_frame = (
         f"Этот смысл можно читать опасно или узко: {'; '.join(risks)}"
     )
     new_frame = (
-        _system_new_frame(human_truth, desired_change, risks)
+        _system_new_frame(human_truth, desired_change, risks, audience_context)
         if desired_change
         else f"Этот смысл становится полезным, когда он сохраняет человеческую правду: {human_truth}"
     )
@@ -373,7 +425,12 @@ def build_admin_preview(payload: dict[str, Any]) -> AdminPreview:
     human_truth = _candidate_human_truth(raw_meaning, supplied_human_truth)
     detected_risks = _detected_risks(raw_meaning, risk_notes)
     human_contradiction = _candidate_contradiction(human_truth, detected_risks)
-    old_frame, new_frame = _candidate_frames(human_truth, desired_change, detected_risks)
+    old_frame, new_frame = _candidate_frames(
+        human_truth,
+        desired_change,
+        detected_risks,
+        audience_context,
+    )
     belief_shift = f"{old_frame} -> {new_frame}"
     meaning_atom = _meaning_atom(human_truth, desired_change)
     story_pattern = (
