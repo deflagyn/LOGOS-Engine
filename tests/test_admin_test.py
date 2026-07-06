@@ -79,6 +79,11 @@ class AdminTestPreviewTests(unittest.TestCase):
 
         self.assertTrue(data["needs_clarification"])
         self.assertEqual(data["draft_status"], "needs_clarification")
+        self.assertNotIn("...", data["human_truth_candidate"])
+        self.assertIn(
+            "для захвата более новых территорий",
+            data["human_truth_candidate"],
+        )
         self.assertIn("Черновик не собран", data["story_pattern_draft"])
         self.assertTrue(
             any("обязанность женщины" in risk for risk in data["detected_risks"]),

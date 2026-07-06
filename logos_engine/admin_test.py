@@ -107,7 +107,7 @@ def _candidate_human_truth(raw_meaning: str, supplied: str) -> str:
     lowered = base.lower()
     if lowered.startswith(("люди", "человек", "people", "a person", "person")):
         return base
-    return f"Люди узнают себя в ситуации, где: {_short(base, 140)}"
+    return f"Люди узнают себя в ситуации, где: {base}"
 
 
 def _detected_risks(raw_meaning: str, risk_notes: str) -> list[str]:
@@ -159,11 +159,11 @@ def _candidate_frames(
 
 def _meaning_atom(human_truth: str, desired_change: str) -> str:
     if desired_change:
-        return _short(_first_sentence(desired_change), 72)
+        return _first_sentence(desired_change)
     words = _first_sentence(human_truth).split()
-    if len(words) <= 9:
+    if len(words) <= 14:
         return _first_sentence(human_truth)
-    return " ".join(words[:9]).rstrip(".,;:") + "."
+    return " ".join(words[:14]).rstrip(".,;:") + "."
 
 
 def _story_pattern(old_frame: str, new_frame: str) -> str:

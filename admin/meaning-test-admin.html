@@ -34,7 +34,7 @@
     main {
       min-height: 100vh;
       display: grid;
-      grid-template-columns: minmax(360px, 440px) minmax(0, 1fr);
+      grid-template-columns: minmax(420px, 520px) minmax(640px, 1fr);
     }
 
     .input-pane {
@@ -99,6 +99,10 @@
       resize: vertical;
     }
 
+    textarea[name="raw_meaning"] {
+      min-height: 180px;
+    }
+
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -127,6 +131,12 @@
     button.secondary {
       background: var(--white);
       color: var(--accent-strong);
+    }
+
+    button.ghost {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--muted);
     }
 
     button:disabled {
@@ -173,6 +183,7 @@
       display: grid;
       gap: 12px;
       align-content: start;
+      padding-bottom: 16px;
     }
 
     .section {
@@ -198,6 +209,70 @@
       margin: 0;
       min-width: 0;
       overflow-wrap: anywhere;
+    }
+
+    .chain {
+      display: grid;
+      gap: 14px;
+    }
+
+    .chain-item {
+      display: grid;
+      gap: 4px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .chain-item:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .chain-title {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .chain-text {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    .dialogue-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .dialogue-item {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .question-number {
+      color: var(--muted);
+      font-weight: 750;
+      line-height: 1.35;
+      padding-top: 2px;
+    }
+
+    .question-body {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .question-text {
+      font-size: 16px;
+      line-height: 1.45;
+    }
+
+    .answer-input {
+      min-height: 74px;
     }
 
     pre {
@@ -226,7 +301,7 @@
       background: rgba(168, 91, 0, 0.08);
     }
 
-    @media (max-width: 820px) {
+    @media (max-width: 1100px) {
       main {
         grid-template-columns: 1fr;
       }
@@ -239,6 +314,26 @@
       .row,
       .kv {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .input-pane,
+      .output-pane {
+        padding: 12px;
+      }
+
+      .section {
+        padding: 10px;
+      }
+
+      .chain-text {
+        font-size: 16px;
+      }
+
+      .dialogue-item {
+        grid-template-columns: 1fr;
+        gap: 4px;
       }
     }
   </style>
@@ -319,6 +414,7 @@
     const tabs = [...document.querySelectorAll(".tab")];
     let activeTab = "preview";
     let lastPreview = null;
+    let dialogueAnswers = {};
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -339,6 +435,15 @@
       statusLine.classList.toggle("error", isError);
     }
 
+    function chainItem(title, value) {
+      return `
+        <div class="chain-item">
+          <div class="chain-title">${escapeHtml(title)}</div>
+          <p class="chain-text">${escapeHtml(value)}</p>
+        </div>
+      `;
+    }
+
     function renderPreview(data) {
       const riskFlags = (data.detected_risks || [])
         .map((risk) => `<span class="flag warn">${escapeHtml(risk)}</span>`)
@@ -349,14 +454,15 @@
           <div>
             <span class="flag ${data.needs_clarification ? "warn" : ""}">${escapeHtml(data.draft_status)}</span>
           </div>
-          <dl class="kv">
-            <dt>Human Truth</dt><dd>${escapeHtml(data.human_truth_candidate)}</dd>
-            <dt>Contradiction</dt><dd>${escapeHtml(data.human_contradiction_candidate)}</dd>
-            <dt>Old Frame</dt><dd>${escapeHtml(data.old_frame)}</dd>
-            <dt>New Frame</dt><dd>${escapeHtml(data.new_frame)}</dd>
-            <dt>Meaning Atom</dt><dd>${escapeHtml(data.meaning_atom_draft)}</dd>
-            <dt>Emotional Result</dt><dd>${escapeHtml(data.emotional_result_draft)}</dd>
-          </dl>
+          <div class="chain">
+            ${chainItem("Raw Meaning", data.raw_meaning)}
+            ${chainItem("Human Truth", data.human_truth_candidate)}
+            ${chainItem("Contradiction", data.human_contradiction_candidate)}
+            ${chainItem("Old Frame", data.old_frame)}
+            ${chainItem("New Frame", data.new_frame)}
+            ${chainItem("Meaning Atom", data.meaning_atom_draft)}
+            ${chainItem("Emotional Result", data.emotional_result_draft)}
+          </div>
         </div>
         <div class="section">
           <h2>Detected Risks</h2>
@@ -376,14 +482,88 @@
       `;
     }
 
+    function rememberDialogueAnswers() {
+      document.querySelectorAll("[data-question-index]").forEach((field) => {
+        dialogueAnswers[field.dataset.questionIndex] = field.value;
+      });
+    }
+
+    function answerValue(index) {
+      return dialogueAnswers[String(index)] || "";
+    }
+
+    function classifyQuestion(question) {
+      const lowered = question.toLowerCase();
+      if (lowered.includes("кто именно")) return "audience";
+      if (lowered.includes("перестать")) return "old";
+      if (lowered.includes("начать") || lowered.includes("новый взгляд")) return "new";
+      return "risk";
+    }
+
+    function applyDialogueAnswers() {
+      if (!lastPreview) return false;
+      rememberDialogueAnswers();
+      const entries = lastPreview.next_questions
+        .map((question, index) => ({
+          question,
+          answer: answerValue(index).trim(),
+          type: classifyQuestion(question)
+        }))
+        .filter((entry) => entry.answer);
+
+      if (!entries.length) {
+        setStatus("Ответьте хотя бы на один вопрос в диалоге", true);
+        return false;
+      }
+
+      const audience = entries.find((entry) => entry.type === "audience");
+      if (audience) {
+        form.elements.audience_context.value = audience.answer;
+      }
+
+      const oldAnswers = entries.filter((entry) => entry.type === "old").map((entry) => entry.answer);
+      const newAnswers = entries.filter((entry) => entry.type === "new").map((entry) => entry.answer);
+      const riskAnswers = entries.filter((entry) => entry.type === "risk");
+
+      if (oldAnswers.length || newAnswers.length) {
+        const oldPart = oldAnswers.length ? `От: ${oldAnswers.join("; ")}` : "";
+        const newPart = newAnswers.length ? `К: ${newAnswers.join("; ")}` : "";
+        form.elements.desired_change.value = [oldPart, newPart].filter(Boolean).join("\n");
+      }
+
+      if (riskAnswers.length) {
+        form.elements.risk_notes.value = riskAnswers
+          .map((entry) => `${entry.question} ${entry.answer}`)
+          .join("\n");
+      }
+
+      return true;
+    }
+
     function renderDialogue(data) {
       const questions = data.next_questions
-        .map((question, index) => `<dt>${index + 1}</dt><dd>${escapeHtml(question)}</dd>`)
+        .map((question, index) => `
+          <div class="dialogue-item">
+            <div class="question-number">${index + 1}</div>
+            <div class="question-body">
+              <div class="question-text">${escapeHtml(question)}</div>
+              <textarea
+                class="answer-input"
+                data-question-index="${index}"
+                placeholder="Ответьте здесь. Можно коротко, одной мыслью."
+              >${escapeHtml(answerValue(index))}</textarea>
+            </div>
+          </div>
+        `)
         .join("");
       return `
         <div class="section">
           <h2>${data.needs_clarification ? "Нужно уточнить перед генерацией" : "Следующие вопросы"}</h2>
-          <dl class="kv">${questions}</dl>
+          <div class="dialogue-list">${questions}</div>
+          <div class="actions">
+            <button type="button" id="apply-dialogue-button">Применить ответы и пересчитать</button>
+            <button type="button" class="ghost" id="clear-dialogue-button">Очистить ответы</button>
+          </div>
         </div>
         <div class="section">
           <h2>Risk Notes</h2>
@@ -427,6 +607,19 @@
         json: renderJson
       };
       result.innerHTML = renderers[activeTab](lastPreview);
+      if (activeTab === "dialogue") {
+        document.querySelectorAll("[data-question-index]").forEach((field) => {
+          field.addEventListener("input", rememberDialogueAnswers);
+        });
+        document.querySelector("#apply-dialogue-button").addEventListener("click", () => {
+          if (applyDialogueAnswers()) form.requestSubmit();
+        });
+        document.querySelector("#clear-dialogue-button").addEventListener("click", () => {
+          dialogueAnswers = {};
+          render();
+          setStatus("Ответы очищены");
+        });
+      }
     }
 
     tabs.forEach((tab) => {
@@ -462,6 +655,7 @@
     resetButton.addEventListener("click", () => {
       form.reset();
       lastPreview = null;
+      dialogueAnswers = {};
       setStatus("Готово");
       render();
     });
