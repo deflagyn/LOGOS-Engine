@@ -216,6 +216,16 @@
       gap: 14px;
     }
 
+    .meaning-summary {
+      border-color: rgba(31, 111, 98, 0.35);
+      background: #f2f7f4;
+    }
+
+    .meaning-summary .chain-text {
+      font-size: 18px;
+      font-weight: 620;
+    }
+
     .chain-item {
       display: grid;
       gap: 4px;
@@ -449,6 +459,13 @@
         .map((risk) => `<span class="flag warn">${escapeHtml(risk)}</span>`)
         .join("");
       return `
+        <div class="section meaning-summary">
+          <h2>${data.needs_clarification ? "Что нужно уточнить" : "Новый смысл"}</h2>
+          <div class="chain">
+            ${chainItem(data.needs_clarification ? "Следующий шаг" : "Belief Shift", data.needs_clarification ? data.story_pattern_draft : data.new_frame)}
+            ${chainItem("Смысловое ядро", data.meaning_atom_draft)}
+          </div>
+        </div>
         <div class="section">
           <h2>LOGOS Chain Draft</h2>
           <div>
@@ -622,10 +639,14 @@
       }
     }
 
+    function setActiveTab(tabName) {
+      activeTab = tabName;
+      tabs.forEach((item) => item.classList.toggle("active", item.dataset.tab === tabName));
+    }
+
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
-        activeTab = tab.dataset.tab;
-        tabs.forEach((item) => item.classList.toggle("active", item === tab));
+        setActiveTab(tab.dataset.tab);
         render();
       });
     });
@@ -643,6 +664,7 @@
         const payload = await response.json();
         if (!response.ok) throw new Error(payload.error || "Preview failed");
         lastPreview = payload;
+        setActiveTab("preview");
         setStatus("Preview готов");
         render();
       } catch (error) {

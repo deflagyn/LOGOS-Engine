@@ -27,6 +27,10 @@ class AdminTestPreviewTests(unittest.TestCase):
         data = preview.to_dict()
 
         self.assertIn("безопасное пространство", data["raw_meaning"])
+        self.assertIn("Система предлагает читать это так", data["new_frame"])
+        self.assertIn("безопасность", data["new_frame"])
+        self.assertIn("Безопасность без давления", data["meaning_atom_draft"])
+        self.assertNotEqual(data["new_frame"], "От безопасности как слабости к безопасности как возвращению ресурса.")
         self.assertEqual(data["wf_0001_payload"]["confirm_intake"], "CREATE_WF_0001_HUMAN_TRUTH_ISSUE")
         self.assertTrue(data["wf_0001_issue"]["review_ready"])
         self.assertFalse(data["wf_0001_issue"]["yaml_promotion_ready"])
@@ -96,6 +100,37 @@ class AdminTestPreviewTests(unittest.TestCase):
         self.assertTrue(
             any("отдачу" in question for question in data["next_questions"]),
             data["next_questions"],
+        )
+
+    def test_dialogue_answers_are_inputs_not_the_system_solution(self) -> None:
+        preview = build_admin_preview(
+            {
+                "raw_meaning": (
+                    "Если мужчина получает от женщины безопасное пространство он там начинает "
+                    "отдыхать, привязываться и как следствие появляется больше ресурсов у него."
+                ),
+                "audience_context": (
+                    "женщины должны увидеть через простые смыслы что для комфортной жизни "
+                    "с мужчиной ничего сложного делать не надо"
+                ),
+                "language": "ru",
+                "scope": "universal",
+                "desired_change": (
+                    "От: убрать силу навязанных когинтивных искажений всякими инста коучерами\n"
+                    "К: не надо лишний раз компосировать мужику мозги. надо искать другой способ взаимодействия"
+                ),
+                "risk_notes": "не превращать смысл в обязанность женщины",
+            }
+        )
+        data = preview.to_dict()
+
+        self.assertIn("Система предлагает читать это так", data["new_frame"])
+        self.assertNotIn("компосировать", data["new_frame"])
+        self.assertNotIn("инста коучерами", data["new_frame"])
+        self.assertNotIn("инста коучерами", data["meaning_atom_draft"])
+        self.assertEqual(
+            data["meaning_atom_draft"],
+            "Безопасность без давления возвращает ресурс для спокойного вклада в отношения.",
         )
 
 

@@ -141,6 +141,64 @@ def _candidate_contradiction(human_truth: str, risks: list[str]) -> str:
     )
 
 
+def _extract_intended_change_part(desired_change: str, marker: str) -> str:
+    prefix = f"{marker}:"
+    for line in desired_change.splitlines():
+        stripped = line.strip()
+        if stripped.lower().startswith(prefix.lower()):
+            return stripped[len(prefix):].strip()
+    return ""
+
+
+def _system_new_frame(human_truth: str, desired_change: str, risks: list[str]) -> str:
+    if not desired_change:
+        return f"Этот смысл становится полезным, когда он сохраняет человеческую правду: {human_truth}"
+
+    old_intent = _extract_intended_change_part(desired_change, "От")
+    lower_context = f"{human_truth} {desired_change}".lower()
+    subject = "мужчине" if "мужчин" in lower_context or "мужик" in lower_context else "человеку"
+    relationship_scope = (
+        "в отношениях"
+        if "женщин" in lower_context or "женщина" in lower_context or "мужчин" in lower_context
+        else "в этой ситуации"
+    )
+    old_clause = ""
+    if old_intent:
+        old_clause = (
+            "вместо борьбы с навязанными сценариями "
+            if "навязан" in old_intent.lower()
+            else "вместо старого узкого прочтения "
+        )
+    action_clause = (
+        "Новый ход не в сложных техниках и не в усилении конфликта, "
+        "а в простых добровольных действиях, которые создают спокойное пространство."
+        if relationship_scope == "в отношениях"
+        else "Новый ход не в давлении на человека, а в простых действиях, которые создают спокойное пространство."
+    )
+    risk_clause = (
+        "При этом смысл нельзя читать как обязанность, сделку или давление."
+        if risks
+        else ""
+    )
+    return " ".join(
+        part
+        for part in [
+            f"Система предлагает читать это так: {old_clause}безопасность {relationship_scope} не покупает результат и не делает {subject} слабее.",
+            f"Она снижает защиту, возвращает ресурс и открывает больше спокойного добровольного вклада.",
+            action_clause,
+            risk_clause,
+        ]
+        if part
+    )
+
+
+def _system_meaning_atom(human_truth: str, desired_change: str) -> str:
+    lower_context = f"{human_truth} {desired_change}".lower()
+    if "отнош" in lower_context or "женщин" in lower_context or "мужчин" in lower_context:
+        return "Безопасность без давления возвращает ресурс для спокойного вклада в отношения."
+    return "Безопасность без давления возвращает ресурс для спокойного действия."
+
+
 def _candidate_frames(
     human_truth: str,
     desired_change: str,
@@ -150,7 +208,7 @@ def _candidate_frames(
         f"Этот смысл можно читать опасно или узко: {'; '.join(risks)}"
     )
     new_frame = (
-        desired_change
+        _system_new_frame(human_truth, desired_change, risks)
         if desired_change
         else f"Этот смысл становится полезным, когда он сохраняет человеческую правду: {human_truth}"
     )
@@ -159,7 +217,7 @@ def _candidate_frames(
 
 def _meaning_atom(human_truth: str, desired_change: str) -> str:
     if desired_change:
-        return _first_sentence(desired_change)
+        return _system_meaning_atom(human_truth, desired_change)
     words = _first_sentence(human_truth).split()
     if len(words) <= 14:
         return _first_sentence(human_truth)
