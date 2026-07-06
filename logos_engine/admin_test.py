@@ -150,53 +150,75 @@ def _extract_intended_change_part(desired_change: str, marker: str) -> str:
     return ""
 
 
+def _raw_claim(human_truth: str) -> str:
+    marker = "Люди узнают себя в ситуации, где:"
+    if human_truth.startswith(marker):
+        return human_truth.removeprefix(marker).strip()
+    return human_truth.strip()
+
+
+def _sanitize_solution_phrase(value: str) -> str:
+    return " ".join(value.split()).strip(" .")
+
+
+def _logic_operator(context: str) -> str:
+    lowered = context.lower()
+    if any(marker in lowered for marker in ("бесплат", "дан", "есть", "получаем", "получает")):
+        return "available_resource"
+    if any(marker in lowered for marker in ("давлен", "долг", "обязан", "манипуляц")):
+        return "remove_pressure"
+    return "frame_shift"
+
+
+def _operator_clause(operator: str) -> str:
+    if operator == "available_resource":
+        return "already_available_resource"
+    if operator == "remove_pressure":
+        return "pressure_boundary"
+    return "belief_frame_shift"
+
+
+def _boundary_clause(risks: list[str]) -> str:
+    if not risks:
+        return "missing"
+    return " | ".join(" ".join(risk.split()) for risk in risks)
+
+
 def _system_new_frame(human_truth: str, desired_change: str, risks: list[str]) -> str:
     if not desired_change:
         return f"Этот смысл становится полезным, когда он сохраняет человеческую правду: {human_truth}"
 
     old_intent = _extract_intended_change_part(desired_change, "От")
-    lower_context = f"{human_truth} {desired_change}".lower()
-    subject = "мужчине" if "мужчин" in lower_context or "мужик" in lower_context else "человеку"
-    relationship_scope = (
-        "в отношениях"
-        if "женщин" in lower_context or "женщина" in lower_context or "мужчин" in lower_context
-        else "в этой ситуации"
-    )
-    old_clause = ""
-    if old_intent:
-        old_clause = (
-            "вместо борьбы с навязанными сценариями "
-            if "навязан" in old_intent.lower()
-            else "вместо старого узкого прочтения "
-        )
-    action_clause = (
-        "Новый ход не в сложных техниках и не в усилении конфликта, "
-        "а в простых добровольных действиях, которые создают спокойное пространство."
-        if relationship_scope == "в отношениях"
-        else "Новый ход не в давлении на человека, а в простых действиях, которые создают спокойное пространство."
-    )
-    risk_clause = (
-        "При этом смысл нельзя читать как обязанность, сделку или давление."
-        if risks
-        else ""
-    )
-    return " ".join(
-        part
-        for part in [
-            f"Система предлагает читать это так: {old_clause}безопасность {relationship_scope} не покупает результат и не делает {subject} слабее.",
-            f"Она снижает защиту, возвращает ресурс и открывает больше спокойного добровольного вклада.",
-            action_clause,
-            risk_clause,
+    new_intent = _extract_intended_change_part(desired_change, "К")
+    claim = _raw_claim(human_truth)
+    context = f"{human_truth} {desired_change} {' '.join(risks)}"
+    operator = _logic_operator(context)
+    return "\n".join(
+        [
+            "LOGOS_RAW_SYNTHESIS",
+            f"raw_observation: {_sanitize_solution_phrase(claim)}",
+            f"old_belief_input: {_sanitize_solution_phrase(old_intent) if old_intent else 'missing'}",
+            f"new_belief_input: {_sanitize_solution_phrase(new_intent) if new_intent else 'missing'}",
+            f"operator_candidate: {_operator_clause(operator)}",
+            "contradiction_candidate: old_belief_input conflicts with raw_observation",
+            f"resource_candidate: {_sanitize_solution_phrase(claim)}",
+            f"boundary_input: {_boundary_clause(risks)}",
+            "status: raw_system_candidate_not_final_copy",
         ]
-        if part
     )
 
 
 def _system_meaning_atom(human_truth: str, desired_change: str) -> str:
-    lower_context = f"{human_truth} {desired_change}".lower()
-    if "отнош" in lower_context or "женщин" in lower_context or "мужчин" in lower_context:
-        return "Безопасность без давления возвращает ресурс для спокойного вклада в отношения."
-    return "Безопасность без давления возвращает ресурс для спокойного действия."
+    claim = _sanitize_solution_phrase(_raw_claim(human_truth))
+    operator = _logic_operator(f"{human_truth} {desired_change}")
+    return "\n".join(
+        [
+            "MEANING_ATOM_RAW",
+            f"operator_candidate: {_operator_clause(operator)}",
+            f"claim: {claim}",
+            "status: candidate",
+        ]
+    )
 
 
 def _candidate_frames(

@@ -27,9 +27,10 @@ class AdminTestPreviewTests(unittest.TestCase):
         data = preview.to_dict()
 
         self.assertIn("безопасное пространство", data["raw_meaning"])
-        self.assertIn("Система предлагает читать это так", data["new_frame"])
-        self.assertIn("безопасность", data["new_frame"])
-        self.assertIn("Безопасность без давления", data["meaning_atom_draft"])
+        self.assertIn("LOGOS_RAW_SYNTHESIS", data["new_frame"])
+        self.assertIn("raw_observation:", data["new_frame"])
+        self.assertIn("operator_candidate:", data["new_frame"])
+        self.assertIn("MEANING_ATOM_RAW", data["meaning_atom_draft"])
         self.assertNotEqual(data["new_frame"], "От безопасности как слабости к безопасности как возвращению ресурса.")
         self.assertEqual(data["wf_0001_payload"]["confirm_intake"], "CREATE_WF_0001_HUMAN_TRUTH_ISSUE")
         self.assertTrue(data["wf_0001_issue"]["review_ready"])
@@ -124,14 +125,43 @@ class AdminTestPreviewTests(unittest.TestCase):
         )
         data = preview.to_dict()
 
-        self.assertIn("Система предлагает читать это так", data["new_frame"])
-        self.assertNotIn("компосировать", data["new_frame"])
-        self.assertNotIn("инста коучерами", data["new_frame"])
-        self.assertNotIn("инста коучерами", data["meaning_atom_draft"])
-        self.assertEqual(
-            data["meaning_atom_draft"],
-            "Безопасность без давления возвращает ресурс для спокойного вклада в отношения.",
+        self.assertIn("LOGOS_RAW_SYNTHESIS", data["new_frame"])
+        self.assertIn("old_belief_input:", data["new_frame"])
+        self.assertIn("new_belief_input:", data["new_frame"])
+        self.assertIn("компосировать", data["new_frame"])
+        self.assertIn("status: raw_system_candidate_not_final_copy", data["new_frame"])
+
+    def test_new_raw_meaning_does_not_reuse_relationship_safety_frame(self) -> None:
+        preview = build_admin_preview(
+            {
+                "raw_meaning": "все самое ценное мы получаем бесплатно",
+                "language": "ru",
+                "scope": "universal",
+                "audience_context": (
+                    "те кто занимается излишним достигаторством или думают что наличие "
+                    "избыточных ресурсов даст им счастье"
+                ),
+                "desired_change": (
+                    "От: счастье нужно доказать достижениями и избыточными ресурсами\n"
+                    "К: базовая ценность жизни уже дана человеку до статуса и покупки"
+                ),
+                "risk_notes": (
+                    "Где этот смысл может быть прочитан как давление, долг или манипуляция? "
+                    "нет такой проблемы\n"
+                    "Какой живой пример или сцена показывает этот смысл без объяснения? "
+                    "руки ноги голова целы, здоровье есть значит все ок."
+                ),
+                "source": "local admin personal test",
+            }
         )
+        data = preview.to_dict()
+
+        self.assertIn("LOGOS_RAW_SYNTHESIS", data["new_frame"])
+        self.assertIn("operator_candidate: already_available_resource", data["new_frame"])
+        self.assertIn("raw_observation: все самое ценное мы получаем бесплатно", data["new_frame"])
+        self.assertIn("MEANING_ATOM_RAW", data["meaning_atom_draft"])
+        self.assertNotIn("Безопасность без давления", data["meaning_atom_draft"])
+        self.assertNotIn("безопасность в отношениях", data["new_frame"])
 
 
 if __name__ == "__main__":
